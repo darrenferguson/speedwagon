@@ -3,18 +3,18 @@
     Layout = "_Layout";
 }
 
-<h2>Editors</h2>
+<h2>Content Types</h2>
 
-@if (!Model.Editors.Any())
+@if (!Model.ContentTypes.Any())
 {
-    <p>No editors found</p>
+    <p>No types found</p>
 }
 else
 {
     <ul>
-        @foreach(SpeedWagonContent editor in Model.Editors)
+        @foreach(SpeedWagonContent contentType in Model.ContentTypes)
         {
-            <li>@editor.Name</li>
+            <li>@contentType.Name [<a asp-controller="SpeedWagon" asp-action="EditContentType" asp-route-id="@contentType.Name">edit</a>]</li>
         }
     </ul>
 
@@ -22,7 +22,7 @@ else
 
 <h3>Create</h3>
 
-<form asp-controller="SpeedWagon" asp-action="Editor" method="post">
+<form asp-controller="SpeedWagon" asp-action="ContentType" method="post">
 
     <div class="form-group">
         <label for="name">Name</label>

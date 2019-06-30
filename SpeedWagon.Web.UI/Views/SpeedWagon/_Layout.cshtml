@@ -29,11 +29,11 @@
                 <a asp-area="" asp-controller="SpeedWagon" asp-action="Index" class="navbar-brand">SpeedWagon</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="SpeedWagon" asp-action="Index">Home</a></li>
+                <ul class="nav navbar-nav">                  
                     <li><a asp-area="" asp-controller="SpeedWagon" asp-action="Content">Content</a></li>
-                    <li><a asp-area="" asp-controller="SpeedWagon" asp-action="Install">Install</a></li>
                     <li><a asp-area="" asp-controller="SpeedWagon" asp-action="Editor">Editors</a></li>
+                    <li><a asp-area="" asp-controller="SpeedWagon" asp-action="ContentType">Content Types</a></li>
+                    <li><a asp-area="" asp-controller="SpeedWagon" asp-action="Install">Install</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

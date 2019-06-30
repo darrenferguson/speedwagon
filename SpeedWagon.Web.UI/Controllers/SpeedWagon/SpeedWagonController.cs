@@ -23,13 +23,13 @@ namespace SpeedWagon.Web.UI.Controllers
         }
 
         public IActionResult Install()
-        {           
+        {
             string path = this._speedWagon.Install(User.Identity.Name);
             return View();
         }
 
         public IActionResult Content()
-        {          
+        {
             return View();
         }
 
@@ -64,5 +64,61 @@ namespace SpeedWagon.Web.UI.Controllers
             return RedirectToAction("Editor");
         }
 
+
+        public IActionResult ContentType()
+        {
+            SpeedWagonContent editorRoot = this._speedWagon.GetContent("/editors");
+            IEnumerable<SpeedWagonContent> editors = this._speedWagon.ContentService.Children(editorRoot);
+
+            SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
+            IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
+
+
+            ContentTypeViewModel viewModel = new ContentTypeViewModel();
+            viewModel.Editors = editors;
+            viewModel.ContentTypes = contentTypes;
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult ContentType(ContentTypeViewModel model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                SpeedWagonContent editorRoot = this._speedWagon.GetContent("/editors");
+                IEnumerable<SpeedWagonContent> editors = this._speedWagon.ContentService.Children(editorRoot);
+
+                SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
+                IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
+
+
+                model.Editors = editors;
+                model.ContentTypes = contentTypes;
+
+                return View(model);
+            }
+
+            this._speedWagon.AddContentType(model.Name, User.Identity.Name);
+
+            return RedirectToAction("ContentType");
+        }
+
+        public IActionResult EditContentType(string id)
+        {
+            SpeedWagonContent editorRoot = this._speedWagon.GetContent("/editors");
+            IEnumerable<SpeedWagonContent> editors = this._speedWagon.ContentService.Children(editorRoot);
+
+            SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
+            IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
+
+
+            ContentTypeViewModel viewModel = new ContentTypeViewModel();
+            viewModel.Editors = editors;
+            viewModel.ContentTypes = contentTypes;
+
+            return View(viewModel);
+        }
     }
 }

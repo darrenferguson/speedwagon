@@ -21,6 +21,12 @@ namespace SpeedWagon.Web
 
         public IContentService ContentService => this._cachelessContentService;
 
+        public void AddContentType(string name, string user)
+        {
+            string urlName = "/content-types/" + name.ToUrlName();
+            this._cachelessContentService.AddContent(new SpeedWagonContent(name.ToTitleCasedName(), SPEEDWAGON_HOST + urlName, "content-type", user));
+        }
+
         public void AddEditor(string name, string user)
         {
             string urlName = "/editors/" + name.ToUrlName();

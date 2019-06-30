@@ -16,5 +16,8 @@
   "https://reo.speedwagon.me/editors/text-area",
   "https://reo.speedwagon.me/editors/my-test-editor",
   "https://reo.speedwagon.me/editors/heading-1",
-  "https://reo.speedwagon.me/editors/heading-2"
+  "https://reo.speedwagon.me/editors/heading-2",
+  "https://reo.speedwagon.me/content-types/home-page",
+  "https://reo.speedwagon.me/content-types/news",
+  "https://reo.speedwagon.me/content-types/faq"
 ]

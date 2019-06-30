@@ -13,6 +13,7 @@ namespace SpeedWagon.Web.Interfaces
         SpeedWagonContent GetContent(string path);
 
         void AddEditor(string name, string user);
-        
+
+        void AddContentType(string name, string user);
     }
 }
