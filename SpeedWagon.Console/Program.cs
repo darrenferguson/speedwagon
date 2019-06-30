@@ -15,7 +15,7 @@ namespace SpeedWagon.Console
             using (ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider())
             {
                 ISpeedWagonWebContext context = serviceProvider.GetService<ISpeedWagonWebContext>();
-                context.Install();
+                context.Install("test@test.com");
             }
         }
 

@@ -5,7 +5,7 @@ namespace SpeedWagon.Web.Interfaces
 {
     public interface ISpeedWagonWebContext
     {
-        string Install();
+        string Install(string user);
 
 
         SpeedWagonContent ContentFor(HttpRequest request);

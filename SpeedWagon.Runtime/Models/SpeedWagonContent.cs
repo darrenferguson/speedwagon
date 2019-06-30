@@ -5,17 +5,32 @@ namespace SpeedWagon.Models
 {
     public class SpeedWagonContent
     {
+        public SpeedWagonContent()
+        {
+
+        }
 
         public SpeedWagonContent(string name, string url)
         {
             this.Name = name;
             this.Url = url;
 
+            Uri u = new Uri(url);
+            this.RelativeUrl = u.PathAndQuery;
+
             this.CreateDate = DateTime.Now;
             this.UpdateDate = DateTime.Now;
 
             this.Content = new Dictionary<string, object>();
         }
+
+        public SpeedWagonContent(string name, string url, string type, string author) : this(name, url)
+        {
+            this.Type = type;
+            this.CreatorName = author;
+            this.WriterName = author;
+        }
+
 
         public string Name { get; set; }
         public string Type { get; set; }

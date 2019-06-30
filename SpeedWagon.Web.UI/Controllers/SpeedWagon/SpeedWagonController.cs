@@ -22,7 +22,8 @@ namespace SpeedWagon.Web.UI.Controllers
 
         public IActionResult Install()
         {
-            string path = this._speedWagon.Install();
+            
+            string path = this._speedWagon.Install(User.Identity.Name);
 
             return View();
         }

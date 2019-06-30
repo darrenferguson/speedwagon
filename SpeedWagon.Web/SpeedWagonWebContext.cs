@@ -24,11 +24,13 @@ namespace SpeedWagon.Web
 
         }
 
-        public string Install()
+        public string Install(string user)
         {
-            this._cachelessContentService.AddContent(new SpeedWagonContent("Content", SPEEDWAGON_HOST + "/content"));
-            this._cachelessContentService.AddContent(new SpeedWagonContent("ContentTypes", SPEEDWAGON_HOST + "/content-types"));
-            this._cachelessContentService.AddContent(new SpeedWagonContent("DataTypes", SPEEDWAGON_HOST + "/data-types"));
+            
+            this._cachelessContentService.AddContent(new SpeedWagonContent("Content", SPEEDWAGON_HOST + "/content", "container", user));
+            this._cachelessContentService.AddContent(new SpeedWagonContent("Content Types", SPEEDWAGON_HOST + "/content-types", "container", user));
+            this._cachelessContentService.AddContent(new SpeedWagonContent("Editors", SPEEDWAGON_HOST + "/editors", "container", user));
+            this._cachelessContentService.AddContent(new SpeedWagonContent("Text", SPEEDWAGON_HOST + "/editors/text", "editor", user));
 
             return this._path;
         }
