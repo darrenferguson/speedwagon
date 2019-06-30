@@ -1,4 +1,5 @@
-﻿using SpeedWagon.Interfaces;
+﻿using Microsoft.AspNetCore.Http;
+using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
 using SpeedWagon.Services;
 using SpeedWagon.Web.Interfaces;
@@ -32,5 +33,11 @@ namespace SpeedWagon.Web
             return this._path;
         }
 
+        public SpeedWagonContent ContentFor(HttpRequest request)
+        {
+            string url = SPEEDWAGON_HOST + "/content" + request.Path;
+
+            return this._cachelessContentService.GetContent(url);
+        }
     }
 }

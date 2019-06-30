@@ -26,6 +26,5 @@ namespace SpeedWagon.Web.UI.Controllers
 
             return View();
         }
-
     }
 }

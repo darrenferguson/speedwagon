@@ -1,20 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.UI.Models;
 
 namespace SpeedWagon.Web.UI.Controllers
 {
-    [Authorize]
+
     public class HomeController : Controller
     {
+        private readonly ISpeedWagonWebContext _speedWagon;
+
+        public HomeController(ISpeedWagonWebContext speedWagon)
+        {
+            this._speedWagon = speedWagon;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var content = this._speedWagon.ContentFor(Request);
+            
+            return View(content);
         }
 
         public IActionResult About()
