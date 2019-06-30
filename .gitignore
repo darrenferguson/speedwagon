@@ -37,3 +37,4 @@ msbuild.wrn
 .vs/
 SpeedWagon.Web.UI/wwwroot/
 SpeedWagon.Web.UI/appsettings.json
+SpeedWagon.Web.UI/AppData/

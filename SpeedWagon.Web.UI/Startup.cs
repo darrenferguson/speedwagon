@@ -5,17 +5,25 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SpeedWagon.Web.Interfaces;
+using System.IO;
 
 namespace SpeedWagon.Web.UI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IHostingEnvironment _env;
+
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            this._env = env;
+
         }
 
         public IConfiguration Configuration { get; }
+
+        private const string _appDataFolder = "AppData";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -27,6 +35,11 @@ namespace SpeedWagon.Web.UI
             })
             .AddAzureAd(options => Configuration.Bind("AzureAd", options))
             .AddCookie();
+
+            string path = Path.Combine(this._env.ContentRootPath, _appDataFolder, "speedwagon");
+
+            services.AddSingleton<ISpeedWagonWebContext>(s => new SpeedWagonWebContext(path));
+
 
             services.AddMvc();
         }

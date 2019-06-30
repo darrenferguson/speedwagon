@@ -2,7 +2,7 @@
 {
     public interface ISpeedWagonWebContext
     {
-        void Install();
+        string Install();
 
     }
 }

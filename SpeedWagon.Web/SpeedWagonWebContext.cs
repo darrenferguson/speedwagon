@@ -1,4 +1,5 @@
 ﻿using SpeedWagon.Interfaces;
+using SpeedWagon.Models;
 using SpeedWagon.Services;
 using SpeedWagon.Web.Interfaces;
 
@@ -12,6 +13,8 @@ namespace SpeedWagon.Web
 
         private readonly IContentService _cachelessContentService;
 
+        const string SPEEDWAGON_HOST = "https://speedwagon.me";
+
         public SpeedWagonWebContext(string path)
         {
             this._path = path;
@@ -20,9 +23,14 @@ namespace SpeedWagon.Web
 
         }
 
-        public void Install()
+        public string Install()
         {
-            
+            this._cachelessContentService.AddContent(new SpeedWagonContent("Content", SPEEDWAGON_HOST + "/content"));
+            this._cachelessContentService.AddContent(new SpeedWagonContent("ContentTypes", SPEEDWAGON_HOST + "/content-types"));
+            this._cachelessContentService.AddContent(new SpeedWagonContent("DataTypes", SPEEDWAGON_HOST + "/data-types"));
+
+            return this._path;
         }
+
     }
 }
