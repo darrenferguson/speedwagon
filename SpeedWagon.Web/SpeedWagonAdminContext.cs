@@ -3,9 +3,6 @@ using SpeedWagon.Models;
 using SpeedWagon.Runtime.Extension;
 using SpeedWagon.Services;
 using SpeedWagon.Web.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace SpeedWagon.Web
 {
@@ -13,7 +10,6 @@ namespace SpeedWagon.Web
     {
         private readonly string _path;
         private readonly IContentService _cachelessContentService;
-
 
         public SpeedWagonAdminContext(string path)
         {
@@ -26,8 +22,11 @@ namespace SpeedWagon.Web
         public void AddContentType(string name, string user)
         {
             string urlName = "/content-types/" + name.ToUrlName();
+           
             SpeedWagonContent contentType = new SpeedWagonContent(name.ToTitleCasedName(), SPEEDWAGON_HOST + urlName, "content-type", user);
-            
+            string viewName = name.ToTitleCasedName() + ".cshtml";
+            contentType.Template = "~/Views/SpeedWagon/ContentType/" + viewName;
+
             this._cachelessContentService.AddContent(contentType);
         }
 
@@ -58,8 +57,7 @@ namespace SpeedWagon.Web
         }
 
         public string Install(string user)
-        {
-            
+        {            
             this._cachelessContentService.AddContent(new SpeedWagonContent("Content", SPEEDWAGON_HOST + "/content", "container", user));
             this._cachelessContentService.AddContent(new SpeedWagonContent("Content Types", SPEEDWAGON_HOST + "/content-types", "container", user));
             this._cachelessContentService.AddContent(new SpeedWagonContent("Editors", SPEEDWAGON_HOST + "/editors", "container", user));
@@ -67,7 +65,5 @@ namespace SpeedWagon.Web
 
             return this._path;
         }
-
-        
     }
 }

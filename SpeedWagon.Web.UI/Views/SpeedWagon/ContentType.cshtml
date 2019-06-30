@@ -11,12 +11,25 @@
 }
 else
 {
-    <ul>
-        @foreach(SpeedWagonContent contentType in Model.ContentTypes)
-        {
-            <li>@contentType.Name [<a asp-controller="SpeedWagon" asp-action="EditContentType" asp-route-id="@contentType.Name">edit</a>]</li>
-        }
-    </ul>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Template</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (SpeedWagonContent contentType in Model.ContentTypes)
+            {
+            <tr>
+                <td>@contentType.Name</td>
+                <td>@contentType.Template</td>
+                <td>[<a asp-controller="SpeedWagon" asp-action="EditContentType" asp-route-id="@contentType.Name">edit</a>]</td>
+            </tr>
+            }
+        </tbody>
+    </table>
 
 }
 
@@ -27,7 +40,7 @@ else
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" class="form-control" id="name" placeholder="Name" required="required" asp-for="Name">
-        <small class="form-text text-muted">Title case - view Should be created in ~/Views/SpeedWagon/Editors</small>
+        <small class="form-text text-muted">Title case - view Should be created in ~/Views/SpeedWagon/ContentType</small>
     </div>
 
 

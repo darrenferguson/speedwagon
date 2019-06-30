@@ -11,12 +11,24 @@
 }
 else
 {
-    <ul>
-        @foreach(SpeedWagonContent editor in Model.Editors)
-        {
-            <li>@editor.Name</li>
-        }
-    </ul>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>View</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (SpeedWagonContent editor in Model.Editors)
+            {
+                <tr>
+                    <td>@editor.Name</td>
+                    <td>@editor.Template</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 }
 
@@ -29,8 +41,6 @@ else
         <input type="text" class="form-control" id="name" placeholder="Name" required="required" asp-for="Name">
         <small class="form-text text-muted">Title case - view Should be created in ~/Views/SpeedWagon/Editors</small>
     </div>
-
-
 
     <button type="submit" class="btn btn-primary">Create</button>
 
