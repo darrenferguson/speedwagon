@@ -1,0 +1,37 @@
+﻿@model SpeedWagon.Web.Models.View.Editor.EditContentTypeViewModel
+@{
+    Layout = "_Layout";
+}
+
+<h2>Edit '@Model.ContentType.Name' Content Type</h2>
+
+<h3>Properties</h3>
+
+@if(Model.Editors.Any())
+{
+    <ul>
+        @foreach(var property in Model.Editors)
+        {
+            <li>@property.Name</li>
+        }
+    </ul>
+} else
+{
+    <p>No properties on type</p>
+}
+
+<h3>Add Property</h3>
+
+<form asp-controller="SpeedWagon" asp-action="EditContentType" method="post">
+
+    <div class="form-group">
+        <label for="name">Property Name</label>
+        <input type="text" class="form-control" id="contentTypeEditorName" placeholder="ContentTypeEditorName" required="required" asp-for="ContentTypeEditor.Name">
+       
+    </div>
+    
+    <input type="hidden" asp-for="Name" value="@Model.Name"/>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+
+</form>

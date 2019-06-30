@@ -7,13 +7,10 @@ namespace SpeedWagon.Web.Models.View.Editor
     public class ContentTypeViewModel
     {
 
-        public IEnumerable<SpeedWagonContent> Editors { get; set; }
-
         public IEnumerable<SpeedWagonContent> ContentTypes { get; set; }
 
         [Required]
         public string Name { get; set; }
         
-
     }
 }

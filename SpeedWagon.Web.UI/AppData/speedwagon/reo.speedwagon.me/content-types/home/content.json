@@ -1,0 +1,30 @@
+{
+  "Name": "Home",
+  "Type": "content-type",
+  "CreateDate": "2019-06-30T22:38:38.7535183+01:00",
+  "UpdateDate": "2019-06-30T22:38:38.7535228+01:00",
+  "CreatorName": "darren@moriyama.co.uk",
+  "WriterName": "darren@moriyama.co.uk",
+  "Url": "https://reo.speedwagon.me/content-types/home",
+  "RelativeUrl": "/content-types/home",
+  "Content": {
+    "Editors": [
+      {
+        "Name": "Title",
+        "Editor": null
+      },
+      {
+        "Name": "Darren",
+        "Editor": null
+      },
+      {
+        "Name": "James",
+        "Editor": null
+      }
+    ]
+  },
+  "Template": null,
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 0
+}

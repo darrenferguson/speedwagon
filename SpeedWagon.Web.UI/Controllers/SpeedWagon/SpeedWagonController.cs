@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using SpeedWagon.Models;
+using SpeedWagon.Runtime.Extension;
 using SpeedWagon.Web.Interfaces;
+using SpeedWagon.Web.Models.ContentType;
 using SpeedWagon.Web.Models.View.Editor;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SpeedWagon.Web.UI.Controllers
 {
@@ -66,16 +70,11 @@ namespace SpeedWagon.Web.UI.Controllers
 
 
         public IActionResult ContentType()
-        {
-            SpeedWagonContent editorRoot = this._speedWagon.GetContent("/editors");
-            IEnumerable<SpeedWagonContent> editors = this._speedWagon.ContentService.Children(editorRoot);
-
+        {          
             SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
             IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
 
-
             ContentTypeViewModel viewModel = new ContentTypeViewModel();
-            viewModel.Editors = editors;
             viewModel.ContentTypes = contentTypes;
 
             return View(viewModel);
@@ -87,16 +86,11 @@ namespace SpeedWagon.Web.UI.Controllers
 
             if (!ModelState.IsValid)
             {
-                SpeedWagonContent editorRoot = this._speedWagon.GetContent("/editors");
-                IEnumerable<SpeedWagonContent> editors = this._speedWagon.ContentService.Children(editorRoot);
-
+ 
                 SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
                 IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
 
-
-                model.Editors = editors;
                 model.ContentTypes = contentTypes;
-
                 return View(model);
             }
 
@@ -106,19 +100,51 @@ namespace SpeedWagon.Web.UI.Controllers
         }
 
         public IActionResult EditContentType(string id)
-        {
-            SpeedWagonContent editorRoot = this._speedWagon.GetContent("/editors");
-            IEnumerable<SpeedWagonContent> editors = this._speedWagon.ContentService.Children(editorRoot);
+        {         
+            id = id.ToUrlName();
+            SpeedWagonContent contentType = this._speedWagon.GetContent("/content-types/" + id);
+            
+            EditContentTypeViewModel viewModel = new EditContentTypeViewModel();
+            viewModel.ContentType = contentType;
+            viewModel.Name = contentType.Name;
 
-            SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
-            IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
-
-
-            ContentTypeViewModel viewModel = new ContentTypeViewModel();
-            viewModel.Editors = editors;
-            viewModel.ContentTypes = contentTypes;
+            if (contentType.Content.ContainsKey("Editors"))
+            {
+                viewModel.Editors = ((JArray)contentType.Content["Editors"]).ToObject<ContentTypeEditor[]>();
+                
+            }
 
             return View(viewModel);
         }
+
+        [HttpPost]
+
+        public IActionResult EditContentType(EditContentTypeViewModel viewModel)
+        {
+            string id = viewModel.Name;
+            id = id.ToUrlName();
+            SpeedWagonContent contentType = this._speedWagon.GetContent("/content-types/" + id);
+
+            if (!ModelState.IsValid)
+            {
+                viewModel.ContentType = contentType;
+                return View(viewModel);
+            }
+            
+            if (!contentType.Content.ContainsKey("Editors"))
+            {
+                contentType.Content.Add("Editors", new List<ContentTypeEditor>());
+            }
+
+            IList<ContentTypeEditor> editors = ((JArray)contentType.Content["Editors"]).ToObject<List<ContentTypeEditor>>();
+
+            editors.Add(viewModel.ContentTypeEditor);
+            contentType.Content["Editors"] = editors.ToArray();
+
+            this._speedWagon.SaveContentType(contentType, User.Identity.Name);
+
+            return RedirectToAction("EditContentType", new { id = viewModel.Name });
+        }
+
     }
 }

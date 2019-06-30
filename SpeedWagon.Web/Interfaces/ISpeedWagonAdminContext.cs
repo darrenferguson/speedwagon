@@ -15,5 +15,7 @@ namespace SpeedWagon.Web.Interfaces
         void AddEditor(string name, string user);
 
         void AddContentType(string name, string user);
+
+        void SaveContentType(SpeedWagonContent contentType, string user);
     }
 }
