@@ -37,9 +37,15 @@ namespace SpeedWagon.Web
 
         public SpeedWagonContent ContentFor(HttpRequest request)
         {
-            string url = SPEEDWAGON_HOST + "/content" + request.Path;
+            string url = SPEEDWAGON_HOST + "/content/" + request.Host + request.Path;
+            SpeedWagonContent content =  this._cachelessContentService.GetContent(url);
 
-            return this._cachelessContentService.GetContent(url);
+            if(content == null)
+            {
+                return new SpeedWagonContent("Not found", request.Path);
+            }
+
+            return content;
         }
     }
 }

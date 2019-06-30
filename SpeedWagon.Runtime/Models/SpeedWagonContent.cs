@@ -7,7 +7,7 @@ namespace SpeedWagon.Models
     {
         public SpeedWagonContent()
         {
-
+            
         }
 
         public SpeedWagonContent(string name, string url)
@@ -15,9 +15,13 @@ namespace SpeedWagon.Models
             this.Name = name;
             this.Url = url;
 
-            Uri u = new Uri(url);
-            this.RelativeUrl = u.PathAndQuery;
-
+            if (Uri.TryCreate(url, UriKind.Absolute, out Uri u)) {
+                this.RelativeUrl = u.PathAndQuery;
+            } else
+            {
+                this.RelativeUrl = url;
+            }
+            
             this.CreateDate = DateTime.Now;
             this.UpdateDate = DateTime.Now;
 
