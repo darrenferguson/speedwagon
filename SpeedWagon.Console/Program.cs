@@ -14,7 +14,7 @@ namespace SpeedWagon.Console
 
             using (ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider())
             {
-                ISpeedWagonWebContext context = serviceProvider.GetService<ISpeedWagonWebContext>();
+                ISpeedWagonAdminContext context = serviceProvider.GetService<ISpeedWagonAdminContext>();
                 context.Install("test@test.com");
             }
         }
@@ -29,8 +29,8 @@ namespace SpeedWagon.Console
 
             string path = @"d:\reo";
 
-            services.AddSingleton<ISpeedWagonWebContext>(
-              s => new SpeedWagonWebContext(path));
+            services.AddSingleton<ISpeedWagonAdminContext>(
+              s => new SpeedWagonAdminContext(path));
 
             services.AddLogging(loggingBuilder => loggingBuilder
              .ClearProviders()

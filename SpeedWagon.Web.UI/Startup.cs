@@ -39,6 +39,7 @@ namespace SpeedWagon.Web.UI
             string path = Path.Combine(this._env.ContentRootPath, _appDataFolder, "speedwagon");
 
             services.AddSingleton<ISpeedWagonWebContext>(s => new SpeedWagonWebContext(path));
+            services.AddSingleton<ISpeedWagonAdminContext>(s => new SpeedWagonAdminContext(path));
 
 
             services.AddMvc();

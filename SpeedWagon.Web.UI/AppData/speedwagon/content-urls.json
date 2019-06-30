@@ -2,5 +2,19 @@
   "https://speedwagon.me/content",
   "https://speedwagon.me/content-types",
   "https://speedwagon.me/editors",
-  "https://speedwagon.me/editors/text"
+  "https://speedwagon.me/editors/text",
+  "https://reo.speedwagon.me/content",
+  "https://reo.speedwagon.me/content-types",
+  "https://reo.speedwagon.me/editors",
+  "https://reo.speedwagon.me/editors/text",
+  "https://reo.speedwagon.me/editors/Dave",
+  "https://reo.speedwagon.me/editors/Brian/Adam!%=  ABC 123/",
+  "https://reo.speedwagon.me/editors/iamtryuigntobrak",
+  "https://reo.speedwagon.me/editors/thedailywtf",
+  "https://reo.speedwagon.me/editors/my-funky-text-box",
+  "https://reo.speedwagon.me/editors/text-box",
+  "https://reo.speedwagon.me/editors/text-area",
+  "https://reo.speedwagon.me/editors/my-test-editor",
+  "https://reo.speedwagon.me/editors/heading-1",
+  "https://reo.speedwagon.me/editors/heading-2"
 ]

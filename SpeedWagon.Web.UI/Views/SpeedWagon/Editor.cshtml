@@ -1,0 +1,37 @@
+﻿@model SpeedWagon.Web.Models.View.Editor.EditorViewModel
+@{
+    Layout = "_Layout";
+}
+
+<h2>Editors</h2>
+
+@if (!Model.Editors.Any())
+{
+    <p>No editors found</p>
+}
+else
+{
+    <ul>
+        @foreach(SpeedWagonContent editor in Model.Editors)
+        {
+            <li>@editor.Name</li>
+        }
+    </ul>
+
+}
+
+<h3>Create</h3>
+
+<form asp-controller="SpeedWagon" asp-action="Editor" method="post">
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" placeholder="Name" required="required" asp-for="Name">
+        <small class="form-text text-muted">Title case - view Should be created in ~/Views/SpeedWagon/Editors</small>
+    </div>
+
+
+
+    <button type="submit" class="btn btn-primary">Create</button>
+
+</form>
