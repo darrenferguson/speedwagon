@@ -4,6 +4,7 @@ using SpeedWagon.Runtime.Extension;
 using SpeedWagon.Services;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models;
+using System;
 
 namespace SpeedWagon.Web
 {
@@ -89,6 +90,13 @@ namespace SpeedWagon.Web
             this._cachelessContentService.AddContent(content);
         }
 
-       
+        public void SaveContent(SpeedWagonContent content, string user)
+        {
+            content.WriterName = user;
+            content.UpdateDate = DateTime.Now;
+
+
+            this._cachelessContentService.AddContent(content);
+        }
     }
 }

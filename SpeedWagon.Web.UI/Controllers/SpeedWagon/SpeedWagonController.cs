@@ -111,18 +111,40 @@ namespace SpeedWagon.Web.UI.Controllers
             }
 
             EditContentViewModel viewModel = new EditContentViewModel();
+            viewModel.Url = content.RelativeUrl;
             viewModel.Content = content;
             viewModel.Editors = editors.ToArray();
             viewModel.ContentType = contentType;
             viewModel.ContentTypeProperties = properties;
             viewModel.ViewEngine = this._viewEngine;
-
+            viewModel.Values  = content.Content.ToDictionary(k => k.Key, k => k.Value == null ? string.Empty : k.Value.ToString());
             return View(viewModel);
         }
 
         [HttpPost]
         public IActionResult EditContent(EditContentViewModel model)
-        {
+         {
+            if(!ModelState.IsValid)
+            {
+                return RedirectToAction("Content", new { url = model.Url });
+            }
+
+            SpeedWagonContent content = this._speedWagon.GetContent(model.Url);
+            IDictionary<string, object> properties = content.Content;
+
+            foreach(KeyValuePair<string, string> propertyValue in model.Values)
+            {
+                if(properties.ContainsKey(propertyValue.Key))
+                {
+                    properties[propertyValue.Key] = propertyValue.Value;
+                }
+                else
+                {
+                    properties.Add(propertyValue.Key, propertyValue.Value);
+                }
+            }
+            content.Content = properties;
+            this._speedWagon.SaveContent(content, User.Identity.Name);
             return RedirectToAction("Content");
         }
 

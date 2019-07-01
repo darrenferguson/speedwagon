@@ -2,6 +2,7 @@
 @using SpeedWagon.Web.Models.Content
 @{
     Layout = "_Layout";
+    IDictionary<string, object> contentProperties = Model.Content.Content;
 }
 
 <h2>Edit Content</h2>
@@ -12,36 +13,43 @@
 
 <form asp-controller="SpeedWagon" asp-action="EditContent" method="post">
 
+    <input type="hidden" asp-for="Url" value="@Model.Url" />
+
     @foreach (var property in Model.ContentTypeProperties)
     {
         SpeedWagonContent editor = Model.Editors.Where(x => x.Name == property.Editor).FirstOrDefault();
+        
+        ContentEditorModel editorModel = new ContentEditorModel { PropertyName = property.Name, Values = Model.Values };
 
-    <div class="form-group">
+        <div class="form-group">
 
-        <label>@property.Name</label>
+            <label>@property.Name</label>
 
-        @if (editor == null || string.IsNullOrEmpty(editor.Template))
-        {
-            @await Html.PartialAsync("~/Views/SpeedWagon/Editors/Default.cshtml", new ContentEditorModel { PropertyName = property.Name, Values = Model.Values})
-        }
-        else
-        {
-            var result = Model.ViewEngine.GetView(null, editor.Template, true);
-
-            if (result.Success)
+            @if (editor == null || string.IsNullOrEmpty(editor.Template))
             {
-                @await Html.PartialAsync(editor.Template, new ContentEditorModel { PropertyName = property.Name, Values = Model.Values })
+                @await Html.PartialAsync("~/Views/SpeedWagon/Editors/Default.cshtml", editorModel)
             }
             else
             {
-                @await Html.PartialAsync("~/Views/SpeedWagon/Editors/Default.cshtml", new ContentEditorModel { PropertyName = property.Name, Values = Model.Values })
-            }
-        }
+                var result = Model.ViewEngine.GetView(null, editor.Template, true);
 
-    </div>
+                if (result.Success)
+                {
+                    @await Html.PartialAsync(editor.Template, editorModel)
+                }
+                else
+                {
+                    @await Html.PartialAsync("~/Views/SpeedWagon/Editors/Default.cshtml", editorModel)
+                }
+            }
+        </div>
     }
 
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary">Save Content</button>
 
 </form>
 
+@section Scripts {
+    
+    @await Html.PartialAsync("_EditorScripts")
+}

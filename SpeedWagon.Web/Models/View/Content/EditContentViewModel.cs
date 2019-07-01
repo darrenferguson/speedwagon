@@ -7,6 +7,9 @@ namespace SpeedWagon.Web.Models.View.Content
 {
     public class EditContentViewModel
     {
+
+        public string Url { get; set; }
+
         public ICompositeViewEngine ViewEngine { get; set; }
 
         public SpeedWagonContent Content { get; set; }

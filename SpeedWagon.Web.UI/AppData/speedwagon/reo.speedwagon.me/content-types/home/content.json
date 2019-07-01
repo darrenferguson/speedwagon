@@ -24,6 +24,10 @@
       {
         "Name": "Body",
         "Editor": "Textarea"
+      },
+      {
+        "Name": "Darren",
+        "Editor": "Checkbox"
       }
     ]
   },
