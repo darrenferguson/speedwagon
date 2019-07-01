@@ -2,71 +2,11 @@
 @{
     Layout = "_Layout";
 }
+@section Scripts {
 
+    @await Html.PartialAsync("_EditorScripts")
+}
 <h2>Content</h2>
-
-
-
-    @if (Model.Content.Level > 0)
-    {
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a asp-controller="SpeedWagon" asp-action="Content" asp-route-url="/content">Content</a>
-                </li>
-
-
-                @foreach (SpeedWagonContent crumb in Model.ContentService.BreadCrumb(Model.Content))
-                {
-
-                <li class="breadcrumb-item">
-                    <a asp-controller="SpeedWagon" asp-action="Content" asp-route-url="@crumb.RelativeUrl">@crumb.Name</a>
-                </li>
-                }
-                
-            </ol>
-        </nav>
-    }
-
-@if (Model.Contents == null || !Model.Contents.Any())
-{
-    <p>No content defined</p>
-}
-else
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Type
-                </th>
-                <th>
-                    Action
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (SpeedWagonContent content in Model.Contents)
-            {
-                <tr>
-                    <td>
-                        <a asp-controller="SpeedWagon" asp-action="Content" asp-route-url="@content.RelativeUrl">@content.Name</a>
-                    </td>
-                    <td>
-                        @content.Type
-                    </td>
-                    <td>
-                        <a asp-controller="SpeedWagon" asp-action="EditContent" asp-route-url="@content.RelativeUrl">Edit</a>
-                    </td>
-
-                </tr>
-            }
-        </tbody>
-    </table>
-}
 
 <h3>Create</h3>
 
@@ -88,4 +28,93 @@ else
     <button type="submit" class="btn btn-primary">Create</button>
 
 </form>
+
+<hr />
+
+@if (Model.Content.Level > 0)
+{
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-controller="SpeedWagon" asp-action="Content" asp-route-url="/content">Content</a>
+            </li>
+
+
+            @foreach (SpeedWagonContent crumb in Model.ContentService.BreadCrumb(Model.Content))
+            {
+
+                <li class="breadcrumb-item">
+                    <a asp-controller="SpeedWagon" asp-action="Content" asp-route-url="@crumb.RelativeUrl">@crumb.Name</a>
+                </li>
+            }
+
+        </ol>
+    </nav>
+}
+
+@if (Model.Contents == null || !Model.Contents.Any())
+{
+    <p>No content defined</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Action
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Creator
+                </th>
+                <th>
+                    Created
+                </th>
+                <th>
+                    Updater
+                </th>
+                <th>
+                    Updated
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (SpeedWagonContent content in Model.Contents)
+            {
+            <tr>
+                <td>
+                    <a asp-controller="SpeedWagon" asp-action="EditContent" asp-route-url="@content.RelativeUrl">Edit</a>
+                </td>
+                <td>
+                    <a asp-controller="SpeedWagon" asp-action="Content" asp-route-url="@content.RelativeUrl">@content.Name</a>
+                </td>
+                <td>
+                    @content.Type
+                </td>
+                <td>
+                    @content.CreatorName
+                </td>
+                <td>
+                    @content.CreateDate
+                </td>
+                <td>
+                    @content.WriterName
+                </td>
+                <td>
+                    @content.UpdateDate
+                </td>
+
+
+            </tr>
+            }
+        </tbody>
+    </table>
+}
 

@@ -3,7 +3,28 @@
     Layout = "_Layout";
 }
 
+@section Scripts {
+
+    @await Html.PartialAsync("_EditorScripts")
+}
+
 <h2>Editors</h2>
+
+<h3>Create</h3>
+
+<form asp-controller="SpeedWagon" asp-action="Editor" method="post">
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" placeholder="Name" required="required" asp-for="Name">
+
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+
+</form>
+
+<hr />
 
 @if (!Model.Editors.Any())
 {
@@ -15,8 +36,10 @@ else
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Creator</th>
+                <th>Created</th>
                 <th>View</th>
-
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -24,24 +47,16 @@ else
             {
                 <tr>
                     <td>@editor.Name</td>
+                    <td>@editor.CreatorName</td>
+                    <td>@editor.CreateDate</td>
                     <td>@editor.Template</td>
+                    <td>[delete]</td>
                 </tr>
             }
         </tbody>
     </table>
-
 }
 
-<h3>Create</h3>
-
-<form asp-controller="SpeedWagon" asp-action="Editor" method="post">
-
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Name" required="required" asp-for="Name">
-        <small class="form-text text-muted">Title case - view Should be created in ~/Views/SpeedWagon/Editors</small>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Create</button>
-
-</form>
+<div class="alert alert-info" role="alert">
+    // TODO - add the ability to delete!
+</div>

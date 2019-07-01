@@ -1,0 +1,15 @@
+{
+  "Name": "News",
+  "Type": "Folder",
+  "CreateDate": "2019-07-01T21:35:37.5185005+01:00",
+  "UpdateDate": "2019-07-01T21:35:37.5185071+01:00",
+  "CreatorName": "darren@moriyama.co.uk",
+  "WriterName": "darren@moriyama.co.uk",
+  "Url": "https://reo.speedwagon.me/content/localhost/news",
+  "RelativeUrl": "/content/localhost/news",
+  "Content": {},
+  "Template": "~/Views/SpeedWagon/Content/Folder.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 2
+}

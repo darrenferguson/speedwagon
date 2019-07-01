@@ -1,0 +1,38 @@
+{
+  "Name": "Page",
+  "Type": "content-type",
+  "CreateDate": "2019-07-01T21:35:51.406989+01:00",
+  "UpdateDate": "2019-07-01T21:35:51.4069933+01:00",
+  "CreatorName": "darren@moriyama.co.uk",
+  "WriterName": "darren@moriyama.co.uk",
+  "Url": "https://reo.speedwagon.me/content-types/page",
+  "RelativeUrl": "/content-types/page",
+  "Content": {
+    "Editors": [
+      {
+        "Name": "Title",
+        "Editor": "Textbox"
+      },
+      {
+        "Name": "Description",
+        "Editor": "Textarea"
+      },
+      {
+        "Name": "Show In Navigation",
+        "Editor": "Checkbox"
+      },
+      {
+        "Name": "Display Date",
+        "Editor": "Datepicker"
+      },
+      {
+        "Name": "Body",
+        "Editor": "RichText"
+      }
+    ]
+  },
+  "Template": "~/Views/SpeedWagon/ContentType/Page.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}

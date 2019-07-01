@@ -117,7 +117,17 @@ namespace SpeedWagon.Web.UI.Controllers
             viewModel.ContentType = contentType;
             viewModel.ContentTypeProperties = properties;
             viewModel.ViewEngine = this._viewEngine;
+
             viewModel.Values  = content.Content.ToDictionary(k => k.Key, k => k.Value == null ? string.Empty : k.Value.ToString());
+
+            foreach(ContentTypeEditor contentTypeEditor in properties)
+            {
+                if(!viewModel.Values.ContainsKey(contentTypeEditor.Name))
+                {
+                    viewModel.Values.Add(contentTypeEditor.Name, string.Empty);
+                }
+            }
+
             return View(viewModel);
         }
 
@@ -145,7 +155,9 @@ namespace SpeedWagon.Web.UI.Controllers
             }
             content.Content = properties;
             this._speedWagon.SaveContent(content, User.Identity.Name);
-            return RedirectToAction("Content");
+
+            SpeedWagonContent parent = this._speedWagon.ContentService.Parent(content);
+            return RedirectToAction("Content", new { url = parent.RelativeUrl });
         }
 
         public IActionResult Editor()
@@ -154,7 +166,7 @@ namespace SpeedWagon.Web.UI.Controllers
             IEnumerable<SpeedWagonContent> editors = this._speedWagon.ContentService.Children(editorRoot);
 
             EditorViewModel viewModel = new EditorViewModel();
-            viewModel.Editors = editors;
+            viewModel.Editors = editors.OrderBy(x => x.Name);
 
             return View(viewModel);
         }
@@ -186,7 +198,7 @@ namespace SpeedWagon.Web.UI.Controllers
             IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
 
             ContentTypeViewModel viewModel = new ContentTypeViewModel();
-            viewModel.ContentTypes = contentTypes;
+            viewModel.ContentTypes = contentTypes.OrderBy(x=> x.Name);
 
             return View(viewModel);
         }
@@ -200,7 +212,7 @@ namespace SpeedWagon.Web.UI.Controllers
                 SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
                 IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
 
-                model.ContentTypes = contentTypes;
+                model.ContentTypes = contentTypes.OrderBy(x => x.Name);
                 return View(model);
             }
 
@@ -232,7 +244,6 @@ namespace SpeedWagon.Web.UI.Controllers
         }
 
         [HttpPost]
-
         public IActionResult EditContentType(EditContentTypeViewModel viewModel)
         {
             string id = viewModel.Name;

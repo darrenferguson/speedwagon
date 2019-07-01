@@ -1,0 +1,17 @@
+{
+  "Name": "Datepicker",
+  "Type": "editor",
+  "CreateDate": "2019-07-01T21:16:27.6948158+01:00",
+  "UpdateDate": "2019-07-01T21:16:27.6948197+01:00",
+  "CreatorName": "darren@moriyama.co.uk",
+  "WriterName": "darren@moriyama.co.uk",
+  "Url": "https://reo.speedwagon.me/editors/datepicker",
+  "RelativeUrl": "/editors/datepicker",
+  "Content": {
+    "HelperView": "~/Views/SpeedWagon/Editors/Helper/Datepicker.cshtml"
+  },
+  "Template": "~/Views/SpeedWagon/Editors/Datepicker.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}

@@ -3,7 +3,30 @@
     Layout = "_Layout";
 }
 
+@section Scripts {
+    @await Html.PartialAsync("_EditorScripts")
+}
+
 <h2>Content Types</h2>
+
+
+<h3>Create</h3>
+
+<form asp-controller="SpeedWagon" asp-action="ContentType" method="post">
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" placeholder="Name" required="required" asp-for="Name">
+        
+    </div>
+
+
+
+    <button type="submit" class="btn btn-primary">Create</button>
+
+</form>
+
+<hr />
 
 @if (!Model.ContentTypes.Any())
 {
@@ -15,7 +38,8 @@ else
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Template</th>
+                <th>Creator</th>
+                <th>Created</th>
                 <th>Edit</th>
             </tr>
         </thead>
@@ -24,7 +48,8 @@ else
             {
             <tr>
                 <td>@contentType.Name</td>
-                <td>@contentType.Template</td>
+                <td>@contentType.CreatorName</td>
+                <td>@contentType.CreateDate</td>
                 <td>[<a asp-controller="SpeedWagon" asp-action="EditContentType" asp-route-id="@contentType.Name">edit</a>]</td>
             </tr>
             }
@@ -33,18 +58,8 @@ else
 
 }
 
-<h3>Create</h3>
 
-<form asp-controller="SpeedWagon" asp-action="ContentType" method="post">
+<div class="alert alert-info" role="alert">
+    // TODO - Add the notion of what is allowed under what (structure)
+</div>
 
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Name" required="required" asp-for="Name">
-        <small class="form-text text-muted">Title case - view Should be created in ~/Views/SpeedWagon/ContentType</small>
-    </div>
-
-
-
-    <button type="submit" class="btn btn-primary">Create</button>
-
-</form>

@@ -6,6 +6,7 @@
     "jquery": "2.2.0",
     "jquery-validation": "1.14.0",
     "jquery-validation-unobtrusive": "3.2.6",
-    "simple-jquery-datepicker": "v1.0.8"
+    "simple-jquery-datepicker": "v1.0.8",
+    "jquery-tablesort": "v0.0.11"
   }
 }

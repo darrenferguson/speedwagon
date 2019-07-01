@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using SpeedWagon.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SpeedWagon.Web.Helper
 {
@@ -10,7 +11,7 @@ namespace SpeedWagon.Web.Helper
         {
             IList<SelectListItem> selectList = new List<SelectListItem>();
 
-            foreach(SpeedWagonContent item in items)
+            foreach(SpeedWagonContent item in items.OrderBy(x => x.Name))
             {
                 selectList.Add(new SelectListItem(item.Name, item.Name));
             }
