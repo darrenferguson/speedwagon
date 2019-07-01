@@ -22,9 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\SpeedWagon\Editors\" />
     <Folder Include="Views\SpeedWagon\ContentTypes\" />
-    <Folder Include="Views\SpeedWagon\NewFolder\" />
   </ItemGroup>
 
 </Project>

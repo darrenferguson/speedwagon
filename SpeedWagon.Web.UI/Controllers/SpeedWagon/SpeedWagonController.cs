@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Newtonsoft.Json.Linq;
 using SpeedWagon.Models;
 using SpeedWagon.Runtime.Extension;
@@ -18,10 +19,12 @@ namespace SpeedWagon.Web.UI.Controllers
     public class SpeedWagonController : Controller
     {
         private readonly ISpeedWagonAdminContext _speedWagon;
+        private readonly ICompositeViewEngine _viewEngine;
 
-        public SpeedWagonController(ISpeedWagonAdminContext speedWagon)
+        public SpeedWagonController(ISpeedWagonAdminContext speedWagon, ICompositeViewEngine viewEngine)
         {
             this._speedWagon = speedWagon;
+            this._viewEngine = viewEngine;
         }
 
         public IActionResult Index()
@@ -82,6 +85,45 @@ namespace SpeedWagon.Web.UI.Controllers
 
             this._speedWagon.AddContent(viewModel.Parent, viewModel.Name, viewModel.Type, User.Identity.Name);
             return RedirectToAction("Content", new { url = viewModel.Parent});
+        }
+
+        public IActionResult EditContent(string url = null)
+        {
+            if (string.IsNullOrEmpty(url))
+            {
+                return RedirectToAction("Content");
+            }
+
+            SpeedWagonContent content = this._speedWagon.GetContent(url);
+            SpeedWagonContent contentType = this._speedWagon.GetContent("/content-types/" + content.Type.ToUrlName());
+
+            SpeedWagonContent editorRoot = this._speedWagon.GetContent("/editors");
+            IEnumerable<SpeedWagonContent> editors = this._speedWagon.ContentService.Children(editorRoot);
+            IEnumerable<ContentTypeEditor> properties;
+
+            if (!contentType.Content.ContainsKey("Editors"))
+            {
+                properties = Enumerable.Empty<ContentTypeEditor>();
+            }
+            else
+            {
+                properties = ((JArray)contentType.Content["Editors"]).ToObject<List<ContentTypeEditor>>();
+            }
+
+            EditContentViewModel viewModel = new EditContentViewModel();
+            viewModel.Content = content;
+            viewModel.Editors = editors.ToArray();
+            viewModel.ContentType = contentType;
+            viewModel.ContentTypeProperties = properties;
+            viewModel.ViewEngine = this._viewEngine;
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult EditContent(EditContentViewModel model)
+        {
+            return RedirectToAction("Content");
         }
 
         public IActionResult Editor()

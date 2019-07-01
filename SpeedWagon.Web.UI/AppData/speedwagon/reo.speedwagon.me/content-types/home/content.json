@@ -20,6 +20,10 @@
       {
         "Name": "WTF Misc",
         "Editor": "Textbox"
+      },
+      {
+        "Name": "Body",
+        "Editor": "Textarea"
       }
     ]
   },

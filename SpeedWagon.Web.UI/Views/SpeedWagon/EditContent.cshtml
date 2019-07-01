@@ -1,0 +1,47 @@
+﻿@model SpeedWagon.Web.Models.View.Content.EditContentViewModel
+@using SpeedWagon.Web.Models.Content
+@{
+    Layout = "_Layout";
+}
+
+<h2>Edit Content</h2>
+
+<h3>
+    @Model.Content.Name
+</h3>
+
+<form asp-controller="SpeedWagon" asp-action="EditContent" method="post">
+
+    @foreach (var property in Model.ContentTypeProperties)
+    {
+        SpeedWagonContent editor = Model.Editors.Where(x => x.Name == property.Editor).FirstOrDefault();
+
+    <div class="form-group">
+
+        <label>@property.Name</label>
+
+        @if (editor == null || string.IsNullOrEmpty(editor.Template))
+        {
+            @await Html.PartialAsync("~/Views/SpeedWagon/Editors/Default.cshtml", new ContentEditorModel { PropertyName = property.Name, Values = Model.Values})
+        }
+        else
+        {
+            var result = Model.ViewEngine.GetView(null, editor.Template, true);
+
+            if (result.Success)
+            {
+                @await Html.PartialAsync(editor.Template, new ContentEditorModel { PropertyName = property.Name, Values = Model.Values })
+            }
+            else
+            {
+                @await Html.PartialAsync("~/Views/SpeedWagon/Editors/Default.cshtml", new ContentEditorModel { PropertyName = property.Name, Values = Model.Values })
+            }
+        }
+
+    </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Create</button>
+
+</form>
+
