@@ -5,6 +5,22 @@
 
 <h1>@Model.Content.Name</h1>
 
+<h2>@(Model.Content.GetValue<string>("Title"))</h2>
+
+
+@(Model.Content.GetValue<string>("Body"))
+
+<ol>
+    @foreach (var child in Model.ContentService.Children(Model.Content))
+    {
+        <p>
+            <a href="@child.RelativeUrl">
+                @child.Name
+            </a>
+        </p>
+    }
+</ol>
+
 <ul>
     <li>@Model.Content.CreateDate</li>
     <li>@Model.Content.CreatorName</li>
