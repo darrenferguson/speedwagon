@@ -7,6 +7,7 @@ using SpeedWagon.Runtime.Extension;
 using SpeedWagon.Web.Helper;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models.ContentType;
+using SpeedWagon.Web.Models.View.Content;
 using SpeedWagon.Web.Models.View.Editor;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,36 @@ namespace SpeedWagon.Web.UI.Controllers
 
         public IActionResult Content()
         {
-            return View();
+            SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
+            IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
+
+            IList<SelectListItem> contentTypeSelct = SelectListHelper.GetSelectList(contentTypes);
+
+            ContentViewModel viewModel = new ContentViewModel();
+            viewModel.AvailableContentTypes = contentTypeSelct;
+
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Content(ContentViewModel viewModel)
+        {
+            if(!ModelState.IsValid)
+            {
+                SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
+                IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
+
+                IList<SelectListItem> contentTypeSelct = SelectListHelper.GetSelectList(contentTypes);
+
+                viewModel.AvailableContentTypes = contentTypeSelct;
+
+                return View(viewModel);
+            }
+
+            this._speedWagon.AddContent(viewModel.Name, viewModel.Type, User.Identity.Name);
+
+            return RedirectToAction("Content");
         }
 
         public IActionResult Editor()

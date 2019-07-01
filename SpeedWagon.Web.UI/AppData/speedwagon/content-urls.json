@@ -25,5 +25,6 @@
   "https://reo.speedwagon.me/editors/textarea",
   "https://reo.speedwagon.me/editors/textbox",
   "https://reo.speedwagon.me/editors/rich-text",
-  "https://reo.speedwagon.me/content-types/folder"
+  "https://reo.speedwagon.me/content-types/folder",
+  "https://reo.speedwagon.me/content/localhost"
 ]

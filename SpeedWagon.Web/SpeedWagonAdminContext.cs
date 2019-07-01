@@ -65,5 +65,16 @@ namespace SpeedWagon.Web
 
             return this._path;
         }
+
+        public void AddContent(string name, string type, string user)
+        {
+            string urlName = "/content/" + name.ToUrlName();
+
+            SpeedWagonContent content = new SpeedWagonContent(name.ToTitleCasedName(), SPEEDWAGON_HOST + urlName, "content", user);
+            string viewName = type.ToTitleCasedName() + ".cshtml";
+            content.Template = "~/Views/SpeedWagon/Content/" + viewName;
+            content.Type = type;
+            this._cachelessContentService.AddContent(content);
+        }
     }
 }

@@ -1,0 +1,15 @@
+{
+  "Name": "Localhost",
+  "Type": "Home",
+  "CreateDate": "2019-07-01T09:59:58.7859828+01:00",
+  "UpdateDate": "2019-07-01T09:59:58.7859852+01:00",
+  "CreatorName": "darren@moriyama.co.uk",
+  "WriterName": "darren@moriyama.co.uk",
+  "Url": "https://reo.speedwagon.me/content/localhost",
+  "RelativeUrl": "/content/localhost",
+  "Content": {},
+  "Template": "~/Views/SpeedWagon/Content/Home.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 0
+}

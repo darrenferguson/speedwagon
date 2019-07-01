@@ -1,21 +1,28 @@
-﻿@{
+﻿@model SpeedWagon.Web.Models.View.Content.ContentViewModel
+@{
     Layout = "_Layout";
 }
 
 <h2>Content</h2>
 
+<p>No content defined</p>
+
 <h3>Create</h3>
 
-<form>
+<form asp-controller="SpeedWagon" asp-action="Content" method="post">
 
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Enter a name">
-        
+        <input type="text" class="form-control" id="name" placeholder="Enter a name" asp-for="Name">       
     </div>
     
+    <div class="form-group">
+        <label for="type">Type</label>
+        <select class="form-control" asp-items="Model.AvailableContentTypes" asp-for="Type"> </select>
+    </div>
+
+
     <button type="submit" class="btn btn-primary">Create</button>
 
 </form>
 
-<h3>Items</h3>
