@@ -5,7 +5,38 @@
 
 <h2>Content</h2>
 
-<p>No content defined</p>
+@if(Model.Contents == null || !Model.Contents.Any())
+{
+    <p>No content defined</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Type
+                    </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(SpeedWagonContent content in Model.Contents)
+            {
+                <tr>
+                    <td>
+                        @content.Name
+                    </td>
+                    <td>
+                        @content.Type
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 <h3>Create</h3>
 

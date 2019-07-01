@@ -37,6 +37,9 @@ namespace SpeedWagon.Web.UI.Controllers
 
         public IActionResult Content()
         {
+            SpeedWagonContent contentRoot = this._speedWagon.GetContent("/content");
+            IEnumerable<SpeedWagonContent> contents = this._speedWagon.ContentService.Children(contentRoot);
+
             SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
             IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
 
@@ -44,7 +47,7 @@ namespace SpeedWagon.Web.UI.Controllers
 
             ContentViewModel viewModel = new ContentViewModel();
             viewModel.AvailableContentTypes = contentTypeSelct;
-
+            viewModel.Contents = contents;
 
             return View(viewModel);
         }
@@ -54,12 +57,16 @@ namespace SpeedWagon.Web.UI.Controllers
         {
             if(!ModelState.IsValid)
             {
+                SpeedWagonContent contentRoot = this._speedWagon.GetContent("/content");
+                IEnumerable<SpeedWagonContent> contents = this._speedWagon.ContentService.Children(contentRoot);
+                
                 SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
                 IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
 
                 IList<SelectListItem> contentTypeSelct = SelectListHelper.GetSelectList(contentTypes);
 
                 viewModel.AvailableContentTypes = contentTypeSelct;
+                viewModel.Contents = contents;
 
                 return View(viewModel);
             }
