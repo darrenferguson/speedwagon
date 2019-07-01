@@ -2,7 +2,7 @@
   "Name": "AboutUs",
   "Type": "Page",
   "CreateDate": "2019-07-01T21:36:05.8746609+01:00",
-  "UpdateDate": "2019-07-01T21:52:32.2592952+01:00",
+  "UpdateDate": "2019-07-01T22:08:57.0193056+01:00",
   "CreatorName": "darren@moriyama.co.uk",
   "WriterName": "darren@moriyama.co.uk",
   "Url": "https://reo.speedwagon.me/content/localhost/about-us",
@@ -11,7 +11,8 @@
     "Title": "About Us",
     "Description": "This is the about us page",
     "Show In Navigation": "No",
-    "Display Date": "07/05/2019"
+    "Display Date": "07/05/2019",
+    "Body": "<p><strong>Wow!</strong></p>\r\n<p><em>That was easy!</em></p>"
   },
   "Template": "~/Views/SpeedWagon/Content/Page.cshtml",
   "CacheTime": null,
