@@ -3,6 +3,7 @@ using SpeedWagon.Models;
 using SpeedWagon.Runtime.Extension;
 using SpeedWagon.Services;
 using SpeedWagon.Web.Interfaces;
+using SpeedWagon.Web.Models;
 
 namespace SpeedWagon.Web
 {
@@ -56,6 +57,16 @@ namespace SpeedWagon.Web
             return this._cachelessContentService.GetContent(path);
         }
 
+        public SpeedWagonPage PageFor(string path)
+        {
+
+            SpeedWagonPage model = new SpeedWagonPage();
+            model.Content = GetContent(path);
+            model.ContentService = this.ContentService;
+
+            return model;
+        }
+
         public string Install(string user)
         {            
             this._cachelessContentService.AddContent(new SpeedWagonContent("Content", SPEEDWAGON_HOST + "/content", "container", user));
@@ -66,15 +77,18 @@ namespace SpeedWagon.Web
             return this._path;
         }
 
-        public void AddContent(string name, string type, string user)
+        public void AddContent(string parent, string name, string type, string user)
         {
-            string urlName = "/content/" + name.ToUrlName();
+            string urlName = parent + "/" + name.ToUrlName();
 
             SpeedWagonContent content = new SpeedWagonContent(name.ToTitleCasedName(), SPEEDWAGON_HOST + urlName, "content", user);
             string viewName = type.ToTitleCasedName() + ".cshtml";
             content.Template = "~/Views/SpeedWagon/Content/" + viewName;
             content.Type = type;
+           
             this._cachelessContentService.AddContent(content);
         }
+
+       
     }
 }

@@ -5,7 +5,30 @@
 
 <h2>Content</h2>
 
-@if(Model.Contents == null || !Model.Contents.Any())
+
+
+    @if (Model.Content.Level > 0)
+    {
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a asp-controller="SpeedWagon" asp-action="Content" asp-route-url="/content">Content</a>
+                </li>
+
+
+                @foreach (SpeedWagonContent crumb in Model.ContentService.BreadCrumb(Model.Content))
+                {
+
+                <li class="breadcrumb-item">
+                    <a asp-controller="SpeedWagon" asp-action="Content" asp-route-url="@crumb.RelativeUrl">@crumb.Name</a>
+                </li>
+                }
+                
+            </ol>
+        </nav>
+    }
+
+@if (Model.Contents == null || !Model.Contents.Any())
 {
     <p>No content defined</p>
 }
@@ -19,19 +42,26 @@ else
                 </th>
                 <th>
                     Type
-                    </th>
+                </th>
+                <th>
+                    Action
+                </th>
             </tr>
         </thead>
         <tbody>
-            @foreach(SpeedWagonContent content in Model.Contents)
+            @foreach (SpeedWagonContent content in Model.Contents)
             {
                 <tr>
                     <td>
-                        @content.Name
+                        <a asp-controller="SpeedWagon" asp-action="Content" asp-route-url="@content.RelativeUrl">@content.Name</a>
                     </td>
                     <td>
                         @content.Type
                     </td>
+                    <td>
+                        <a asp-controller="SpeedWagon" asp-action="EditContent" asp-route-url="@content.RelativeUrl">Edit</a>
+                    </td>
+
                 </tr>
             }
         </tbody>
@@ -44,14 +74,16 @@ else
 
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Enter a name" asp-for="Name">       
+        <input type="text" class="form-control" id="name" placeholder="Enter a name" asp-for="Name">
     </div>
-    
+
     <div class="form-group">
         <label for="type">Type</label>
         <select class="form-control" asp-items="Model.AvailableContentTypes" asp-for="Type"> </select>
     </div>
 
+
+    <input type="hidden" asp-for="Parent" value="@Model.Content.RelativeUrl" />
 
     <button type="submit" class="btn btn-primary">Create</button>
 

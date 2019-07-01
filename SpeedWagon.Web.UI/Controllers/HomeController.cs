@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SpeedWagon.Models;
 using SpeedWagon.Web.Interfaces;
+using SpeedWagon.Web.Models;
 using SpeedWagon.Web.UI.Models;
 
 namespace SpeedWagon.Web.UI.Controllers
@@ -19,9 +21,8 @@ namespace SpeedWagon.Web.UI.Controllers
 
         public IActionResult Index()
         {
-            var content = this._speedWagon.ContentFor(Request);
-            
-            return View(content);
+            SpeedWagonPage model = this._speedWagon.PageFor(Request);           
+            return View(model);
         }
 
         public IActionResult About()

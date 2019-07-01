@@ -205,7 +205,7 @@ namespace SpeedWagon.Services
 
         protected IEnumerable<string> ChildrenUrls(SpeedWagonContent model)
         {
-            return Urls.Where(x => x.StartsWith(model.Url) && x != model.Url && x.Split('/').Length == model.Url.Split('/').Length + 1);
+            return Urls.Where(x => x.StartsWith(model.Url +"/") && x != model.Url && x.Split('/').Length == model.Url.Split('/').Length + 1);
         }
 
         public virtual IEnumerable<SpeedWagonContent> Children(SpeedWagonContent model)
@@ -221,6 +221,25 @@ namespace SpeedWagon.Services
         public virtual IEnumerable<SpeedWagonContent> Descendants(SpeedWagonContent model)
         {
             return FromUrls(DescendantsUrls(model)).Where(x => x != null);
+        }
+
+        public virtual SpeedWagonContent Parent(SpeedWagonContent model)
+        {
+            string parentUrl = model.Url.Substring(0, model.Url.LastIndexOf("/"));
+            return FromUrls(new[] { parentUrl }).FirstOrDefault();
+        }
+
+        public virtual IEnumerable<SpeedWagonContent> BreadCrumb(SpeedWagonContent model)
+        {
+            IList<SpeedWagonContent> crumb = new List<SpeedWagonContent>();
+            SpeedWagonContent parent = model;
+
+            while(parent != null && parent.Level > 0) {
+                crumb.Add(parent);
+                parent = Parent(parent);
+            }
+
+            return crumb.Reverse();
         }
 
         public virtual IEnumerable<SpeedWagonContent> Descendants(SpeedWagonContent model, IDictionary<string, string> filters)
@@ -273,8 +292,6 @@ namespace SpeedWagon.Services
 
             var content = new SpeedWagonContent(url, url);
 
-           
-            
             content.CreatorName = "User Generated";
             content.WriterName = "User Generated";
 
@@ -300,7 +317,11 @@ namespace SpeedWagon.Services
             }
             return content;
         }
-        
+
+       
+
+
+
 
 
         //private void CleanEmptyDirectory(string path)

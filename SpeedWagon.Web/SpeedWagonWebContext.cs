@@ -3,6 +3,7 @@ using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
 using SpeedWagon.Services;
 using SpeedWagon.Web.Interfaces;
+using SpeedWagon.Web.Models;
 
 namespace SpeedWagon.Web
 {
@@ -32,6 +33,16 @@ namespace SpeedWagon.Web
             }
 
             return content;
+        }
+
+        public SpeedWagonPage PageFor(HttpRequest request)
+        {
+            SpeedWagonPage model = new SpeedWagonPage();
+            model.Content = ContentFor(request);
+            model.ContentService = this._cachedContentService;
+
+            return model;
+
         }
     }
 }

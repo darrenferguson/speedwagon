@@ -35,9 +35,14 @@ namespace SpeedWagon.Web.UI.Controllers
             return View();
         }
 
-        public IActionResult Content()
+        public IActionResult Content(string url = null)
         {
-            SpeedWagonContent contentRoot = this._speedWagon.GetContent("/content");
+            if(string.IsNullOrEmpty(url))
+            {
+                url = "/content";
+            }
+
+            SpeedWagonContent contentRoot = this._speedWagon.GetContent(url);
             IEnumerable<SpeedWagonContent> contents = this._speedWagon.ContentService.Children(contentRoot);
 
             SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
@@ -47,7 +52,9 @@ namespace SpeedWagon.Web.UI.Controllers
 
             ContentViewModel viewModel = new ContentViewModel();
             viewModel.AvailableContentTypes = contentTypeSelct;
+            viewModel.Content = contentRoot;
             viewModel.Contents = contents;
+            viewModel.ContentService = this._speedWagon.ContentService;
 
             return View(viewModel);
         }
@@ -66,14 +73,15 @@ namespace SpeedWagon.Web.UI.Controllers
                 IList<SelectListItem> contentTypeSelct = SelectListHelper.GetSelectList(contentTypes);
 
                 viewModel.AvailableContentTypes = contentTypeSelct;
+                viewModel.Content = contentRoot;
                 viewModel.Contents = contents;
+                viewModel.ContentService = this._speedWagon.ContentService;
 
                 return View(viewModel);
             }
 
-            this._speedWagon.AddContent(viewModel.Name, viewModel.Type, User.Identity.Name);
-
-            return RedirectToAction("Content");
+            this._speedWagon.AddContent(viewModel.Parent, viewModel.Name, viewModel.Type, User.Identity.Name);
+            return RedirectToAction("Content", new { url = viewModel.Parent});
         }
 
         public IActionResult Editor()
@@ -144,8 +152,7 @@ namespace SpeedWagon.Web.UI.Controllers
             SpeedWagonContent editorRoot = this._speedWagon.GetContent("/editors");
             IEnumerable<SpeedWagonContent> editors = this._speedWagon.ContentService.Children(editorRoot);
             
-
-
+            
             EditContentTypeViewModel viewModel = new EditContentTypeViewModel();
             viewModel.ContentType = contentType;
             viewModel.Name = contentType.Name;

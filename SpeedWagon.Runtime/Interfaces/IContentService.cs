@@ -28,6 +28,10 @@ namespace SpeedWagon.Interfaces
         IEnumerable<SpeedWagonContent> Descendants(SpeedWagonContent model);
         IEnumerable<SpeedWagonContent> Descendants(SpeedWagonContent model, IDictionary<string, string> filter);
 
+        SpeedWagonContent Parent(SpeedWagonContent model);
+
+        IEnumerable<SpeedWagonContent> BreadCrumb(SpeedWagonContent model);
+
         SpeedWagonContent CreateContent(string url, IDictionary<string, object> properties);
     }
 }

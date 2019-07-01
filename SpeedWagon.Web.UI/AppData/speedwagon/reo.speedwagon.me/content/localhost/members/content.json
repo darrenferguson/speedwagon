@@ -1,0 +1,15 @@
+{
+  "Name": "Members",
+  "Type": "Folder",
+  "CreateDate": "2019-07-01T17:10:17.3154791+01:00",
+  "UpdateDate": "2019-07-01T17:10:17.3154838+01:00",
+  "CreatorName": "darren@moriyama.co.uk",
+  "WriterName": "darren@moriyama.co.uk",
+  "Url": "https://reo.speedwagon.me/content/localhost/members",
+  "RelativeUrl": "/content/localhost/members",
+  "Content": {},
+  "Template": "~/Views/SpeedWagon/Content/Folder.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 2
+}

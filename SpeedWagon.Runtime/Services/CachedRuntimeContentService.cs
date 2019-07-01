@@ -175,6 +175,26 @@ namespace SpeedWagon.Services
             return FromUrls(ChildrenUrls(model)).Where(x => x != null);
         }
 
+        public override SpeedWagonContent Parent(SpeedWagonContent model)
+        {
+            string parentUrl = model.Url.Substring(0, model.Url.LastIndexOf("/"));
+            return FromUrls(new[] { parentUrl }).FirstOrDefault();
+        }
+
+        public override IEnumerable<SpeedWagonContent> BreadCrumb(SpeedWagonContent model)
+        {
+            IList<SpeedWagonContent> crumb = new List<SpeedWagonContent>();
+            SpeedWagonContent parent = model;
+
+            while (parent != null && parent.Level > 0)
+            {
+                crumb.Add(parent);
+                parent = Parent(parent);
+            }
+
+            return crumb.Reverse();
+        }
+
         public override IEnumerable<SpeedWagonContent> Descendants(SpeedWagonContent model)
         {
             return FromUrls(DescendantsUrls(model)).Where(x => x != null);

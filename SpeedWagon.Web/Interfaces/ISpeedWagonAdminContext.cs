@@ -1,5 +1,6 @@
 ﻿using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
+using SpeedWagon.Web.Models;
 
 namespace SpeedWagon.Web.Interfaces
 {
@@ -12,7 +13,9 @@ namespace SpeedWagon.Web.Interfaces
 
         SpeedWagonContent GetContent(string path);
 
-        void AddContent(string name, string type, string user);
+        SpeedWagonPage PageFor(string path);
+
+        void AddContent(string parent, string name, string type, string user);
 
         void AddEditor(string name, string user);
 

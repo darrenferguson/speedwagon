@@ -26,5 +26,19 @@
   "https://reo.speedwagon.me/editors/textbox",
   "https://reo.speedwagon.me/editors/rich-text",
   "https://reo.speedwagon.me/content-types/folder",
-  "https://reo.speedwagon.me/content/localhost"
+  "https://reo.speedwagon.me/content/localhost",
+  "https://reo.speedwagon.me/content/news",
+  "https://reo.speedwagon.me/content/moriyamacouk",
+  "https://reo.speedwagon.me/content/localhost/news",
+  "https://reo.speedwagon.me/content/localhost/folder",
+  "https://reo.speedwagon.me/content/moriyama.co.uk",
+  "https://reo.speedwagon.me/content/news.bbc.co.uk",
+  "https://reo.speedwagon.me/content/abc.com",
+  "https://reo.speedwagon.me/content/localhost/news/darren",
+  "https://reo.speedwagon.me/content/localhost/faq",
+  "https://reo.speedwagon.me/content/localhost/members",
+  "https://reo.speedwagon.me/content/localhost/news/2019",
+  "https://reo.speedwagon.me/content/localhost/news/2019/07",
+  "https://reo.speedwagon.me/content/localhost/news/2019/07/01",
+  "https://reo.speedwagon.me/content/localhost/faq/common"
 ]

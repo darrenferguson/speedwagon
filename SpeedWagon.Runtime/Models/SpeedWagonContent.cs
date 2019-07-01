@@ -21,7 +21,9 @@ namespace SpeedWagon.Models
             {
                 this.RelativeUrl = url;
             }
-            
+
+            this.Level = this.RelativeUrl.Split('/').Length - 2;
+
             this.CreateDate = DateTime.Now;
             this.UpdateDate = DateTime.Now;
 
