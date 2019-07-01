@@ -1,14 +1,29 @@
 {
   "Name": "News",
   "Type": "content-type",
-  "CreateDate": "2019-06-30T23:03:17.1241843+01:00",
-  "UpdateDate": "2019-06-30T23:03:17.124188+01:00",
+  "CreateDate": "2019-07-01T09:22:31.0751648+01:00",
+  "UpdateDate": "2019-07-01T09:22:31.0751675+01:00",
   "CreatorName": "darren@moriyama.co.uk",
   "WriterName": "darren@moriyama.co.uk",
   "Url": "https://reo.speedwagon.me/content-types/news",
   "RelativeUrl": "/content-types/news",
-  "Content": {},
-  "Template": "~/Views/SpeedWagon/Editors/News.cshtml",
+  "Content": {
+    "Editors": [
+      {
+        "Name": "Title",
+        "Editor": "Textarea"
+      },
+      {
+        "Name": "SEO",
+        "Editor": "Textbox"
+      },
+      {
+        "Name": "DF",
+        "Editor": "RichText"
+      }
+    ]
+  },
+  "Template": "~/Views/SpeedWagon/ContentType/News.cshtml",
   "CacheTime": null,
   "SortOrder": 0,
   "Level": 0

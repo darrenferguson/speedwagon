@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json.Linq;
 using SpeedWagon.Models;
 using SpeedWagon.Runtime.Extension;
+using SpeedWagon.Web.Helper;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models.ContentType;
 using SpeedWagon.Web.Models.View.Editor;
@@ -86,7 +88,6 @@ namespace SpeedWagon.Web.UI.Controllers
 
             if (!ModelState.IsValid)
             {
- 
                 SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
                 IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
 
@@ -95,19 +96,24 @@ namespace SpeedWagon.Web.UI.Controllers
             }
 
             this._speedWagon.AddContentType(model.Name, User.Identity.Name);
-
             return RedirectToAction("ContentType");
         }
 
         public IActionResult EditContentType(string id)
-        {         
+        {
             id = id.ToUrlName();
             SpeedWagonContent contentType = this._speedWagon.GetContent("/content-types/" + id);
+
+            SpeedWagonContent editorRoot = this._speedWagon.GetContent("/editors");
+            IEnumerable<SpeedWagonContent> editors = this._speedWagon.ContentService.Children(editorRoot);
             
+
+
             EditContentTypeViewModel viewModel = new EditContentTypeViewModel();
             viewModel.ContentType = contentType;
             viewModel.Name = contentType.Name;
-
+            viewModel.AvailableEditors = SelectListHelper.GetSelectList(editors);
+            
             if (contentType.Content.ContainsKey("Editors"))
             {
                 viewModel.Editors = ((JArray)contentType.Content["Editors"]).ToObject<ContentTypeEditor[]>();
@@ -130,14 +136,18 @@ namespace SpeedWagon.Web.UI.Controllers
                 viewModel.ContentType = contentType;
                 return View(viewModel);
             }
-            
+
+            IList<ContentTypeEditor> editors;
             if (!contentType.Content.ContainsKey("Editors"))
             {
-                contentType.Content.Add("Editors", new List<ContentTypeEditor>());
+                editors = new List<ContentTypeEditor>();
+                contentType.Content.Add("Editors", editors);
             }
-
-            IList<ContentTypeEditor> editors = ((JArray)contentType.Content["Editors"]).ToObject<List<ContentTypeEditor>>();
-
+            else
+            {
+                editors = ((JArray)contentType.Content["Editors"]).ToObject<List<ContentTypeEditor>>();
+            }
+            
             editors.Add(viewModel.ContentTypeEditor);
             contentType.Content["Editors"] = editors.ToArray();
 

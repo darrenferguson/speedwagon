@@ -7,15 +7,33 @@
 
 <h3>Properties</h3>
 
-@if(Model.Editors.Any())
+@if (Model.Editors != null && Model.Editors.Any())
 {
-    <ul>
-        @foreach(var property in Model.Editors)
-        {
-            <li>@property.Name</li>
-        }
-    </ul>
-} else
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var property in Model.Editors)
+            {
+
+                <tr>
+                    <td>
+                        @property.Name
+                    </td>
+                    <td>
+                        Edit Delete Up Down
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+else
 {
     <p>No properties on type</p>
 }
@@ -26,11 +44,16 @@
 
     <div class="form-group">
         <label for="name">Property Name</label>
-        <input type="text" class="form-control" id="contentTypeEditorName" placeholder="ContentTypeEditorName" required="required" asp-for="ContentTypeEditor.Name">
-       
+        <input type="text" class="form-control" id="contentTypeEditorName" placeholder="Name" required="required" asp-for="ContentTypeEditor.Name">
+
     </div>
-    
-    <input type="hidden" asp-for="Name" value="@Model.Name"/>
+
+    <div class="form-group">
+        <label for="type">Property Type</label>
+        <select class="form-control" asp-items="Model.AvailableEditors" asp-for="ContentTypeEditor.Editor"></select>
+    </div>
+
+    <input type="hidden" asp-for="Name" value="@Model.Name" />
 
     <button type="submit" class="btn btn-primary">Create</button>
 

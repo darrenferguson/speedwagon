@@ -24,5 +24,6 @@
   "https://reo.speedwagon.me/content-types/home",
   "https://reo.speedwagon.me/editors/textarea",
   "https://reo.speedwagon.me/editors/textbox",
-  "https://reo.speedwagon.me/editors/rich-text"
+  "https://reo.speedwagon.me/editors/rich-text",
+  "https://reo.speedwagon.me/content-types/folder"
 ]

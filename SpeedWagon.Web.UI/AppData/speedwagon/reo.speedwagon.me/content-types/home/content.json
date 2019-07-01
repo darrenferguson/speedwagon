@@ -11,15 +11,15 @@
     "Editors": [
       {
         "Name": "Title",
-        "Editor": null
+        "Editor": "Textbox"
       },
       {
-        "Name": "Darren",
-        "Editor": null
+        "Name": "SEO",
+        "Editor": "Textbox"
       },
       {
-        "Name": "James",
-        "Editor": null
+        "Name": "WTF Misc",
+        "Editor": "Textbox"
       }
     ]
   },
