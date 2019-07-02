@@ -28,6 +28,10 @@
       {
         "Name": "Body",
         "Editor": "RichText"
+      },
+      {
+        "Name": "Image",
+        "Editor": "Upload"
       }
     ]
   },
