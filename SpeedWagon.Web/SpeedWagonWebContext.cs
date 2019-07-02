@@ -12,12 +12,10 @@ namespace SpeedWagon.Web
         private readonly string _path;
 
         private readonly IContentService _cachedContentService;
-        private readonly IContentService _cachelessContentService;
-
+       
         public SpeedWagonWebContext(string path)
         {
-            this._path = path;
-            this._cachelessContentService = new CacheLessRuntimeContentService(path, null);
+            this._path = path;           
             this._cachedContentService = new CachedRuntimeContentService(path, null);
         }
 
@@ -25,7 +23,7 @@ namespace SpeedWagon.Web
         public SpeedWagonContent ContentFor(HttpRequest request)
         {
             string url = SPEEDWAGON_HOST + "/content/" + request.Host + request.Path;
-            SpeedWagonContent content =  this._cachelessContentService.GetContent(url);
+            SpeedWagonContent content =  this._cachedContentService.GetContent(url);
 
             if(content == null)
             {

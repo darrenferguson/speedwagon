@@ -52,6 +52,8 @@ namespace SpeedWagon.Services
             //    .Build();
 
             //scheduler.ScheduleJob(job, trigger);
+
+      
         }
 
         public void SanitiseCache()
@@ -136,7 +138,7 @@ namespace SpeedWagon.Services
             return url;
         }
 
-        protected SpeedWagonContent GetCachedContent(string url)
+        protected virtual SpeedWagonContent GetCachedContent(string url)
         {
             url = RemovePortFromUrl(url);
 
@@ -149,6 +151,7 @@ namespace SpeedWagon.Services
 
             content = base.GetContent(url);
             PlaceInCache(url, content);
+
 
             return content;
         }

@@ -8,6 +8,18 @@ namespace SpeedWagon.Web.Extension
 {
     public static class ContentExtension
     {
+        public static string WebUrl(this SpeedWagonContent content)
+        {
+            string[] segments = content.RelativeUrl.Split('/');
+
+            if(segments.Length < 3)
+            {
+                return content.RelativeUrl;
+            }
+
+            return "/" + string.Join("/", segments.Skip(3));
+        }
+
         public static string GetValue(this SpeedWagonContent model, string key)
         {
             if (model == null || model.Content == null || !model.Content.ContainsKey(key))
