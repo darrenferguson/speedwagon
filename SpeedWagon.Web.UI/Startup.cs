@@ -36,8 +36,8 @@ namespace SpeedWagon.Web.UI
             .AddAzureAd(options => Configuration.Bind("AzureAd", options))
             .AddCookie();
 
-            string path = Path.Combine(this._env.ContentRootPath, _appDataFolder, "speedwagon");
-
+            //string path = Path.Combine(this._env.ContentRootPath, _appDataFolder, "speedwagon");
+            string path = @"d:\speedwagon";
             services.AddSingleton<ISpeedWagonWebContext>(s => new SpeedWagonWebContext(path));
             services.AddSingleton<ISpeedWagonAdminContext>(s => new SpeedWagonAdminContext(path));
 
