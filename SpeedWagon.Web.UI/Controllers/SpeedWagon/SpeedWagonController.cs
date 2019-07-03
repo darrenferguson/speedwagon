@@ -162,11 +162,8 @@ namespace SpeedWagon.Web.UI.Controllers
 
         public IActionResult ContentType()
         {          
-            SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
-            IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
-
             ContentTypeViewModel viewModel = new ContentTypeViewModel();
-            viewModel.ContentTypes = contentTypes.OrderBy(x=> x.Name);
+            viewModel.ContentTypes = this._speedWagon.ContentTypeService.List();
 
             return View(viewModel);
         }
@@ -174,13 +171,9 @@ namespace SpeedWagon.Web.UI.Controllers
         [HttpPost]
         public IActionResult ContentType(ContentTypeViewModel model)
         {
-
             if (!ModelState.IsValid)
             {
-                SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
-                IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
-
-                model.ContentTypes = contentTypes.OrderBy(x => x.Name);
+                model.ContentTypes = this._speedWagon.ContentTypeService.List();
                 return View(model);
             }
 

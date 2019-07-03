@@ -12,7 +12,7 @@ namespace SpeedWagon.Web.Services
         private readonly IContentService _cachelessContentService;
         private readonly string _contentRoot;
 
-        private const string EDITOR_ROOT = "editors";
+        private const string ROOT = "editors";
 
         public EditorService(IContentService cachelessContentService, string contentRoot)
         {
@@ -22,19 +22,19 @@ namespace SpeedWagon.Web.Services
 
         public IEnumerable<SpeedWagonContent> List()
         {
-            SpeedWagonContent editorRoot = this._cachelessContentService.GetContent($"{this._contentRoot}/{EDITOR_ROOT}");
+            SpeedWagonContent editorRoot = this._cachelessContentService.GetContent($"{this._contentRoot}/{ROOT}");
             return this._cachelessContentService.Children(editorRoot).OrderBy(x => x.Name);            
         }
 
         public void Delete(string name)
         {
-            string contentPath = $"{this._contentRoot}/{EDITOR_ROOT}/{name.ToUrlName()}";
+            string contentPath = $"{this._contentRoot}/{ROOT}/{name.ToUrlName()}";
             this._cachelessContentService.RemoveContent(contentPath);
         }
 
         public void Add(string name, string user)
         {
-            SpeedWagonContent editor = new SpeedWagonContent(name.ToTitleCasedName(), $"{this._contentRoot}/{EDITOR_ROOT}/{name.ToUrlName()}", "editor", user);
+            SpeedWagonContent editor = new SpeedWagonContent(name.ToTitleCasedName(), $"{this._contentRoot}/{ROOT}/{name.ToUrlName()}", "editor", user);
 
             string viewName = name.ToTitleCasedName() + ".cshtml";
             editor.Template = "~/Views/SpeedWagon/Editors/" + viewName;

@@ -9,6 +9,8 @@ namespace SpeedWagon.Web.Interfaces
 
         IContentService ContentService { get; }
 
+        IContentTypeService ContentTypeService { get; }
+
         IEditorService EditorService { get; }
 
 
