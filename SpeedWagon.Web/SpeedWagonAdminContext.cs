@@ -4,6 +4,7 @@ using SpeedWagon.Runtime.Extension;
 using SpeedWagon.Services;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models;
+using SpeedWagon.Web.Services;
 using System;
 
 namespace SpeedWagon.Web
@@ -12,14 +13,20 @@ namespace SpeedWagon.Web
     {
         private readonly string _path;
         private readonly IContentService _cachelessContentService;
+        private readonly IEditorService _editorService;
 
         public SpeedWagonAdminContext(string path)
         {
             this._path = path;
-            this._cachelessContentService = new CacheLessRuntimeContentService(path, null);         
+            this._cachelessContentService = new CacheLessRuntimeContentService(path, null);
+            this._editorService = new EditorService(this._cachelessContentService, SPEEDWAGON_HOST);
         }
 
         public IContentService ContentService => this._cachelessContentService;
+
+        public IEditorService EditorService => this._editorService;
+
+
 
         public void AddContentType(string name, string user)
         {
@@ -39,19 +46,7 @@ namespace SpeedWagon.Web
             this._cachelessContentService.AddContent(contentType);
         }
 
-        public void AddEditor(string name, string user)
-        {
-            string urlName = "/editors/" + name.ToUrlName();
-            SpeedWagonContent editor = new SpeedWagonContent(name.ToTitleCasedName(), SPEEDWAGON_HOST + urlName, "editor", user);
-
-            string viewName = name.ToTitleCasedName() + ".cshtml";
-
-            editor.Template = "~/Views/SpeedWagon/Editors/" + viewName;
-            editor.Content.Add("HelperView", "~/Views/SpeedWagon/Editors/Helper/" + viewName);
-
-            this._cachelessContentService.AddContent(editor);
-        }
-
+ 
         public SpeedWagonContent GetContent(string path)
         {
             path = SPEEDWAGON_HOST + path;

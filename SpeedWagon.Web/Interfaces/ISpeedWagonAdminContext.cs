@@ -9,6 +9,8 @@ namespace SpeedWagon.Web.Interfaces
 
         IContentService ContentService { get; }
 
+        IEditorService EditorService { get; }
+
         string Install(string user);
 
         SpeedWagonContent GetContent(string path);
@@ -19,7 +21,6 @@ namespace SpeedWagon.Web.Interfaces
 
         void SaveContent(SpeedWagonContent content, string user);
 
-        void AddEditor(string name, string user);
 
         void AddContentType(string name, string user);
 

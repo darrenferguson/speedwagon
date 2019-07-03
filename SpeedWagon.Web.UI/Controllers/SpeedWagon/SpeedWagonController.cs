@@ -175,7 +175,6 @@ namespace SpeedWagon.Web.UI.Controllers
         [HttpPost]
         public IActionResult Editor(EditorViewModel model)
         {
-
             if (!ModelState.IsValid)
             {
                 SpeedWagonContent editorRoot = this._speedWagon.GetContent("/editors");
@@ -186,9 +185,8 @@ namespace SpeedWagon.Web.UI.Controllers
                 return View(model);
             }
 
-            this._speedWagon.AddEditor(model.Name, User.Identity.Name);
-
-            return RedirectToAction("Editor");
+            this._speedWagon.EditorService.Add(model.Name, User.Identity.Name);
+            return RedirectToAction("Editor", new { Added = model.Name} );
         }
 
 
@@ -217,7 +215,7 @@ namespace SpeedWagon.Web.UI.Controllers
             }
 
             this._speedWagon.AddContentType(model.Name, User.Identity.Name);
-            return RedirectToAction("ContentType");
+            return RedirectToAction("EditContentType", new { id = model.Name});
         }
 
         public IActionResult EditContentType(string id)

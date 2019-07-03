@@ -10,7 +10,7 @@
 
 <h2>Editors</h2>
 
-<h3>Create</h3>
+<h3>Create Editor</h3>
 
 <form asp-controller="SpeedWagon" asp-action="Editor" method="post">
 
@@ -26,6 +26,8 @@
 
 <hr />
 
+<h3>Current Editors</h3>
+
 @if (!Model.Editors.Any())
 {
     <p>No editors found</p>
@@ -35,28 +37,37 @@ else
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>Action</th>
                 <th>Name</th>
                 <th>Creator</th>
                 <th>Created</th>
                 <th>View</th>
-                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach (SpeedWagonContent editor in Model.Editors)
             {
                 <tr>
-                    <td>@editor.Name</td>
-                    <td>@editor.CreatorName</td>
-                    <td>@editor.CreateDate</td>
-                    <td>@editor.Template</td>
-                    <td>[delete]</td>
+                    <td>
+                        <form asp-controller="SpeedWagonEditor" asp-action="Delete" method="post">
+                            <input type="hidden" value="@editor.Name" asp-for="Name"/>
+                            <input type="submit" class="btn alert-danger" value="Delete" onclick="return confirm('Are you sure?');"/>
+                         </form>
+                    </td>
+                    <td>
+                        @editor.Name
+                    </td>
+                    <td>
+                        @editor.CreatorName
+                    </td>
+                    <td>
+                        @editor.CreateDate
+                    </td>
+                    <td>
+                        @(string.IsNullOrEmpty(editor.Template) ? "System" : editor.Template)
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 }
-
-<div class="alert alert-info" role="alert">
-    // TODO - add the ability to delete!
-</div>

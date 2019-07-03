@@ -26,10 +26,12 @@
 
 </form>
 
-<hr/>
-
+<hr />
+<h3>Properties</h3>
 @if (Model.Editors != null && Model.Editors.Any())
 {
+    
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -42,17 +44,17 @@
             @foreach (var property in Model.Editors)
             {
 
-            <tr>
-                <td>
-                    @property.Name
-                </td>
-                <td>
-                    @property.Editor
-                </td>
-                <td>
-                    Edit Delete Up Down
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @property.Name
+                    </td>
+                    <td>
+                        @property.Editor
+                    </td>
+                    <td>
+                        Edit Delete Up Down
+                    </td>
+                </tr>
             }
         </tbody>
 
