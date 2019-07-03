@@ -2,7 +2,8 @@
 using SpeedWagon.Models;
 using SpeedWagon.Runtime.Extension;
 using SpeedWagon.Web.Interfaces;
-using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace SpeedWagon.Web.Services
 {
@@ -17,6 +18,12 @@ namespace SpeedWagon.Web.Services
         {
             this._cachelessContentService = cachelessContentService;
             this._contentRoot = contentRoot;
+        }
+
+        public IEnumerable<SpeedWagonContent> List()
+        {
+            SpeedWagonContent editorRoot = this._cachelessContentService.GetContent($"{this._contentRoot}/{EDITOR_ROOT}");
+            return this._cachelessContentService.Children(editorRoot).OrderBy(x => x.Name);            
         }
 
         public void Delete(string name)

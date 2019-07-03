@@ -33,11 +33,11 @@
                 <ul class="nav navbar-nav">       
                     <li><a href="/">WebSite</a></li>
                     <li><a asp-area="" asp-controller="SpeedWagon" asp-action="Content">Content</a></li>
-                    <li><a asp-area="" asp-controller="SpeedWagon" asp-action="Editor">Editors</a></li>
+                    <li><a asp-area="" asp-controller="SpeedWagonEditor" asp-action="List">Editors</a></li>
                     <li><a asp-area="" asp-controller="SpeedWagon" asp-action="ContentType">Content Types</a></li>
                     <li><a asp-area="" asp-controller="SpeedWagon" asp-action="Install">Install</a></li>
                 </ul>
-                @await Html.PartialAsync("_LoginPartial")
+                @await Html.PartialAsync("~/Views/SpeedWagon/_LoginPartial.cshtml")
             </div>
         </div>
     </nav>

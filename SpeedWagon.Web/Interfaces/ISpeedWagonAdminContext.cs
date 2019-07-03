@@ -11,11 +11,14 @@ namespace SpeedWagon.Web.Interfaces
 
         IEditorService EditorService { get; }
 
+
         string Install(string user);
+
 
         SpeedWagonContent GetContent(string path);
 
         SpeedWagonPage PageFor(string path);
+
 
         void AddContent(string parent, string name, string type, string user);
 

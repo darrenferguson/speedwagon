@@ -158,37 +158,7 @@ namespace SpeedWagon.Web.UI.Controllers
 
             SpeedWagonContent parent = this._speedWagon.ContentService.Parent(content);
             return RedirectToAction("Content", new { url = parent.RelativeUrl });
-        }
-
-        public IActionResult Editor()
-        {
-            SpeedWagonContent editorRoot = this._speedWagon.GetContent("/editors");
-            IEnumerable<SpeedWagonContent> editors = this._speedWagon.ContentService.Children(editorRoot);
-
-            EditorViewModel viewModel = new EditorViewModel();
-            viewModel.Editors = editors.OrderBy(x => x.Name);
-
-            return View(viewModel);
-        }
-
-
-        [HttpPost]
-        public IActionResult Editor(EditorViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                SpeedWagonContent editorRoot = this._speedWagon.GetContent("/editors");
-                IEnumerable<SpeedWagonContent> editors = this._speedWagon.ContentService.Children(editorRoot);
-
-                model.Editors = editors;
-
-                return View(model);
-            }
-
-            this._speedWagon.EditorService.Add(model.Name, User.Identity.Name);
-            return RedirectToAction("Editor", new { Added = model.Name} );
-        }
-
+        }     
 
         public IActionResult ContentType()
         {          

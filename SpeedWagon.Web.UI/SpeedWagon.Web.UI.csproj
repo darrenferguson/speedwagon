@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\SpeedWagon\ContentTypes\**" />
+    <Content Remove="Views\SpeedWagon\ContentTypes\**" />
+    <EmbeddedResource Remove="Views\SpeedWagon\ContentTypes\**" />
+    <None Remove="Views\SpeedWagon\ContentTypes\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
   </ItemGroup>
@@ -19,10 +26,6 @@
   <ItemGroup>
     <ProjectReference Include="..\SpeedWagon.Runtime\SpeedWagon.Runtime.csproj" />
     <ProjectReference Include="..\SpeedWagon.Web\SpeedWagon.Web.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\SpeedWagon\ContentTypes\" />
   </ItemGroup>
 
 </Project>
