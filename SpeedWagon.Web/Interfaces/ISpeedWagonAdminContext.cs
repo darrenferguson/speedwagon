@@ -25,9 +25,7 @@ namespace SpeedWagon.Web.Interfaces
         void AddContent(string parent, string name, string type, string user);
 
         void SaveContent(SpeedWagonContent content, string user);
-
-
-        void AddContentType(string name, string user);
+           
 
         void SaveContentType(SpeedWagonContent contentType, string user);
     }

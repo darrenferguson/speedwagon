@@ -1,32 +1,32 @@
 ﻿@model SpeedWagon.Web.Models.View.Editor.ContentTypeViewModel
 @{
-    Layout = "_Layout";
+    Layout = "~/Views/SpeedWagon/_Layout.cshtml";
 }
 
 @section Scripts {
-    @await Html.PartialAsync("_EditorScripts")
+
+    @await Html.PartialAsync("~/Views/SpeedWagon/_EditorScripts.cshtml")
 }
+
 
 <h2>Content Types</h2>
 
-
 <h3>Create Content Type</h3>
 
-<form asp-controller="SpeedWagon" asp-action="ContentType" method="post">
+<form asp-controller="SpeedWagonContentType" asp-action="Add" method="post">
 
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" class="form-control" id="name" placeholder="Name" required="required" asp-for="Name">
-        
+
     </div>
-
-
 
     <button type="submit" class="btn btn-primary">Create</button>
 
 </form>
 
 <hr />
+
 <h3>Content Types</h3>
 @if (!Model.ContentTypes.Any())
 {
@@ -46,20 +46,13 @@ else
         <tbody>
             @foreach (SpeedWagonContent contentType in Model.ContentTypes)
             {
-            <tr>
-                <td>@contentType.Name</td>
-                <td>@contentType.CreatorName</td>
-                <td>@contentType.CreateDate</td>
-                <td>[<a asp-controller="SpeedWagon" asp-action="EditContentType" asp-route-id="@contentType.Name">edit</a>]</td>
-            </tr>
+                <tr>
+                    <td>@contentType.Name</td>
+                    <td>@contentType.CreatorName</td>
+                    <td>@contentType.CreateDate</td>
+                    <td>[<a asp-controller="SpeedWagonContentType" asp-action="Edit" asp-route-id="@contentType.Name">edit</a>]</td>
+                </tr>
             }
         </tbody>
     </table>
-
 }
-
-
-<div class="alert alert-info" role="alert">
-    // TODO - Add the notion of what is allowed under what (structure)
-</div>
-

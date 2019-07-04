@@ -1,13 +1,13 @@
 ﻿@model SpeedWagon.Web.Models.View.Editor.EditContentTypeViewModel
 @{
-    Layout = "_Layout";
+    Layout = "~/Views/SpeedWagon/_Layout.cshtml";
 }
 
 <h2>Edit '@Model.ContentType.Name' Content Type</h2>
 
 <h3>Add Property</h3>
 
-<form asp-controller="SpeedWagon" asp-action="EditContentType" method="post">
+<form asp-controller="SpeedWagonContentType" asp-action="Edit" method="post">
 
     <div class="form-group">
         <label for="name">Property Name</label>
@@ -23,15 +23,12 @@
     <input type="hidden" asp-for="Name" value="@Model.Name" />
 
     <button type="submit" class="btn btn-primary">Create</button>
-
 </form>
 
 <hr />
 <h3>Properties</h3>
 @if (Model.Editors != null && Model.Editors.Any())
 {
-    
-
     <table class="table table-striped">
         <thead>
             <tr>
@@ -43,7 +40,6 @@
         <tbody>
             @foreach (var property in Model.Editors)
             {
-
                 <tr>
                     <td>
                         @property.Name
@@ -57,7 +53,6 @@
                 </tr>
             }
         </tbody>
-
     </table>
 }
 else

@@ -30,16 +30,7 @@ namespace SpeedWagon.Web
 
         public IContentTypeService ContentTypeService => this._contentTypeService;
 
-        public void AddContentType(string name, string user)
-        {
-            string urlName = "/content-types/" + name.ToUrlName();
-           
-            SpeedWagonContent contentType = new SpeedWagonContent(name.ToTitleCasedName(), SPEEDWAGON_HOST + urlName, "content-type", user);
-            string viewName = name.ToTitleCasedName() + ".cshtml";
-            contentType.Template = "~/Views/SpeedWagon/ContentType/" + viewName;
-
-            this._cachelessContentService.AddContent(contentType);
-        }
+        
 
         public void SaveContentType(SpeedWagonContent contentType, string user)
         {
