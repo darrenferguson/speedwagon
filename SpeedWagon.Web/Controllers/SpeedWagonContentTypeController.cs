@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using SpeedWagon.Models;
-using SpeedWagon.Runtime.Extension;
 using SpeedWagon.Web.Helper;
 using SpeedWagon.Web.Interfaces;
-using SpeedWagon.Web.Models.ContentType;
 using SpeedWagon.Web.Models.View.Editor;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SpeedWagon.Web.Controllers
 {
@@ -78,7 +74,7 @@ namespace SpeedWagon.Web.Controllers
             }
 
             this._speedWagon.ContentTypeService.AddEditor(contentType, viewModel.ContentTypeEditor);
-            this._speedWagon.SaveContentType(contentType, User.Identity.Name);
+            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
 
             return RedirectToAction("Edit", new { id = viewModel.Name });
         }

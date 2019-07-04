@@ -1,16 +1,16 @@
 ﻿@model SpeedWagon.Web.Models.View.Content.ContentViewModel
 @{
-    Layout = "_Layout";
+    Layout = "~/Views/SpeedWagon/_Layout.cshtml";
 }
 @section Scripts {
 
-    @await Html.PartialAsync("_EditorScripts")
+    @await Html.PartialAsync("~/Views/SpeedWagon/_EditorScripts.cshtml")
 }
 <h2>Content</h2>
 
 <h3>Create Content</h3>
 
-<form asp-controller="SpeedWagon" asp-action="Content" method="post">
+<form asp-controller="SpeedWagonContent" asp-action="Add" method="post">
 
     <div class="form-group">
         <label for="name">Name</label>
@@ -38,7 +38,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a asp-controller="SpeedWagon" asp-action="Content" asp-route-url="/content">Content</a>
+                <a asp-controller="SpeedWagonContent" asp-action="List" asp-route-url="/content">Content</a>
             </li>
 
 
@@ -46,7 +46,7 @@
             {
 
                 <li class="breadcrumb-item">
-                    <a asp-controller="SpeedWagon" asp-action="Content" asp-route-url="@crumb.RelativeUrl">@crumb.Name</a>
+                    <a asp-controller="SpeedWagonContent" asp-action="List" asp-route-url="@crumb.RelativeUrl">@crumb.Name</a>
                 </li>
             }
 
@@ -90,31 +90,31 @@ else
         <tbody>
             @foreach (SpeedWagonContent content in Model.Contents)
             {
-            <tr>
-                <td>
-                    <a asp-controller="SpeedWagon" asp-action="EditContent" asp-route-url="@content.RelativeUrl">Edit</a>
-                </td>
-                <td>
-                    <a asp-controller="SpeedWagon" asp-action="Content" asp-route-url="@content.RelativeUrl">@content.Name</a>
-                </td>
-                <td>
-                    @content.Type
-                </td>
-                <td>
-                    @content.CreatorName
-                </td>
-                <td>
-                    @content.CreateDate
-                </td>
-                <td>
-                    @content.WriterName
-                </td>
-                <td>
-                    @content.UpdateDate
-                </td>
+                <tr>
+                    <td>
+                        <a asp-controller="SpeedWagonContent" asp-action="Edit" asp-route-url="@content.RelativeUrl">Edit</a>
+                    </td>
+                    <td>
+                        <a asp-controller="SpeedWagonContent" asp-action="List" asp-route-url="@content.RelativeUrl">@content.Name</a>
+                    </td>
+                    <td>
+                        @content.Type
+                    </td>
+                    <td>
+                        @content.CreatorName
+                    </td>
+                    <td>
+                        @content.CreateDate
+                    </td>
+                    <td>
+                        @content.WriterName
+                    </td>
+                    <td>
+                        @content.UpdateDate
+                    </td>
 
 
-            </tr>
+                </tr>
             }
         </tbody>
     </table>

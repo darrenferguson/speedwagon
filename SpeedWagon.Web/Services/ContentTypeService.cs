@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using SpeedWagon.Interfaces;
@@ -37,7 +38,14 @@ namespace SpeedWagon.Web.Services
             contentType.Template = "~/Views/SpeedWagon/ContentType/" + viewName;
 
             this._cachelessContentService.AddContent(contentType);
+        }
 
+        public void Save(SpeedWagonContent contentType, string user)
+        {
+            contentType.WriterName = user;
+            contentType.UpdateDate = DateTime.Now;
+
+            this._cachelessContentService.AddContent(contentType);
         }
 
         public void Delete(string name)
@@ -78,5 +86,7 @@ namespace SpeedWagon.Web.Services
             editors.Add(editor);
             contentType.Content["Editors"] = editors.ToArray();
         }
+
+        
     }
 }

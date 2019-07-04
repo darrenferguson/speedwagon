@@ -13,20 +13,14 @@ namespace SpeedWagon.Web.Interfaces
 
         IEditorService EditorService { get; }
 
+        IWebContentService WebContentService { get;  }
 
         string Install(string user);
-
 
         SpeedWagonContent GetContent(string path);
 
         SpeedWagonPage PageFor(string path);
 
-
-        void AddContent(string parent, string name, string type, string user);
-
-        void SaveContent(SpeedWagonContent content, string user);
-           
-
-        void SaveContentType(SpeedWagonContent contentType, string user);
+      
     }
 }

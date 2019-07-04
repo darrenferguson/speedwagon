@@ -5,7 +5,6 @@ using SpeedWagon.Services;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models;
 using SpeedWagon.Web.Services;
-using System;
 
 namespace SpeedWagon.Web
 {
@@ -15,6 +14,7 @@ namespace SpeedWagon.Web
         private readonly IContentService _cachelessContentService;
         private readonly IContentTypeService _contentTypeService;
         private readonly IEditorService _editorService;
+        private readonly IWebContentService _webContentService;
 
         public SpeedWagonAdminContext(string path)
         {
@@ -22,6 +22,8 @@ namespace SpeedWagon.Web
             this._cachelessContentService = new CacheLessRuntimeContentService(path, null);
             this._editorService = new EditorService(this._cachelessContentService, SPEEDWAGON_HOST);
             this._contentTypeService = new ContentTypeService(this._cachelessContentService, SPEEDWAGON_HOST);
+            this._webContentService = new WebContentService(this._cachelessContentService, SPEEDWAGON_HOST);
+
         }
 
         public IContentService ContentService => this._cachelessContentService;
@@ -30,16 +32,8 @@ namespace SpeedWagon.Web
 
         public IContentTypeService ContentTypeService => this._contentTypeService;
 
-        
+        public IWebContentService WebContentService => this._webContentService;
 
-        public void SaveContentType(SpeedWagonContent contentType, string user)
-        {
-            string urlName = "/content-types/" + contentType.Name.ToUrlName();
-            contentType.WriterName = user;
-            this._cachelessContentService.AddContent(contentType);
-        }
-
- 
         public SpeedWagonContent GetContent(string path)
         {
             path = SPEEDWAGON_HOST + path;
@@ -70,25 +64,5 @@ namespace SpeedWagon.Web
             return this._path;
         }
 
-        public void AddContent(string parent, string name, string type, string user)
-        {
-            string urlName = parent + "/" + name.ToUrlName();
-
-            SpeedWagonContent content = new SpeedWagonContent(name.ToTitleCasedName(), SPEEDWAGON_HOST + urlName, "content", user);
-            string viewName = type.ToTitleCasedName() + ".cshtml";
-            content.Template = "~/Views/SpeedWagon/Content/" + viewName;
-            content.Type = type;
-           
-            this._cachelessContentService.AddContent(content);
-        }
-
-        public void SaveContent(SpeedWagonContent content, string user)
-        {
-            content.WriterName = user;
-            content.UpdateDate = DateTime.Now;
-
-
-            this._cachelessContentService.AddContent(content);
-        }
     }
 }

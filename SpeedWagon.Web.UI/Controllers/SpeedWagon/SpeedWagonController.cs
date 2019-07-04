@@ -37,56 +37,8 @@ namespace SpeedWagon.Web.UI.Controllers
             string path = this._speedWagon.Install(User.Identity.Name);
             return View();
         }
-
-        public IActionResult Content(string url = null)
-        {
-            if(string.IsNullOrEmpty(url))
-            {
-                url = "/content";
-            }
-
-            SpeedWagonContent contentRoot = this._speedWagon.GetContent(url);
-            IEnumerable<SpeedWagonContent> contents = this._speedWagon.ContentService.Children(contentRoot);
-
-            SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
-            IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
-
-            IList<SelectListItem> contentTypeSelct = SelectListHelper.GetSelectList(contentTypes);
-
-            ContentViewModel viewModel = new ContentViewModel();
-            viewModel.AvailableContentTypes = contentTypeSelct;
-            viewModel.Content = contentRoot;
-            viewModel.Contents = contents;
-            viewModel.ContentService = this._speedWagon.ContentService;
-
-            return View(viewModel);
-        }
-
-        [HttpPost]
-        public IActionResult Content(ContentViewModel viewModel)
-        {
-            if(!ModelState.IsValid)
-            {
-                SpeedWagonContent contentRoot = this._speedWagon.GetContent("/content");
-                IEnumerable<SpeedWagonContent> contents = this._speedWagon.ContentService.Children(contentRoot);
-                
-                SpeedWagonContent contentTypeRoot = this._speedWagon.GetContent("/content-types");
-                IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentService.Children(contentTypeRoot);
-
-                IList<SelectListItem> contentTypeSelct = SelectListHelper.GetSelectList(contentTypes);
-
-                viewModel.AvailableContentTypes = contentTypeSelct;
-                viewModel.Content = contentRoot;
-                viewModel.Contents = contents;
-                viewModel.ContentService = this._speedWagon.ContentService;
-
-                return View(viewModel);
-            }
-
-            this._speedWagon.AddContent(viewModel.Parent, viewModel.Name, viewModel.Type, User.Identity.Name);
-            return RedirectToAction("Content", new { url = viewModel.Parent});
-        }
-
+        
+       
         public IActionResult EditContent(string url = null)
         {
             if (string.IsNullOrEmpty(url))
@@ -154,7 +106,7 @@ namespace SpeedWagon.Web.UI.Controllers
                 }
             }
             content.Content = properties;
-            this._speedWagon.SaveContent(content, User.Identity.Name);
+            //this._speedWagon.SaveContent(content, User.Identity.Name);
 
             SpeedWagonContent parent = this._speedWagon.ContentService.Parent(content);
             return RedirectToAction("Content", new { url = parent.RelativeUrl });

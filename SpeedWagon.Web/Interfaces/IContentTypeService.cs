@@ -17,5 +17,7 @@ namespace SpeedWagon.Web.Interfaces
         void Add(string name, string user);
 
         void Delete(string name);
+
+        void Save(SpeedWagonContent contentType, string user);
     }
 }
