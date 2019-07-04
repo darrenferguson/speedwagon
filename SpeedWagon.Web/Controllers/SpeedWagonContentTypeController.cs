@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SpeedWagon.Models;
 using SpeedWagon.Web.Helper;
 using SpeedWagon.Web.Interfaces;
+using SpeedWagon.Web.Models.ContentType;
 using SpeedWagon.Web.Models.View.Editor;
 using System;
 using System.Collections.Generic;
@@ -40,9 +41,9 @@ namespace SpeedWagon.Web.Controllers
             return RedirectToAction("List", new { id = model.Name });
         }
 
-        public IActionResult Edit(string id)
+        public IActionResult Edit(string name)
         {
-            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(id);
+            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(name);
             IEnumerable<SpeedWagonContent> editors = this._speedWagon.EditorService.List();
 
             EditContentTypeViewModel viewModel = new EditContentTypeViewModel();
@@ -76,13 +77,44 @@ namespace SpeedWagon.Web.Controllers
             this._speedWagon.ContentTypeService.AddEditor(contentType, viewModel.ContentTypeEditor);
             this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
 
-            return RedirectToAction("Edit", new { id = viewModel.Name });
+            return RedirectToAction("Edit", new { name = viewModel.Name });
         }
 
         [HttpPost]
         public IActionResult Delete(DeleteEditorModel model)
         {
-            throw new NotImplementedException();
+            this._speedWagon.ContentTypeService.Delete(model.Name);
+            return RedirectToAction("List");
+        }
+
+        [HttpPost]
+        public IActionResult MoveEditorUp(ContentTypeEditor model)
+        {
+            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(model.Name);
+            this._speedWagon.ContentTypeService.MoveEditorUp(contentType, model.Editor);
+            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
+
+            return RedirectToAction("Edit", new { name = model.Name });
+        }
+
+        [HttpPost]
+        public IActionResult MoveEditorDown(ContentTypeEditor model)
+        {
+            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(model.Name);
+            this._speedWagon.ContentTypeService.MoveEditorDown(contentType, model.Editor);
+            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
+
+            return RedirectToAction("Edit", new { name = model.Name });
+        }
+
+        [HttpPost]
+        public IActionResult DeleteEditor(ContentTypeEditor model)
+        {
+            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(model.Name);
+            this._speedWagon.ContentTypeService.DeleteEditor(contentType, model.Editor);
+            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
+
+            return RedirectToAction("Edit", new { name = model.Name });
         }
     }
 }

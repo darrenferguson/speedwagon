@@ -64,9 +64,23 @@ namespace SpeedWagon.Web.Services
             {
                 return ((JArray)contentType.Content["Editors"]).ToObject<ContentTypeEditor[]>();
 
+            } else
+            {
+                contentType.Content.Add("Editors", new List<ContentTypeEditor>());
             }
 
             return new ContentTypeEditor[] { };
+        }
+
+        private void SetEditors(SpeedWagonContent contentType, ContentTypeEditor[] editors)
+        {
+            if (!contentType.Content.ContainsKey("Editors"))
+            {
+                contentType.Content.Add("Editors", editors);
+            } else
+            {
+                contentType.Content["Editors"] = editors;
+            }
         }
 
         public void AddEditor(SpeedWagonContent contentType, ContentTypeEditor editor)
@@ -86,6 +100,49 @@ namespace SpeedWagon.Web.Services
             contentType.Content["Editors"] = editors.ToArray();
         }
 
-        
+        public void MoveEditorUp(SpeedWagonContent contentType, string editor)
+        {
+            ContentTypeEditor[] editors = GetEditors(contentType);
+
+            int index = Array.FindIndex(editors, row => row.Name == editor);
+            if(index > 0)
+            {
+                ContentTypeEditor src = editors[index - 1];
+                ContentTypeEditor dst = editors[index];
+
+                editors[index - 1] = dst;
+                editors[index] = src;
+
+            }
+
+            SetEditors(contentType, editors);
+        }
+
+        public void MoveEditorDown(SpeedWagonContent contentType, string editor)
+        {
+            ContentTypeEditor[] editors = GetEditors(contentType);
+
+            int index = Array.FindIndex(editors, row => row.Name == editor);
+            if (index < editors.Length -1)
+            {
+                ContentTypeEditor src = editors[index + 1];
+                ContentTypeEditor dst = editors[index];
+
+                editors[index + 1] = dst;
+                editors[index] = src;
+
+            }
+
+            SetEditors(contentType, editors);
+        }
+
+        public void DeleteEditor(SpeedWagonContent contentType, string editor)
+        {
+            IEnumerable<ContentTypeEditor> editors = GetEditors(contentType).ToList();
+
+            editors = editors.Where(x => x.Name != editor);
+
+            SetEditors(contentType, editors.ToArray());
+        }
     }
 }

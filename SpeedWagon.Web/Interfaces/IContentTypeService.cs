@@ -19,5 +19,11 @@ namespace SpeedWagon.Web.Interfaces
         void Delete(string name);
 
         void Save(SpeedWagonContent contentType, string user);
+
+        void MoveEditorUp(SpeedWagonContent contentType, string editor);
+
+        void MoveEditorDown(SpeedWagonContent contentType, string editor);
+
+        void DeleteEditor(SpeedWagonContent contentType, string editor);
     }
 }

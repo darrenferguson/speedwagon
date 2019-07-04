@@ -37,36 +37,38 @@ else
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Action</th>
+
                 <th>Name</th>
                 <th>Creator</th>
                 <th>Created</th>
                 <th>View</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (SpeedWagonContent editor in Model.Editors)
             {
-                <tr>
-                    <td>
-                        <form asp-controller="SpeedWagonEditor" asp-action="Delete" method="post">
-                            <input type="hidden" value="@editor.Name" asp-for="Name"/>
-                            <input type="submit" class="btn alert-danger" value="Delete" onclick="return confirm('Are you sure?');"/>
-                         </form>
-                    </td>
-                    <td>
-                        @editor.Name
-                    </td>
-                    <td>
-                        @editor.CreatorName
-                    </td>
-                    <td>
-                        @editor.CreateDate
-                    </td>
-                    <td>
-                        @(string.IsNullOrEmpty(editor.Template) ? "System" : editor.Template)
-                    </td>
-                </tr>
+            <tr>
+
+                <td>
+                    @editor.Name
+                </td>
+                <td>
+                    @editor.CreatorName
+                </td>
+                <td>
+                    @editor.CreateDate
+                </td>
+                <td>
+                    @(string.IsNullOrEmpty(editor.Template) ? "System" : editor.Template)
+                </td>
+                <td>
+                    <form asp-controller="SpeedWagonEditor" asp-action="Delete" method="post">
+                        <input type="hidden" value="@editor.Name" asp-for="Name" />
+                        <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
+                    </form>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

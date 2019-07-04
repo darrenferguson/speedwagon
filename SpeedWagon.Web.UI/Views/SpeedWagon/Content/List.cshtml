@@ -64,7 +64,7 @@ else
         <thead>
             <tr>
                 <th>
-                    Action
+                    
                 </th>
                 <th>
                     Name
@@ -84,7 +84,9 @@ else
                 <th>
                     Updated
                 </th>
+                <th>
 
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -92,7 +94,20 @@ else
             {
                 <tr>
                     <td>
-                        <a asp-controller="SpeedWagonContent" asp-action="Edit" asp-route-url="@content.RelativeUrl">Edit</a>
+
+
+                        <a asp-controller="SpeedWagonContent" asp-action="Edit" asp-route-url="@content.RelativeUrl" class="btn btn-info">Edit</a>
+
+                        <form asp-controller="SpeedWagonContentType" asp-action="DeleteProperty" method="delete" style="display: inline;">
+                            <input type="hidden" value="@Model.Name" asp-for="Name" />
+                            <input type="submit" class="btn btn-default" value="Up" />
+                        </form>
+
+                        <form asp-controller="SpeedWagonContentType" asp-action="DeleteProperty" method="delete" style="display: inline;">
+                            <input type="hidden" value="@Model.Name" asp-for="Name" />
+                            <input type="submit" class="btn btn-default" value="Down" />
+                        </form>
+
                     </td>
                     <td>
                         <a asp-controller="SpeedWagonContent" asp-action="List" asp-route-url="@content.RelativeUrl">@content.Name</a>
@@ -113,7 +128,12 @@ else
                         @content.UpdateDate
                     </td>
 
-
+                    <td>
+                        <form asp-controller="SpeedWagonContentType" asp-action="DeleteProperty" method="delete" style="display: inline;">
+                            <input type="hidden" value="@Model.Name" asp-for="Name" />
+                            <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>

@@ -37,21 +37,33 @@ else
     <table class="table table-striped">
         <thead>
             <tr>
+                <th></th>
                 <th>Name</th>
                 <th>Creator</th>
                 <th>Created</th>
-                <th>Edit</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (SpeedWagonContent contentType in Model.ContentTypes)
             {
-                <tr>
-                    <td>@contentType.Name</td>
-                    <td>@contentType.CreatorName</td>
-                    <td>@contentType.CreateDate</td>
-                    <td>[<a asp-controller="SpeedWagonContentType" asp-action="Edit" asp-route-id="@contentType.Name">edit</a>]</td>
-                </tr>
+            <tr>
+                <td>
+                    <a class="btn btn-info" asp-controller="SpeedWagonContentType" asp-action="Edit" asp-route-name="@contentType.RelativeUrl">Edit</a>
+
+                   
+
+                </td>
+                <td>@contentType.Name</td>
+                <td>@contentType.CreatorName</td>
+                <td>@contentType.CreateDate</td>
+                <td>
+                    <form asp-controller="SpeedWagonContentType" asp-action="Delete" method="post" style="display: inline;">
+                        <input type="hidden" value="@contentType.Name" asp-for="Name" />
+                        <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
+                    </form>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
