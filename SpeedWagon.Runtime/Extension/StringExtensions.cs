@@ -13,6 +13,7 @@ namespace SpeedWagon.Runtime.Extension
             }
 
             s = s.Replace("@", " at ");
+            s = s.Replace("-", " ");
             s = new Regex(@"[^a-zA-Z0-9\\. ]").Replace(s, "");
             return s.Replace(" ", "-").ToLower();
         }
