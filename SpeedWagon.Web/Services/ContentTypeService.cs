@@ -10,15 +10,15 @@ using SpeedWagon.Web.Models.ContentType;
 
 namespace SpeedWagon.Web.Services
 {
-    public class ContentTypeService : IContentTypeService
+    public class ContentTypeService : BaseSpeedWagonService, IContentTypeService
     {
 
         private readonly IContentService _cachelessContentService;
         private readonly string _contentRoot;
 
-        private const string ROOT = "content-types";
+        public override string Root => "content-types";
 
-        public ContentTypeService(IContentService cachelessContentService, string contentRoot)
+        public ContentTypeService(IContentService cachelessContentService, string contentRoot) : base(contentRoot)
         {
             this._cachelessContentService = cachelessContentService;
             this._contentRoot = contentRoot;
@@ -26,14 +26,14 @@ namespace SpeedWagon.Web.Services
 
         public IEnumerable<SpeedWagonContent> List()
         {
-            SpeedWagonContent editorRoot = this._cachelessContentService.GetContent($"{this._contentRoot}/{ROOT}");
+            SpeedWagonContent editorRoot = this._cachelessContentService.GetContent(RationalisePath(Root));
             return this._cachelessContentService.Children(editorRoot).OrderBy(x => x.Name);
         }
 
         public void Add(string name, string user)
         {
 
-            SpeedWagonContent contentType = new SpeedWagonContent(name.ToTitleCasedName(), $"{this._contentRoot}/{ROOT}/{name.ToUrlName()}", "content-type", user);
+            SpeedWagonContent contentType = new SpeedWagonContent(name.ToTitleCasedName(), RationalisePath(name), "content-type", user);
             string viewName = name.ToTitleCasedName() + ".cshtml";
             contentType.Template = "~/Views/SpeedWagon/ContentType/" + viewName;
 
@@ -50,13 +50,12 @@ namespace SpeedWagon.Web.Services
 
         public void Delete(string name)
         {
-            string contentPath = $"{this._contentRoot}/{ROOT}/{name.ToUrlName()}";
-            this._cachelessContentService.RemoveContent(contentPath);
+            this._cachelessContentService.RemoveContent(RationalisePath(name));
         }
 
         public SpeedWagonContent Get(string name)
         {
-            return this._cachelessContentService.GetContent($"{this._contentRoot}/{ROOT}/{name.ToUrlName()}");
+            return this._cachelessContentService.GetContent(RationalisePath(name));
         }
 
         public ContentTypeEditor[] GetEditors(SpeedWagonContent contentType)

@@ -16,13 +16,18 @@ namespace SpeedWagon.Web
         private readonly IEditorService _editorService;
         private readonly IWebContentService _webContentService;
 
-        public SpeedWagonAdminContext(string path)
+        public SpeedWagonAdminContext(
+            string path, 
+            IContentService cachelessContentService,
+            IContentTypeService contentTypeService,
+            IEditorService editorService,
+            IWebContentService webContentService)
         {
             this._path = path;
-            this._cachelessContentService = new CacheLessRuntimeContentService(path, null);
-            this._editorService = new EditorService(this._cachelessContentService, SPEEDWAGON_HOST);
-            this._contentTypeService = new ContentTypeService(this._cachelessContentService, SPEEDWAGON_HOST);
-            this._webContentService = new WebContentService(this._cachelessContentService, SPEEDWAGON_HOST);
+            this._cachelessContentService = cachelessContentService;
+            this._editorService = editorService;
+            this._contentTypeService = contentTypeService;
+            this._webContentService = webContentService;
 
         }
 

@@ -20,7 +20,6 @@ namespace SpeedWagon.Web.Interfaces
         SpeedWagonContent GetContent(string path);
 
         SpeedWagonPage PageFor(string path);
-
-      
+   
     }
 }

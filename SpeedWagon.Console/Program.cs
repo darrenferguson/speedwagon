@@ -27,16 +27,16 @@ namespace SpeedWagon.Console
             //services.AddSingleton<IContentService>(
             //   s => new CachedRuntimeContentService(@"d:\reo", null));
 
-            string path = @"d:\reo";
+            //string path = @"d:\reo";
 
-            services.AddSingleton<ISpeedWagonAdminContext>(
-              s => new SpeedWagonAdminContext(path));
+            //services.AddSingleton<ISpeedWagonAdminContext>(
+            //  s => new SpeedWagonAdminContext(path, new Cacheless));
 
-            services.AddLogging(loggingBuilder => loggingBuilder
-             .ClearProviders()
-             .AddConsole()
-             .AddDebug()
-             .SetMinimumLevel(LogLevel.Debug));
+            //services.AddLogging(loggingBuilder => loggingBuilder
+            // .ClearProviders()
+            // .AddConsole()
+            // .AddDebug()
+            // .SetMinimumLevel(LogLevel.Debug));
 
             //var configuration = new ConfigurationBuilder()
             //   .SetBasePath(AppContext.BaseDirectory)

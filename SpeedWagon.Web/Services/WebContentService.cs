@@ -2,54 +2,41 @@
 using SpeedWagon.Models;
 using SpeedWagon.Runtime.Extension;
 using SpeedWagon.Web.Interfaces;
+using SpeedWagon.Web.Models.ContentType;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace SpeedWagon.Web.Services
 {
-    public class WebContentService : IWebContentService
+    public class WebContentService : BaseSpeedWagonService, IWebContentService
     {
         private readonly IContentService _cachelessContentService;
         private readonly string _contentRoot;
+        
+        public override string Root => "content";
 
-        private const string ROOT = "content";
-
-        public WebContentService(IContentService cachelessContentService, string contentRoot)
+        public WebContentService(IContentService cachelessContentService, string contentRoot) : base(contentRoot)
         {
             this._cachelessContentService = cachelessContentService;
             this._contentRoot = contentRoot;
         }
 
+
         public SpeedWagonContent GetContent(string path)
         {
-            path = SanitisePath(path);
-            return this._cachelessContentService.GetContent($"{this._contentRoot}/{ROOT}/{path.ToUrlName()}");
+            return this._cachelessContentService.GetContent(RationalisePath(path));
         }
 
-        private string SanitisePath(string path)
-        {
-            if(string.IsNullOrEmpty(path))
-            {
-                return string.Empty;
-            }
-            if(path.StartsWith($"/{ROOT}"))
-            {
-                path = path.Replace($"/{ROOT}", string.Empty);
-            }
-            return path;
-        }
 
         public IEnumerable<SpeedWagonContent> List(string path)
-        {
-            path = SanitisePath(path);
+        {   
             return this._cachelessContentService.Children(GetContent(path));
         }
 
         public void Add(string parent, string name, string type, string user)
         {
-            parent = SanitisePath(parent);
-            string urlName = $"/{ROOT}/{parent}/{name.ToUrlName()}";
+            string urlName = RationalisePath(parent) + "/" + name.ToUrlName();
 
             SpeedWagonContent content = new SpeedWagonContent(name.ToTitleCasedName(), urlName, "content", user);
             string viewName = type.ToTitleCasedName() + ".cshtml";
@@ -63,7 +50,44 @@ namespace SpeedWagon.Web.Services
         {
             content.WriterName = user;
             content.UpdateDate = DateTime.Now;
+     
             this._cachelessContentService.AddContent(content);
+        }
+
+        public IDictionary<string, string> GetValues(SpeedWagonContent content, IEnumerable<ContentTypeEditor> properties)
+        {
+            IDictionary<string, string> values = content.Content.ToDictionary(k => k.Key, k => k.Value == null ? string.Empty : k.Value.ToString());
+
+            if(properties != null)
+            {
+                foreach (ContentTypeEditor contentTypeEditor in properties)
+                {
+                    if (!values.ContainsKey(contentTypeEditor.Name))
+                    {
+                        values.Add(contentTypeEditor.Name, string.Empty);
+                    }
+                }
+            }
+
+            return values;
+        }
+
+        public void SetValues(SpeedWagonContent content, IDictionary<string, string> values)
+        {
+            IDictionary<string, object> properties = content.Content;
+
+            foreach (KeyValuePair<string, string> propertyValue in values)
+            {
+                if (properties.ContainsKey(propertyValue.Key))
+                {
+                    properties[propertyValue.Key] = propertyValue.Value;
+                }
+                else
+                {
+                    properties.Add(propertyValue.Key, propertyValue.Value);
+                }
+            }
+            content.Content = properties;
         }
     }
 }

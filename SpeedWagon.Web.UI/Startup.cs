@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SpeedWagon.Web.Extension;
 using SpeedWagon.Web.Interfaces;
 using System.IO;
 
@@ -38,9 +39,9 @@ namespace SpeedWagon.Web.UI
 
             //string path = Path.Combine(this._env.ContentRootPath, _appDataFolder, "speedwagon");
             string path = @"d:\speedwagon";
-            services.AddSingleton<ISpeedWagonWebContext>(s => new SpeedWagonWebContext(path));
-            services.AddSingleton<ISpeedWagonAdminContext>(s => new SpeedWagonAdminContext(path));
 
+            services.AddSpeedWagon(path);
+            services.AddSpeedWagonCms(path);
 
             services.AddMvc();
         }

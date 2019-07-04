@@ -12,13 +12,15 @@ namespace SpeedWagon.Web.Models.View.Content
 
         public ICompositeViewEngine ViewEngine { get; set; }
 
+        public string Parent { get; set; }
+
         public SpeedWagonContent Content { get; set; }
 
         public SpeedWagonContent ContentType { get; set; }
 
         public IEnumerable<ContentTypeEditor> ContentTypeProperties;
 
-        public SpeedWagonContent[] Editors { get; set; }
+        public IEnumerable<SpeedWagonContent> Editors { get; set; }
 
         public IDictionary<string, string> Values { get; set; }
 

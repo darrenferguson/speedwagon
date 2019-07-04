@@ -13,10 +13,10 @@ namespace SpeedWagon.Web
 
         private readonly IContentService _cachedContentService;
        
-        public SpeedWagonWebContext(string path)
+        public SpeedWagonWebContext(string path, IContentService cachedContentService)
         {
-            this._path = path;           
-            this._cachedContentService = new CachedRuntimeContentService(path, null);
+            this._path = path;
+            this._cachedContentService = cachedContentService;
         }
 
        
