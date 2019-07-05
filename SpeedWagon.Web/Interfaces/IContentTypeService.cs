@@ -7,6 +7,9 @@ namespace SpeedWagon.Web.Interfaces
     public interface IContentTypeService
     {
         IEnumerable<SpeedWagonContent> List();
+        IEnumerable<SpeedWagonContent> ListRootTypes();
+
+        IEnumerable<SpeedWagonContent> ListAllowedChildren(string type);
 
         SpeedWagonContent Get(string name);
 

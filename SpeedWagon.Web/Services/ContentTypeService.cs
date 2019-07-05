@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
 using SpeedWagon.Runtime.Extension;
+using SpeedWagon.Web.Extension;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models.ContentType;
 
@@ -26,8 +27,20 @@ namespace SpeedWagon.Web.Services
 
         public IEnumerable<SpeedWagonContent> List()
         {
-            SpeedWagonContent editorRoot = this._cachelessContentService.GetContent(RationalisePath(Root));
-            return this._cachelessContentService.Children(editorRoot).OrderBy(x => x.Name);
+            SpeedWagonContent contentTypeRoot = this._cachelessContentService.GetContent(RationalisePath(Root));
+            return this._cachelessContentService.Children(contentTypeRoot).OrderBy(x => x.Name);
+        }
+
+        public IEnumerable<SpeedWagonContent> ListRootTypes()
+        {
+            IEnumerable<SpeedWagonContent> contentTypes = List();
+            return contentTypes.Where(x => x.Content.ContainsKey("Root") && x.GetValue<bool>("Root"));
+        }
+
+        public IEnumerable<SpeedWagonContent> ListAllowedChildren(string type)
+        {
+            IEnumerable<SpeedWagonContent> contentTypes = List();
+            return contentTypes.Where(x => x.Content.ContainsKey("Children") && x.GetValue<string[]>("Children").Contains(type));
         }
 
         public void Add(string name, string user, bool root, string[] children)
@@ -152,5 +165,7 @@ namespace SpeedWagon.Web.Services
 
             SetEditors(contentType, editors.ToArray());
         }
+
+        
     }
 }

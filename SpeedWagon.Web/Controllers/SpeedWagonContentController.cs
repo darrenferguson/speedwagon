@@ -30,7 +30,18 @@ namespace SpeedWagon.Web.Controllers
             SpeedWagonContent contentRoot = this._speedWagon.WebContentService.GetContent(url);
             IEnumerable<SpeedWagonContent> contents = this._speedWagon.ContentService.Children(contentRoot);
 
-            IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentTypeService.List();
+            IEnumerable<SpeedWagonContent> contentTypes = null;
+
+
+            if (string.IsNullOrEmpty(url))
+            {
+                contentTypes = this._speedWagon.ContentTypeService.ListRootTypes();
+            }
+            else
+            {
+                contentTypes  = this._speedWagon.ContentTypeService.ListAllowedChildren(contentRoot.Type);
+            }
+
             IList<SelectListItem> contentTypeSelct = SelectListHelper.GetSelectList(contentTypes);
 
             ContentViewModel viewModel = new ContentViewModel();

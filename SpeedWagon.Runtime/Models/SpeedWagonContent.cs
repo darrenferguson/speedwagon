@@ -48,6 +48,9 @@ namespace SpeedWagon.Models
         public string WriterName { get; set; }
 
         public string Url { get; set; }
+
+        
+
         public string RelativeUrl { get; set; }
         
         public IDictionary<string, object> Content { get; set; }
