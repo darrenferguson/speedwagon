@@ -8,76 +8,91 @@
     @await Html.PartialAsync("~/Views/SpeedWagon/_EditorScripts.cshtml")
 }
 
-
 <h2>Content Types</h2>
+<ul class="nav nav-pills">
+    <li class="active">
+        <a href="#list" data-toggle="tab">List</a>
+    </li>
+    <li>
+        <a href="#create" data-toggle="tab">Create</a>
+    </li>
+   
+</ul>
 
-<h3>Create Content Type</h3>
+<div class="tab-content clearfix">
+    <div class="tab-pane active" id="list">
 
-<form asp-controller="SpeedWagonContentType" asp-action="Add" method="post">
+        @if (!Model.ContentTypes.Any())
+        {
+            <p>No types found</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Creator</th>
+                        <th>Created</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (SpeedWagonContent contentType in Model.ContentTypes)
+                    {
+                        <tr>
+                            <td>
+                                <a class="btn btn-info" asp-controller="SpeedWagonContentType" asp-action="Edit" asp-route-url="@contentType.RelativeUrl">Edit</a>
 
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Name" required="required" asp-for="Name">
 
+
+                            </td>
+                            <td>@contentType.Name</td>
+                            <td>@contentType.CreatorName</td>
+                            <td>@contentType.CreateDate</td>
+                            <td>
+                                <form asp-controller="SpeedWagonContentType" asp-action="Delete" method="post" style="display: inline;">
+                                    <input type="hidden" value="@contentType.Name" asp-for="Name" />
+                                    <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     </div>
+    <div class="tab-pane" id="create">
 
-    <div class="form-group">
-        <label for="Children">Children</label>
+        <h3>New Content Type</h3>
 
-        <select class="form-control" multiple asp-for="Children" asp-items="Model.AvailableContentTypes"></select>
+        <form asp-controller="SpeedWagonContentType" asp-action="Add" method="post">
 
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Name" required="required" asp-for="Name">
+
+            </div>
+
+            <div class="form-group">
+                <label for="Children">Children</label>
+
+                <select class="form-control" multiple asp-for="Children" asp-items="Model.AvailableContentTypes"></select>
+
+            </div>
+
+            <div class="form-group">
+
+                <input asp-for="Root" class="form-check-input" />
+                <label for="Root">Allow at Root?</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create</button>
+
+        </form>
     </div>
-
-    <div class="form-group">
-
-        <input asp-for="Root" class="form-check-input" />
-        <label for="Root">Allow at Root?</label>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Create</button>
-
-</form>
-
-<hr />
-
-<h3>Content Types</h3>
-@if (!Model.ContentTypes.Any())
-{
-    <p>No types found</p>
-}
-else
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Creator</th>
-                <th>Created</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (SpeedWagonContent contentType in Model.ContentTypes)
-            {
-                <tr>
-                    <td>
-                        <a class="btn btn-info" asp-controller="SpeedWagonContentType" asp-action="Edit" asp-route-url="@contentType.RelativeUrl">Edit</a>
+   
+</div>
 
 
-
-                    </td>
-                    <td>@contentType.Name</td>
-                    <td>@contentType.CreatorName</td>
-                    <td>@contentType.CreateDate</td>
-                    <td>
-                        <form asp-controller="SpeedWagonContentType" asp-action="Delete" method="post" style="display: inline;">
-                            <input type="hidden" value="@contentType.Name" asp-for="Name" />
-                            <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}

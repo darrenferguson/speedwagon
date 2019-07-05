@@ -12,7 +12,7 @@
     </div>
 }
 
-    
+
 
 
 <form asp-controller="SpeedWagonContentType" asp-action="Edit" method="post" class="border">
@@ -52,7 +52,7 @@
                 <tr>
                     <td>
                         <a class="btn btn-info" asp-controller="SpeedWagonContentType" asp-action="EditProperty" asp-route-name="@Model.ContentType.Name" asp-route-property="@property.Name">Edit</a>
-                       
+
 
                         <form asp-controller="SpeedWagonContentType" asp-action="MoveEditorUp" method="post" style="display: inline;">
                             <input type="hidden" value="@Model.ContentType.Name" name="Name" />
