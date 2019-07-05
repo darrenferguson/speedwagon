@@ -8,6 +8,7 @@ using SpeedWagon.Web.Models.ContentType;
 using SpeedWagon.Web.Models.View.Editor;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SpeedWagon.Web.Controllers
 {
@@ -122,6 +123,45 @@ namespace SpeedWagon.Web.Controllers
 
             return RedirectToAction("Edit", new { url = viewModel.Name });
         }
+
+        public IActionResult EditProperty(string name, string property)
+        {
+            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(name);
+            ContentTypeEditor[] properties = this._speedWagon.ContentTypeService.GetEditors(contentType);
+            IEnumerable<SpeedWagonContent> editors = this._speedWagon.EditorService.List();
+
+            ContentTypeEditor prop = properties.FirstOrDefault(x => x.Name == property);
+
+            EditProperty model = new EditProperty();
+            model.ContentTypeName = contentType.Name;
+            model.Property = prop;
+            model.AvailableEditors = SelectListHelper.GetSelectList(editors);
+
+            return View("~/Views/SpeedWagon/ContentType/EditProperty.cshtml", model);
+        }
+
+        [HttpPost]
+        public IActionResult EditProperty(EditProperty model)
+        {
+            if(!ModelState.IsValid)
+            {
+
+            }
+
+            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(model.ContentTypeName);
+            ContentTypeEditor[] properties = this._speedWagon.ContentTypeService.GetEditors(contentType);
+
+            int index = Array.FindIndex(properties, x => x.Name == model.Property.Name);
+            if(index > -1)
+            {
+                properties[index] = model.Property;
+            }
+
+            contentType.Content["Editors"] = properties;
+            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
+            return RedirectToAction("Edit", new { url = model.ContentTypeName });
+        }
+
 
         [HttpPost]
         public IActionResult Delete(DeleteEditorModel model)
