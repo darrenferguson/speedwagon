@@ -21,6 +21,26 @@
 
     </div>
 
+    <div class="form-group">
+        <label for="Children">Children</label>
+
+        <select class="form-control" multiple asp-for="Children" asp-items="Model.AvailableContentTypes"></select>
+
+        @*<select multiple class="form-control">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>*@
+    </div>
+
+    <div class="form-group">
+
+        <input asp-for="Root" class="form-check-input" />
+        <label for="Root">Allow at Root?</label>
+    </div>
+
     <button type="submit" class="btn btn-primary">Create</button>
 
 </form>
@@ -47,23 +67,23 @@ else
         <tbody>
             @foreach (SpeedWagonContent contentType in Model.ContentTypes)
             {
-            <tr>
-                <td>
-                    <a class="btn btn-info" asp-controller="SpeedWagonContentType" asp-action="Edit" asp-route-name="@contentType.RelativeUrl">Edit</a>
+                <tr>
+                    <td>
+                        <a class="btn btn-info" asp-controller="SpeedWagonContentType" asp-action="Edit" asp-route-name="@contentType.RelativeUrl">Edit</a>
 
-                   
 
-                </td>
-                <td>@contentType.Name</td>
-                <td>@contentType.CreatorName</td>
-                <td>@contentType.CreateDate</td>
-                <td>
-                    <form asp-controller="SpeedWagonContentType" asp-action="Delete" method="post" style="display: inline;">
-                        <input type="hidden" value="@contentType.Name" asp-for="Name" />
-                        <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
-                    </form>
-                </td>
-            </tr>
+
+                    </td>
+                    <td>@contentType.Name</td>
+                    <td>@contentType.CreatorName</td>
+                    <td>@contentType.CreateDate</td>
+                    <td>
+                        <form asp-controller="SpeedWagonContentType" asp-action="Delete" method="post" style="display: inline;">
+                            <input type="hidden" value="@contentType.Name" asp-for="Name" />
+                            <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
+                        </form>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

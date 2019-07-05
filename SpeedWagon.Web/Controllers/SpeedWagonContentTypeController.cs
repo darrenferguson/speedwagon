@@ -24,6 +24,9 @@ namespace SpeedWagon.Web.Controllers
         {
             ContentTypeViewModel viewModel = new ContentTypeViewModel();
             viewModel.ContentTypes = this._speedWagon.ContentTypeService.List();
+            IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentTypeService.List();
+
+            viewModel.AvailableContentTypes = SelectListHelper.GetSelectList(contentTypes);
 
             return View("~/Views/SpeedWagon/ContentType/List.cshtml", viewModel);
         }
@@ -37,7 +40,7 @@ namespace SpeedWagon.Web.Controllers
                 return View("~/Views/SpeedWagon/ContentType/List.cshtml", model);
             }
 
-            this._speedWagon.ContentTypeService.Add(model.Name, User.Identity.Name);
+            this._speedWagon.ContentTypeService.Add(model.Name, User.Identity.Name, model.Root, model.Children);
             return RedirectToAction("List", new { id = model.Name });
         }
 
@@ -45,12 +48,13 @@ namespace SpeedWagon.Web.Controllers
         {
             SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(name);
             IEnumerable<SpeedWagonContent> editors = this._speedWagon.EditorService.List();
-
+           
             EditContentTypeViewModel viewModel = new EditContentTypeViewModel();
 
             viewModel.ContentType = contentType;
             viewModel.Name = contentType.Name;
             viewModel.AvailableEditors = SelectListHelper.GetSelectList(editors);
+            
             viewModel.Editors = this._speedWagon.ContentTypeService.GetEditors(contentType);
 
             return View("~/Views/SpeedWagon/ContentType/Edit.cshtml", viewModel);

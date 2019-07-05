@@ -11,11 +11,15 @@ namespace SpeedWagon.Web.Models.View.Editor
         [Required]
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         public SpeedWagonContent ContentType { get; set; }
 
         public ContentTypeEditor[] Editors { get; set; }
         
         public IList<SelectListItem> AvailableEditors { get; set; }
+
+        
 
         public ContentTypeEditor ContentTypeEditor { get; set; }
     }

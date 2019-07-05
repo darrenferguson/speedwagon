@@ -9,5 +9,7 @@ namespace SpeedWagon.Web.Models.ContentType
 
         [Required]
         public string Editor { get; set; }
+
+        public string Description { get; set; }
     }
 }

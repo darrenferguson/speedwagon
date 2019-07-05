@@ -1,4 +1,5 @@
-﻿using SpeedWagon.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using SpeedWagon.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,6 +12,12 @@ namespace SpeedWagon.Web.Models.View.Editor
 
         [Required]
         public string Name { get; set; }
-        
+     
+        public bool Root { get; set; }
+
+        public IList<SelectListItem> AvailableContentTypes { get; set; }
+
+        public IEnumerable<string> Children { get; set; }
+
     }
 }

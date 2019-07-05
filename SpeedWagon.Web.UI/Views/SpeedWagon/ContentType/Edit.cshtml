@@ -11,13 +11,18 @@
 
     <div class="form-group">
         <label for="name">Property Name</label>
-        <input type="text" class="form-control" id="contentTypeEditorName" placeholder="Name" required="required" asp-for="ContentTypeEditor.Name">
+        <input type="text" class="form-control" placeholder="Name" required="required" asp-for="ContentTypeEditor.Name">
 
     </div>
 
     <div class="form-group">
         <label for="type">Property Type</label>
         <select class="form-control" asp-items="Model.AvailableEditors" asp-for="ContentTypeEditor.Editor"></select>
+    </div>
+
+    <div class="form-group">
+        <label for="name">Property Desciption</label>
+        <textarea class="form-control" placeholder="Description" asp-for="ContentTypeEditor.Description" rows="3"></textarea>
     </div>
 
     <input type="hidden" asp-for="Name" value="@Model.Name" />
@@ -36,6 +41,7 @@
                 <th></th>
                 <th>Name</th>
                 <th>Editor</th>
+                <th>Description</th>
                 <th></th>
             </tr>
         </thead>
@@ -64,7 +70,9 @@
                 <td>
                     @property.Editor
                 </td>
-                
+                <td>
+                    @property.Description
+                </td>
                 <td>
                     <form asp-controller="SpeedWagonContentType" asp-action="DeleteEditor" method="post" style="display: inline;">
                         <input type="hidden" value="@Model.ContentType.Name" name="Name" />
