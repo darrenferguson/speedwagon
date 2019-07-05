@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using SpeedWagon.Web.Interfaces;
 
-namespace SpeedWagon.Web.UI.Controllers
+namespace SpeedWagon.Web.Controllers
 {
     [Authorize]
     public class SpeedWagonController : Controller
@@ -27,9 +27,5 @@ namespace SpeedWagon.Web.UI.Controllers
             string path = this._speedWagon.Install(User.Identity.Name);
             return View();
         }
-        
-
-      
-
     }
 }

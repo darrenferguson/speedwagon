@@ -28,7 +28,7 @@ namespace SpeedWagon.Runtime.Extension
             s = s.Replace("@", " at ");
             s = new Regex("[^a-zA-Z0-9\\. ]").Replace(s, "");
             s = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(s);
-            return s.Replace(" ", "");
+            return s.Replace(" ", "-");
         }
 
     }

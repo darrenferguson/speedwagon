@@ -40,7 +40,10 @@ namespace SpeedWagon.Web.Services
         public IEnumerable<SpeedWagonContent> ListAllowedChildren(string type)
         {
             IEnumerable<SpeedWagonContent> contentTypes = List();
-            return contentTypes.Where(x => x.Content.ContainsKey("Children") && x.GetValue<string[]>("Children").Contains(type));
+            SpeedWagonContent contentType = Get(type);
+            IEnumerable<string> children = contentType.GetValue<string[]>("Children");
+
+            return contentTypes.Where(x => children.Contains(x.Name));
         }
 
         public void Add(string name, string user, bool root, string[] children)

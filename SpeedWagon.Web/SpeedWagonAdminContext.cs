@@ -1,10 +1,8 @@
 ﻿using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
 using SpeedWagon.Runtime.Extension;
-using SpeedWagon.Services;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models;
-using SpeedWagon.Web.Services;
 
 namespace SpeedWagon.Web
 {
@@ -59,15 +57,11 @@ namespace SpeedWagon.Web
         {            
             this._cachelessContentService.AddContent(new SpeedWagonContent("Content", SPEEDWAGON_HOST + "/content", "container", user));
             this._cachelessContentService.AddContent(new SpeedWagonContent("Content Types", SPEEDWAGON_HOST + "/content-types", "container", user));
-            this._cachelessContentService.AddContent(new SpeedWagonContent("Editors", SPEEDWAGON_HOST + "/editors", "editors", user));
-            
-            this._cachelessContentService.AddContent(new SpeedWagonContent("Text", SPEEDWAGON_HOST + "/editors/text", "editor", user));
-
+            this._cachelessContentService.AddContent(new SpeedWagonContent("Editors", SPEEDWAGON_HOST + "/editors", "editors", user));          
             this._cachelessContentService.AddContent(new SpeedWagonContent("Users", SPEEDWAGON_HOST + "/users", "users", user));
             this._cachelessContentService.AddContent(new SpeedWagonContent(user.ToTitleCasedName(), SPEEDWAGON_HOST + "/users/" + user.ToUrlName(), "user", user));
 
             return this._path;
         }
-
     }
 }

@@ -121,7 +121,7 @@ namespace SpeedWagon.Web.Controllers
             this._speedWagon.ContentTypeService.AddEditor(contentType, viewModel.ContentTypeEditor);
             this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
 
-            return RedirectToAction("Edit", new { url = viewModel.Name });
+            return RedirectToAction("Edit", new { url = viewModel.Url });
         }
 
         public IActionResult EditProperty(string name, string property)
