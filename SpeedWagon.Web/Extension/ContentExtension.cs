@@ -1,4 +1,5 @@
-﻿using SpeedWagon.Interfaces;
+﻿using Newtonsoft.Json;
+using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,10 @@ namespace SpeedWagon.Web.Extension
             if (model == null || model.Content == null || !model.Content.ContainsKey(key))
                 return string.Empty;
 
+            if(model.Content[key] == null) {
+                return string.Empty;
+            }
+
             return model.Content[key].ToString();
         }
 
@@ -35,7 +40,13 @@ namespace SpeedWagon.Web.Extension
             if (v == null || !CanChangeType(v, typeof (T)))
                 return (T) Activator.CreateInstance(typeof(T));
 
-            return (T) Convert.ChangeType(v, typeof(T));
+            try
+            {
+                return (T)Convert.ChangeType(v, typeof(T));
+            } catch(Exception ex)
+            {
+                return JsonConvert.DeserializeObject<T>(v);
+            }
         }
 
         private static bool CanChangeType(object value, Type conversionType)

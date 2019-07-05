@@ -30,12 +30,17 @@ namespace SpeedWagon.Web.Services
             return this._cachelessContentService.Children(editorRoot).OrderBy(x => x.Name);
         }
 
-        public void Add(string name, string user, bool root, IEnumerable<string> children)
+        public void Add(string name, string user, bool root, string[] children)
         {
 
             SpeedWagonContent contentType = new SpeedWagonContent(name.ToTitleCasedName(), RationalisePath(name), "content-type", user);
             string viewName = name.ToTitleCasedName() + ".cshtml";
             contentType.Template = "~/Views/SpeedWagon/ContentType/" + viewName;
+
+            if(children == null)
+            {
+                children = new string[] { };
+            }
 
             contentType.Content.Add("Root", root);
             contentType.Content.Add("Children", children);

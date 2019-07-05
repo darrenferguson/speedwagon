@@ -5,9 +5,101 @@
 
 <h2>Edit '@Model.ContentType.Name' Content Type</h2>
 
+@if (!string.IsNullOrEmpty(Model.Operation))
+{
+    <div class="alert alert-success" role="alert">
+        Your changes were saved.
+    </div>
+}
+
+    
+
+
+<form asp-controller="SpeedWagonContentType" asp-action="Edit" method="post" class="border">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input readonly type="text" class="form-control" placeholder="Name" required="required" asp-for="Name">
+    </div>
+
+    <div class="form-group">
+        <label for="Children">Children</label>
+        <select class="form-control" multiple asp-for="Children" asp-items="Model.AvailableContentTypes"></select>
+    </div>
+    <div class="form-group">
+
+        <input asp-for="Root" class="form-check-input" />
+        <label for="Root">Allow at Root?</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+<h3>Properties</h3>
+@if (Model.Editors != null && Model.Editors.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Editor</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var property in Model.Editors)
+            {
+                <tr>
+                    <td>
+
+                        <form asp-controller="SpeedWagonContentType" asp-action="EditProperty" method="post" style="display: inline;">
+                            <input type="hidden" value="@Model.ContentType.Name" name="Name" />
+                            <input type="hidden" value="@property.Name" name="Editor" />
+                            <input type="submit" class="btn btn-info" value="Edit" />
+                        </form>
+
+                        <form asp-controller="SpeedWagonContentType" asp-action="MoveEditorUp" method="post" style="display: inline;">
+                            <input type="hidden" value="@Model.ContentType.Name" name="Name" />
+                            <input type="hidden" value="@property.Name" name="Editor" />
+                            <input type="submit" class="btn btn-default" value="Up" />
+                        </form>
+
+                        <form asp-controller="SpeedWagonContentType" asp-action="MoveEditorDown" method="post" style="display: inline;">
+                            <input type="hidden" value="@Model.ContentType.Name" name="Name" />
+                            <input type="hidden" value="@property.Name" name="Editor" />
+                            <input type="submit" class="btn btn-default" value="Down" />
+                        </form>
+
+                    </td>
+                    <td>
+                        @property.Name
+                    </td>
+                    <td>
+                        @property.Editor
+                    </td>
+                    <td>
+                        @property.Description
+                    </td>
+                    <td>
+                        <form asp-controller="SpeedWagonContentType" asp-action="DeleteEditor" method="post" style="display: inline;">
+                            <input type="hidden" value="@Model.ContentType.Name" name="Name" />
+                            <input type="hidden" value="@property.Name" name="Editor" />
+                            <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No properties on type</p>
+}
+
 <h3>Add Property</h3>
 
-<form asp-controller="SpeedWagonContentType" asp-action="Edit" method="post">
+<form asp-controller="SpeedWagonContentType" asp-action="AddProperty" method="post">
 
     <div class="form-group">
         <label for="name">Property Name</label>
@@ -25,68 +117,8 @@
         <textarea class="form-control" placeholder="Description" asp-for="ContentTypeEditor.Description" rows="3"></textarea>
     </div>
 
+    <input type="hidden" asp-for="Url" value="@Model.Url" />
     <input type="hidden" asp-for="Name" value="@Model.Name" />
-
     <button type="submit" class="btn btn-primary">Create</button>
 
 </form>
-
-<hr />
-<h3>Properties</h3>
-@if (Model.Editors != null && Model.Editors.Any())
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Editor</th>
-                <th>Description</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var property in Model.Editors)
-            {
-            <tr>
-                <td>
-
-                    <form asp-controller="SpeedWagonContentType" asp-action="MoveEditorUp" method="post" style="display: inline;">
-                        <input type="hidden" value="@Model.ContentType.Name" name="Name" />
-                        <input type="hidden" value="@property.Name" name="Editor"/>
-                        <input type="submit" class="btn btn-default" value="Up" />
-                    </form>
-
-                    <form asp-controller="SpeedWagonContentType" asp-action="MoveEditorDown" method="post" style="display: inline;">
-                        <input type="hidden" value="@Model.ContentType.Name" name="Name" />
-                        <input type="hidden" value="@property.Name" name="Editor" />
-                        <input type="submit" class="btn btn-default" value="Down" />
-                    </form>
-
-                </td>
-                <td>
-                    @property.Name
-                </td>
-                <td>
-                    @property.Editor
-                </td>
-                <td>
-                    @property.Description
-                </td>
-                <td>
-                    <form asp-controller="SpeedWagonContentType" asp-action="DeleteEditor" method="post" style="display: inline;">
-                        <input type="hidden" value="@Model.ContentType.Name" name="Name" />
-                        <input type="hidden" value="@property.Name" name="Editor" />
-                        <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
-                    </form>
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No properties on type</p>
-}
-

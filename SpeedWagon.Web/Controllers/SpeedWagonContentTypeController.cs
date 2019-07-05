@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SpeedWagon.Models;
+using SpeedWagon.Web.Extension;
 using SpeedWagon.Web.Helper;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models.ContentType;
@@ -44,17 +45,23 @@ namespace SpeedWagon.Web.Controllers
             return RedirectToAction("List", new { id = model.Name });
         }
 
-        public IActionResult Edit(string name)
+        public IActionResult Edit(string url, string operation = null)
         {
-            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(name);
+            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(url);
             IEnumerable<SpeedWagonContent> editors = this._speedWagon.EditorService.List();
-           
+            IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentTypeService.List();
+
             EditContentTypeViewModel viewModel = new EditContentTypeViewModel();
 
+            viewModel.Operation = operation;
             viewModel.ContentType = contentType;
+            viewModel.Root = contentType.GetValue<bool>("Root");
+            viewModel.Children = contentType.GetValue<string[]>("Children");
             viewModel.Name = contentType.Name;
+            viewModel.Url = url;
+
+            viewModel.AvailableContentTypes = SelectListHelper.GetSelectList(contentTypes);
             viewModel.AvailableEditors = SelectListHelper.GetSelectList(editors);
-            
             viewModel.Editors = this._speedWagon.ContentTypeService.GetEditors(contentType);
 
             return View("~/Views/SpeedWagon/ContentType/Edit.cshtml", viewModel);
@@ -62,8 +69,40 @@ namespace SpeedWagon.Web.Controllers
 
         [HttpPost]
         public IActionResult Edit(EditContentTypeViewModel viewModel)
-        {   
+        {
             SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(viewModel.Name);
+
+            if (!ModelState.IsValid)
+            {
+                IEnumerable<SpeedWagonContent> editors = this._speedWagon.EditorService.List();
+                IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentTypeService.List();
+
+                viewModel.ContentType = contentType;
+                viewModel.Root = contentType.GetValue<bool>("Root");
+                viewModel.Children = contentType.GetValue<string[]>("Children");
+                viewModel.Name = contentType.Name;
+                viewModel.Url = contentType.RelativeUrl;
+
+                viewModel.AvailableContentTypes = SelectListHelper.GetSelectList(contentTypes);
+                viewModel.AvailableEditors = SelectListHelper.GetSelectList(editors);
+                viewModel.Editors = this._speedWagon.ContentTypeService.GetEditors(contentType);
+
+                return View(viewModel);
+            }
+
+
+            contentType.Content["Root"] = viewModel.Root;
+            contentType.Content["Children"] = viewModel.Children;
+            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
+
+            return RedirectToAction("Edit", new { url = contentType.Name, operation = "edited" });
+        }
+
+
+        [HttpPost]
+        public IActionResult AddProperty(EditContentTypeViewModel viewModel)
+        {
+            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(viewModel.Url);
 
             if (!ModelState.IsValid)
             {
@@ -81,7 +120,7 @@ namespace SpeedWagon.Web.Controllers
             this._speedWagon.ContentTypeService.AddEditor(contentType, viewModel.ContentTypeEditor);
             this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
 
-            return RedirectToAction("Edit", new { name = viewModel.Name });
+            return RedirectToAction("Edit", new { url = viewModel.Name });
         }
 
         [HttpPost]
@@ -98,7 +137,7 @@ namespace SpeedWagon.Web.Controllers
             this._speedWagon.ContentTypeService.MoveEditorUp(contentType, model.Editor);
             this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
 
-            return RedirectToAction("Edit", new { name = model.Name });
+            return RedirectToAction("Edit", new { url = model.Name });
         }
 
         [HttpPost]
@@ -108,7 +147,7 @@ namespace SpeedWagon.Web.Controllers
             this._speedWagon.ContentTypeService.MoveEditorDown(contentType, model.Editor);
             this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
 
-            return RedirectToAction("Edit", new { name = model.Name });
+            return RedirectToAction("Edit", new { url = model.Name });
         }
 
         [HttpPost]
@@ -118,7 +157,7 @@ namespace SpeedWagon.Web.Controllers
             this._speedWagon.ContentTypeService.DeleteEditor(contentType, model.Editor);
             this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
 
-            return RedirectToAction("Edit", new { name = model.Name });
+            return RedirectToAction("Edit", new { url = model.Name });
         }
     }
 }

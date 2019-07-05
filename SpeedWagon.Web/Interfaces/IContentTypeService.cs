@@ -14,7 +14,7 @@ namespace SpeedWagon.Web.Interfaces
 
         void AddEditor(SpeedWagonContent contentType, ContentTypeEditor editor);
 
-        void Add(string name, string user, bool root, IEnumerable<string> children);
+        void Add(string name, string user, bool root, string[] children);
 
         void Delete(string name);
 

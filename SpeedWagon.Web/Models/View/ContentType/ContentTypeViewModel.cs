@@ -10,14 +10,14 @@ namespace SpeedWagon.Web.Models.View.Editor
 
         public IEnumerable<SpeedWagonContent> ContentTypes { get; set; }
 
-        [Required]
         public string Name { get; set; }
      
         public bool Root { get; set; }
 
         public IList<SelectListItem> AvailableContentTypes { get; set; }
 
-        public IEnumerable<string> Children { get; set; }
+        public string[] Children { get; set; }
+
 
     }
 }

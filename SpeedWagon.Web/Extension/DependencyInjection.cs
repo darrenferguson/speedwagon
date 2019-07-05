@@ -21,15 +21,20 @@ namespace SpeedWagon.Web.Extension
             services.AddSingleton<ISpeedWagonAdminContext>(s => 
                 new SpeedWagonAdminContext(path, contentService, contentTypeService, editorService, webContentService)
             );
-
+            
             return services;
         }
 
-        public static IServiceCollection AddSpeedWagon(this IServiceCollection services, string path)
+        public static IServiceCollection AddSpeedWagon(this IServiceCollection services, string path, bool cached)
         {
 
-            services.AddSingleton<ISpeedWagonWebContext>(s => new SpeedWagonWebContext(path, new CachedRuntimeContentService(path, null)));
-
+            if (cached)
+            {
+                services.AddSingleton<ISpeedWagonWebContext>(s => new SpeedWagonWebContext(path, new CachedRuntimeContentService(path, null)));
+            } else
+            {
+                services.AddSingleton<ISpeedWagonWebContext>(s => new SpeedWagonWebContext(path, new CacheLessRuntimeContentService(path, null)));
+            }
             return services;
         }
     }

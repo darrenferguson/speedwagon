@@ -2,24 +2,21 @@
 using SpeedWagon.Models;
 using SpeedWagon.Web.Models.ContentType;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace SpeedWagon.Web.Models.View.Editor
 {
-    public class EditContentTypeViewModel
+    public class EditContentTypeViewModel : ContentTypeViewModel
     {
-        [Required]
-        public string Name { get; set; }
+        
+        public string Operation { get; set; }
 
-        public string Description { get; set; }
-
+        public string Url { get; set; }
+        
         public SpeedWagonContent ContentType { get; set; }
 
         public ContentTypeEditor[] Editors { get; set; }
         
         public IList<SelectListItem> AvailableEditors { get; set; }
-
-        
 
         public ContentTypeEditor ContentTypeEditor { get; set; }
     }

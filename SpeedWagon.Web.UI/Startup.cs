@@ -40,7 +40,7 @@ namespace SpeedWagon.Web.UI
             //string path = Path.Combine(this._env.ContentRootPath, _appDataFolder, "speedwagon");
             string path = @"d:\speedwagon";
 
-            services.AddSpeedWagon(path);
+            services.AddSpeedWagon(path, false);
             services.AddSpeedWagonCms(path);
 
             services.AddMvc();
