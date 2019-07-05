@@ -42,7 +42,20 @@ namespace SpeedWagon.Web.Controllers
                 return View("~/Views/SpeedWagon/ContentType/List.cshtml", model);
             }
 
+            
+
             this._speedWagon.ContentTypeService.Add(model.Name, User.Identity.Name, model.Root, model.Children);
+
+            if(!string.IsNullOrEmpty(model.CopyProperties))
+            {
+                SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(model.Name);
+                SpeedWagonContent master = this._speedWagon.ContentTypeService.Get(model.CopyProperties);
+
+                contentType.Content["Editors"] = master.Content["Editors"];
+
+                this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
+            }
+
             return RedirectToAction("List", new { id = model.Name });
         }
 

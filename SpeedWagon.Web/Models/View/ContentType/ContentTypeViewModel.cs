@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using SpeedWagon.Models;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace SpeedWagon.Web.Models.View.Editor
 {
@@ -18,6 +17,7 @@ namespace SpeedWagon.Web.Models.View.Editor
 
         public string[] Children { get; set; }
 
+        public string CopyProperties { get; set; }
 
     }
 }
