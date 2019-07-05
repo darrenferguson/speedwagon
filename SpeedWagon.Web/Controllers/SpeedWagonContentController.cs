@@ -33,7 +33,7 @@ namespace SpeedWagon.Web.Controllers
             IEnumerable<SpeedWagonContent> contentTypes = null;
 
 
-            if (string.IsNullOrEmpty(url))
+            if (string.IsNullOrEmpty(url) || url == "/content")
             {
                 contentTypes = this._speedWagon.ContentTypeService.ListRootTypes();
             }
