@@ -1,3 +1,11 @@
 ﻿@model SpeedWagon.Web.Models.Content.ContentEditorModel
 
-<input type="file" class="form-control-file" id="exampleFormControlFile1">
+<input type="file" class="form-control-file upload" multiple data-url="/SpeedWagonFile/Upload">
+
+<div id="progress">
+    <div class="bar" style="width: 0%;"></div>
+</div>
+
+<ul class="result list-group"></ul>
+
+<input type="hidden" asp-for="Values[Model.PropertyName]">

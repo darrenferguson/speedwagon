@@ -12,6 +12,5 @@ namespace SpeedWagon.Web.Interfaces
 
         void Delete(string name);
 
-
     }
 }

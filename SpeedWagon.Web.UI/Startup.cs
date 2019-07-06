@@ -38,7 +38,7 @@ namespace SpeedWagon.Web.UI
             .AddCookie();
 
             //string path = Path.Combine(this._env.ContentRootPath, _appDataFolder, "speedwagon");
-            string path = @"d:\speedwagon";
+            string path = @"C:\git\speedwagon-content";
 
             services.AddSpeedWagon(path, false);
             services.AddSpeedWagonCms(path);

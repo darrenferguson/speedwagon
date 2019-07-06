@@ -1,12 +1,52 @@
+<style type="text/css">
+    .bar {
+        height: 18px;
+        background: green;
+    }
+</style>
 <script type="text/javascript">
 
-        $(function () {
+    $(function () {
 
-            $('[data-toggle="datepicker"]').datepicker();
-            $('table').tablesort();
-            tinyMCE.init({
-                selector : "textarea.editor"
-}           );
+        // date picker
+        $('[data-toggle="datepicker"]').datepicker();
+
+        // Table sort
+        $('table').tablesort();
+
+        // RTE
+        tinyMCE.init({
+            selector: "textarea.editor"
         });
+
+
+        $('.upload').fileupload({
+            dataType: 'json',
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress .bar').css(
+                    'width',
+                    progress + '%'
+                );
+                console.log(data);
+            },
+            done: function (e, data) {
+
+                var items = $(e.target.parentElement).find('ul');
+                var input = $(e.target.parentElement).find('input[type=hidden]');
+                $.each(data.result.files, function (index, file) {                 
+                    $(items).append('<li class="list-group-item">' + file + '</li>');
+
+                    var filtered = $(input).val().split(',').filter(function (el) {
+                        return el != null && el != '';
+                    });
+
+                    filtered.push(file);
+
+                    $(input).val(filtered.join(','));
+                }); 
+            }
+        });
+    });
 
 </script>
