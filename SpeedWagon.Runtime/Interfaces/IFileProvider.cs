@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace SpeedWagon.Runtime.Interfaces
 {
@@ -19,6 +20,8 @@ namespace SpeedWagon.Runtime.Interfaces
         string Combine(string path1, string path2);
 
         string Combine(string path1, string path2, string path3);
+
+        Task<Stream> GetStream(string path);
 
     }
 }

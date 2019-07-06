@@ -16,7 +16,7 @@
         done: function (e, data) {
 
             var items = $(e.target.parentElement).closest('div.root').find('ul');
-            var input = $(e.target.parentElement).closest('div.root').find('input[type=hidden]');
+            var input = $(e.target.parentElement).closest('div.root').find('input[type=hidden][class=value]');
 
             $.each(data.result.files, function (index, file) {
                 $(items).append('<li class="list-group-item">' + file + '</li>');

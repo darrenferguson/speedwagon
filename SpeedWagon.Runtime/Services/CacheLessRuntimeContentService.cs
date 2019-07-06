@@ -17,7 +17,7 @@ namespace SpeedWagon.Services
         public virtual event ContentRemovedHandler Removed;
 
 
-        protected readonly IContentPathMapper PathMapper;
+        public readonly IContentPathMapper PathMapper;
         private readonly object _lock;
 
         protected IList<string> Urls;

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SpeedWagon.Runtime.Interfaces;
+using SpeedWagon.Web.Interfaces;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,32 +11,27 @@ namespace SpeedWagon.Web.Controllers
 {
     public class SpeedWagonFileController : Controller
     {
+        private readonly ISpeedWagonAdminContext _speedwagon;
+
+        public SpeedWagonFileController(ISpeedWagonAdminContext speedwagon)
+        {
+            this._speedwagon = speedwagon;
+        }
 
         public async Task<IActionResult> Upload()
         {
-
-            long size = Request.Form.Files.Sum(f => f.Length);
-
-            // full path to file in temp location
-            var filePath = Path.GetTempFileName();
-
+            string path = Request.Form["ContentPath"];
             IList<string> result = new List<string>();
 
-            foreach (var formFile in Request.Form.Files)
+            foreach (IFormFile formFile in Request.Form.Files)
             {
                 if (formFile.Length > 0)
                 {
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-                }
-                result.Add(formFile.FileName);
+                    string swPath = await this._speedwagon.FileUploadService.UploadFile(path, formFile, User.Identity.Name);
+                    result.Add(swPath);
+                }              
             }
-
-            // process uploaded files
-            // Don't rely on or trust the FileName property without validation.
-
+            
             return Ok(new { files = result });
         }
     }

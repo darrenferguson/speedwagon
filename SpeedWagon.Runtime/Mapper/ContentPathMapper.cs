@@ -98,7 +98,7 @@ namespace Moriyama.Runtime.Application
             return url;
         }
         
-        private string RemoveInvalidFileNameChars(string s)
+        public string RemoveInvalidFileNameChars(string s)
         {
             var invalid = new string(Path.GetInvalidFileNameChars());
 

@@ -32,6 +32,11 @@ namespace SpeedWagon.Runtime.Services.Files
             return File.Exists(path);
         }
 
+        public Task<Stream> GetStream(string path)
+        {
+            return Task.FromResult<Stream>(new FileStream(path, FileMode.Create));
+        }
+
         public Task<string[]> List(string path, string pattern, bool recursive)
         {
            if(recursive)

@@ -1,8 +1,11 @@
-﻿using SpeedWagon.Interfaces;
+﻿using Microsoft.AspNetCore.Http;
+using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
 using SpeedWagon.Runtime.Extension;
+using SpeedWagon.Runtime.Interfaces;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace SpeedWagon.Web
@@ -14,20 +17,22 @@ namespace SpeedWagon.Web
         private readonly IContentTypeService _contentTypeService;
         private readonly IEditorService _editorService;
         private readonly IWebContentService _webContentService;
+        private readonly IFileUploadService _fileUploadService;
 
         public SpeedWagonAdminContext(
             string path, 
             IContentService cachelessContentService,
             IContentTypeService contentTypeService,
             IEditorService editorService,
-            IWebContentService webContentService)
+            IWebContentService webContentService,
+            IFileUploadService fileUploadService)
         {
             this._path = path;
             this._cachelessContentService = cachelessContentService;
             this._editorService = editorService;
             this._contentTypeService = contentTypeService;
             this._webContentService = webContentService;
-
+            this._fileUploadService = fileUploadService;
         }
 
         public IContentService ContentService => this._cachelessContentService;
@@ -37,6 +42,8 @@ namespace SpeedWagon.Web
         public IContentTypeService ContentTypeService => this._contentTypeService;
 
         public IWebContentService WebContentService => this._webContentService;
+
+        public IFileUploadService FileUploadService => this._fileUploadService;
 
         public async Task<SpeedWagonContent> GetContent(string path)
         {

@@ -12,5 +12,6 @@
 
         string ContentFolder(string relativePath);
 
+        string RemoveInvalidFileNameChars(string s);
     }
 }

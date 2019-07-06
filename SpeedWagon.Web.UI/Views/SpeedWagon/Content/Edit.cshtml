@@ -22,7 +22,7 @@
     {
         SpeedWagonContent editor = Model.Editors.Where(x => x.Name == property.Editor).FirstOrDefault();
 
-        ContentEditorModel editorModel = new ContentEditorModel { PropertyName = property.Name, Values = Model.Values };
+        ContentEditorModel editorModel = new ContentEditorModel { PropertyName = property.Name, Values = Model.Values, ContentPath = Model.Url };
 
         <div class="form-group">
 

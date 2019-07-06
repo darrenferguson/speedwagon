@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using SpeedWagon.Runtime.Interfaces;
 
 namespace SpeedWagon.Runtime.Services.Files
@@ -28,6 +29,11 @@ namespace SpeedWagon.Runtime.Services.Files
         public bool Exists(string path)
         {
             return false;
+        }
+
+        public Task<Stream> GetStream(string path)
+        {
+            throw new System.NotImplementedException();
         }
 
         public Task<string[]> List(string path, string pattern, bool recursive)

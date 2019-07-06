@@ -1,6 +1,8 @@
-﻿using SpeedWagon.Interfaces;
+﻿using Microsoft.AspNetCore.Http;
+using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
 using SpeedWagon.Web.Models;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace SpeedWagon.Web.Interfaces
@@ -15,6 +17,8 @@ namespace SpeedWagon.Web.Interfaces
         IEditorService EditorService { get; }
 
         IWebContentService WebContentService { get;  }
+
+        IFileUploadService FileUploadService { get;  }
 
         string Install(string user);
 
