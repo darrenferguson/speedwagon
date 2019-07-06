@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
@@ -25,22 +26,23 @@ namespace SpeedWagon.Web.Services
             this._contentRoot = contentRoot;
         }
 
-        public IEnumerable<SpeedWagonContent> List()
+        public async Task<IEnumerable<SpeedWagonContent>> List()
         {
-            SpeedWagonContent contentTypeRoot = this._cachelessContentService.GetContent(RationalisePath(Root));
-            return this._cachelessContentService.Children(contentTypeRoot).OrderBy(x => x.Name);
+            SpeedWagonContent contentTypeRoot = await this._cachelessContentService.GetContent(RationalisePath(Root));
+            IEnumerable<SpeedWagonContent> content = await this._cachelessContentService.Children(contentTypeRoot);
+            return content.OrderBy(x => x.Name);
         }
 
-        public IEnumerable<SpeedWagonContent> ListRootTypes()
+        public async Task<IEnumerable<SpeedWagonContent>> ListRootTypes()
         {
-            IEnumerable<SpeedWagonContent> contentTypes = List();
+            IEnumerable<SpeedWagonContent> contentTypes = await List();
             return contentTypes.Where(x => x.Content.ContainsKey("Root") && x.GetValue<bool>("Root"));
         }
 
-        public IEnumerable<SpeedWagonContent> ListAllowedChildren(string type)
+        public async Task<IEnumerable<SpeedWagonContent>> ListAllowedChildren(string type)
         {
-            IEnumerable<SpeedWagonContent> contentTypes = List();
-            SpeedWagonContent contentType = Get(type);
+            IEnumerable<SpeedWagonContent> contentTypes = await List();
+            SpeedWagonContent contentType = await Get(type);
             IEnumerable<string> children = contentType.GetValue<string[]>("Children");
 
             return contentTypes.Where(x => children.Contains(x.Name));
@@ -77,9 +79,9 @@ namespace SpeedWagon.Web.Services
             this._cachelessContentService.RemoveContent(RationalisePath(name));
         }
 
-        public SpeedWagonContent Get(string name)
+        public async Task<SpeedWagonContent> Get(string name)
         {
-            return this._cachelessContentService.GetContent(RationalisePath(name));
+            return await this._cachelessContentService.GetContent(RationalisePath(name));
         }
 
         public ContentTypeEditor[] GetEditors(SpeedWagonContent contentType)

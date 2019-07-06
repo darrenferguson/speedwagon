@@ -1,17 +1,19 @@
 ﻿using SpeedWagon.Models;
 using SpeedWagon.Web.Models.ContentType;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SpeedWagon.Web.Interfaces
 {
     public interface IContentTypeService
     {
-        IEnumerable<SpeedWagonContent> List();
-        IEnumerable<SpeedWagonContent> ListRootTypes();
+        Task<IEnumerable<SpeedWagonContent>> List();
 
-        IEnumerable<SpeedWagonContent> ListAllowedChildren(string type);
+        Task<IEnumerable<SpeedWagonContent>> ListRootTypes();
 
-        SpeedWagonContent Get(string name);
+        Task<IEnumerable<SpeedWagonContent>> ListAllowedChildren(string type);
+
+        Task<SpeedWagonContent> Get(string name);
 
         ContentTypeEditor[] GetEditors(SpeedWagonContent contentType);
 

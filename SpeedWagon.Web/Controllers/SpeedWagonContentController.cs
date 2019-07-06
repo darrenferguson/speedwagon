@@ -10,6 +10,7 @@ using SpeedWagon.Web.Models.ContentType;
 using SpeedWagon.Web.Models.View.Content;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SpeedWagon.Web.Controllers
 {
@@ -25,21 +26,21 @@ namespace SpeedWagon.Web.Controllers
             this._viewEngine = viewEngine;
         }
 
-        public IActionResult List(string url = null)
+        public async Task<IActionResult> List(string url = null)
         {
-            SpeedWagonContent contentRoot = this._speedWagon.WebContentService.GetContent(url);
-            IEnumerable<SpeedWagonContent> contents = this._speedWagon.ContentService.Children(contentRoot);
+            SpeedWagonContent contentRoot = await this._speedWagon.WebContentService.GetContent(url);
+            IEnumerable<SpeedWagonContent> contents = await this._speedWagon.ContentService.Children(contentRoot);
 
             IEnumerable<SpeedWagonContent> contentTypes = null;
 
 
             if (string.IsNullOrEmpty(url) || url == "/content")
             {
-                contentTypes = this._speedWagon.ContentTypeService.ListRootTypes();
+                contentTypes = await this._speedWagon.ContentTypeService.ListRootTypes();
             }
             else
             {
-                contentTypes  = this._speedWagon.ContentTypeService.ListAllowedChildren(contentRoot.Type);
+                contentTypes  = await this._speedWagon.ContentTypeService.ListAllowedChildren(contentRoot.Type);
             }
 
             IList<SelectListItem> contentTypeSelct = SelectListHelper.GetSelectList(contentTypes);
@@ -55,14 +56,14 @@ namespace SpeedWagon.Web.Controllers
 
 
         [HttpPost]
-        public IActionResult Add(ContentViewModel viewModel)
+        public async Task<IActionResult> Add(ContentViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                SpeedWagonContent contentRoot = this._speedWagon.WebContentService.GetContent(viewModel.Parent);
-                IEnumerable<SpeedWagonContent> contents = this._speedWagon.ContentService.Children(contentRoot);
+                SpeedWagonContent contentRoot = await this._speedWagon.WebContentService.GetContent(viewModel.Parent);
+                IEnumerable<SpeedWagonContent> contents = await this._speedWagon.ContentService.Children(contentRoot);
+                IEnumerable<SpeedWagonContent> contentTypes = await this._speedWagon.ContentTypeService.List();
 
-                IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentTypeService.List();
                 IList<SelectListItem> contentTypeSelct = SelectListHelper.GetSelectList(contentTypes);
 
                 viewModel.AvailableContentTypes = contentTypeSelct;
@@ -77,18 +78,18 @@ namespace SpeedWagon.Web.Controllers
             return RedirectToAction("List", "SpeedWagonContent",  new { url = viewModel.Parent });
         }
 
-        public IActionResult Edit(string url = null)
+        public async Task<IActionResult> Edit(string url = null)
         {
             if (string.IsNullOrEmpty(url))
             {
                 return RedirectToAction("List");
             }
 
-            SpeedWagonContent content = this._speedWagon.GetContent(url);
-            SpeedWagonContent parent = this._speedWagon.ContentService.Parent(content);
-            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(content.Type);
+            SpeedWagonContent content = await this._speedWagon.GetContent(url);
+            SpeedWagonContent parent = await this._speedWagon.ContentService.Parent(content);
+            SpeedWagonContent contentType = await this._speedWagon.ContentTypeService.Get(content.Type);
 
-            IEnumerable<SpeedWagonContent> editors = this._speedWagon.EditorService.List();
+            IEnumerable<SpeedWagonContent> editors = await this._speedWagon.EditorService.List();
             IEnumerable<ContentTypeEditor> properties = this._speedWagon.ContentTypeService.GetEditors(contentType);
 
             EditContentViewModel viewModel = new EditContentViewModel();
@@ -106,18 +107,18 @@ namespace SpeedWagon.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EditContentViewModel model)
+        public async Task<IActionResult> Edit(EditContentViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("List", "SpeedWagonContent", new { url = model.Url });
             }
 
-            SpeedWagonContent content = this._speedWagon.GetContent(model.Url);
+            SpeedWagonContent content = await this._speedWagon.GetContent(model.Url);
             this._speedWagon.WebContentService.SetValues(content, model.Values);
 
             this._speedWagon.WebContentService.Save(content, User.Identity.Name);
-            SpeedWagonContent parent = this._speedWagon.ContentService.Parent(content);
+            SpeedWagonContent parent = await this._speedWagon.ContentService.Parent(content);
 
             return RedirectToAction("List", "SpeedWagonContent", new { url = parent.RelativeUrl });        
         }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using SpeedWagon.Interfaces;
+using SpeedWagon.Runtime.Interfaces;
 
 namespace Moriyama.Runtime.Application
 {
@@ -11,17 +12,20 @@ namespace Moriyama.Runtime.Application
     {
         private const string ContentFileName = "content.json";
 
+        private readonly IFileProvider _fileProvider;
+
         private readonly string _basePath;
 
-        public ContentPathMapper(string basePath)
+        public ContentPathMapper(string basePath, IFileProvider fileProvider)
         {
-            _basePath = basePath;
+            this._basePath = basePath;
+            this._fileProvider = fileProvider;
         }
 
         public string PathForUrl(string url, bool ensure = true)
         {
-            if (ensure && !Directory.Exists(_basePath))
-                Directory.CreateDirectory(_basePath);
+            if (ensure && !this._fileProvider.Exists(_basePath))
+                this._fileProvider.CreateDirectory(_basePath);
 
             url = StripSchemeFromUrl(url);
             
@@ -31,13 +35,13 @@ namespace Moriyama.Runtime.Application
             foreach (var component in components)
             {
                 var pathComponent = RemoveInvalidFileNameChars(component);
-                path = Path.Combine(path, pathComponent);
+                path = this._fileProvider.Combine(path, pathComponent);
 
-                if (ensure && !Directory.Exists(path))
-                    Directory.CreateDirectory(path);
+                if (ensure && !this._fileProvider.Exists(path))
+                    this._fileProvider.CreateDirectory(path);
             }
 
-            path = Path.Combine(path, ContentFileName);
+            path = this._fileProvider.Combine(path, ContentFileName);
 
             return path;
         }
@@ -54,7 +58,7 @@ namespace Moriyama.Runtime.Application
 
         public string ContentRootFile(string relativePath)
         {
-            return Path.Combine(ContentRootFolder(relativePath), ContentFileName);
+            return this._fileProvider.Combine(ContentRootFolder(relativePath), ContentFileName);
         }
 
         public string ContentRootFolder(string relativePath)
@@ -63,7 +67,7 @@ namespace Moriyama.Runtime.Application
 
             if (components.Count > 0 && (components[0].Contains(".") || components[0].ToLower().Contains("localhost")))
             {
-                return Path.Combine(_basePath, components[0]);
+                return this._fileProvider.Combine(_basePath, components[0]);
             }
             return _basePath;
         }
@@ -71,7 +75,7 @@ namespace Moriyama.Runtime.Application
         public string ContentFolder(string relativePath)
         {
             var components = RemoveEmptyPathComponents(relativePath);
-            return Path.Combine(_basePath, string.Join(@"\", components));
+            return this._fileProvider.Combine(_basePath, string.Join(@"\", components));
         }
 
         private List<string> RemoveEmptyPathComponents(string path)

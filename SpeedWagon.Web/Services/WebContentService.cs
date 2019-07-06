@@ -6,6 +6,7 @@ using SpeedWagon.Web.Models.ContentType;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SpeedWagon.Web.Services
 {
@@ -23,15 +24,15 @@ namespace SpeedWagon.Web.Services
         }
 
 
-        public SpeedWagonContent GetContent(string path)
+        public async Task<SpeedWagonContent> GetContent(string path)
         {
-            return this._cachelessContentService.GetContent(RationalisePath(path));
+            return await this._cachelessContentService.GetContent(RationalisePath(path));
         }
 
 
-        public IEnumerable<SpeedWagonContent> List(string path)
+        public async Task<IEnumerable<SpeedWagonContent>> List(string path)
         {   
-            return this._cachelessContentService.Children(GetContent(path));
+            return await this._cachelessContentService.Children(await GetContent(path));
         }
 
         public void Add(string parent, string name, string type, string user)

@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SpeedWagon.Models;
 using SpeedWagon.Web.Models;
+using System.Threading.Tasks;
 
 namespace SpeedWagon.Web.Interfaces
 {
     public interface ISpeedWagonWebContext
     {
-        SpeedWagonContent ContentFor(HttpRequest request);
+        Task<SpeedWagonContent> ContentFor(HttpRequest request);
 
-        SpeedWagonPage PageFor(HttpRequest request);
+        Task<SpeedWagonPage> PageFor(HttpRequest request);
     }
 }

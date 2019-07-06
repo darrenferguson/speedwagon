@@ -4,6 +4,7 @@ using SpeedWagon.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SpeedWagon.Web.Extension
 {
@@ -71,34 +72,35 @@ namespace SpeedWagon.Web.Extension
             return model.GetValue<bool>("HideInNavigation");
         }
 
-        public static SpeedWagonContent Home(this IContentService contentService, SpeedWagonContent model)
+        public async static Task<SpeedWagonContent> Home(this IContentService contentService, SpeedWagonContent model)
         {
-            return contentService.Home(model);
+            return await contentService.Home(model);
         }
 
-        public static IEnumerable<SpeedWagonContent> TopNavigation(this IContentService contentService, SpeedWagonContent model)
+        public async static Task<IEnumerable<SpeedWagonContent>> TopNavigation(this IContentService contentService, SpeedWagonContent model)
         {
-            return contentService.TopNavigation(model);
+            return await contentService.TopNavigation(model);
         }
 
-        public static IEnumerable<SpeedWagonContent> Descendants(this IContentService contentService, SpeedWagonContent model)
+        public async static Task<IEnumerable<SpeedWagonContent>> Descendants(this IContentService contentService, SpeedWagonContent model)
         {
-            return contentService.Descendants(model);
+            return await contentService.Descendants(model);
         }
         
-        public static IEnumerable<SpeedWagonContent> Descendants(this IContentService contentService, SpeedWagonContent model, string type)
+        public async static Task<IEnumerable<SpeedWagonContent>> Descendants(this IContentService contentService, SpeedWagonContent model, string type)
         {
-            return contentService.Descendants(model).Where(item => item.Type == type);
+            IEnumerable<SpeedWagonContent> content = await contentService.Descendants(model);
+            return content.Where(item => item.Type == type);
         }
 
-        public static IEnumerable<SpeedWagonContent> Descendants(this IContentService contentService, SpeedWagonContent model, IDictionary<string, string> filters)
+        public async static Task<IEnumerable<SpeedWagonContent>> Descendants(this IContentService contentService, SpeedWagonContent model, IDictionary<string, string> filters)
         {
-            return contentService.Descendants(model, filters);
+            return await contentService.Descendants(model, filters);
         }
 
-        public static IEnumerable<SpeedWagonContent> Children(this IContentService contentService, SpeedWagonContent model)
+        public static async Task<IEnumerable<SpeedWagonContent>> Children(this IContentService contentService, SpeedWagonContent model)
         {
-            return contentService.Children(model);
+            return await contentService.Children(model);
         }
 
         public static string View(this SpeedWagonContent model)

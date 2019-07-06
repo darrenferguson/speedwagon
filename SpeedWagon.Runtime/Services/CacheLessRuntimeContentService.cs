@@ -2,10 +2,12 @@
 using Newtonsoft.Json;
 using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
+using SpeedWagon.Runtime.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SpeedWagon.Services
 {
@@ -18,48 +20,51 @@ namespace SpeedWagon.Services
         protected readonly IContentPathMapper PathMapper;
         private readonly object _lock;
 
-        protected List<string> Urls;
+        protected IList<string> Urls;
 
         private DateTime _lastUrlFlush;
         private readonly string _urlPath;
 
 
         private readonly string[] _domains;
+        private readonly IFileProvider _fileProvider;
 
         //protected readonly ISearchService SearchService;
 
         private const string SITEMAP_FILE = "content-urls.json";
         
-        public CacheLessRuntimeContentService(string path, string[] domains)
+        public CacheLessRuntimeContentService(string path, string[] domains, IFileProvider fileProvider)
         {
             this._domains = domains;
 
             //SearchService = searchService;
+            this._fileProvider = fileProvider;
 
-            PathMapper = new ContentPathMapper(path);
+            PathMapper = new ContentPathMapper(path, fileProvider);
             Urls = new List<string>();
             _lock = new object();
 
             _lastUrlFlush = DateTime.Now;
 
-            _urlPath = Path.Combine(PathMapper.ContentRootFolder("/"), SITEMAP_FILE);
+            _urlPath = this._fileProvider.Combine(PathMapper.ContentRootFolder("/"), SITEMAP_FILE);
 
-            if (!File.Exists(_urlPath)) return;
+            if (!this._fileProvider.Exists(_urlPath)) return;
 
-            var urls = File.ReadAllText(_urlPath);
-            Urls = JsonConvert.DeserializeObject<List<string>>(urls);
+            var urls = this._fileProvider.ReadAllText(_urlPath).Result;
+            Urls = JsonConvert.DeserializeObject<IList<string>>(urls);
         }
 
-        public void RefreshUrls()
+        public async Task RefreshUrls()
         {
-            var urls = new List<string>();
-            var files = Directory.GetFiles(PathMapper.ContentRootFolder("/"), "*.json", SearchOption.AllDirectories);
+            IList<string> urls = new List<string>();
+
+            var files = await this._fileProvider.List(PathMapper.ContentRootFolder("/"), "*.json", true);
 
             foreach (var file in files)
             {
                 if (file.Contains(SITEMAP_FILE)) continue;
 
-                var content = FromFile(file);
+                var content = await FromFile(file);
                 urls.Add(content.Url);
             }
 
@@ -74,7 +79,7 @@ namespace SpeedWagon.Services
 
             lock (_lock)
             {
-                File.WriteAllText(targetPath, serialisedContent);
+                this._fileProvider.WriteAllText(targetPath, serialisedContent);
 
                 if (!Urls.Contains(model.Url))
                     Urls.Add(model.Url);
@@ -90,21 +95,22 @@ namespace SpeedWagon.Services
         {
             var targetPath = PathMapper.PathForUrl(url, true);
 
-            if (!File.Exists(targetPath))
+            if (!this._fileProvider.Exists(targetPath))
                 return;
 
-            var fileInfo = new FileInfo(targetPath);
+            // var fileInfo = new FileInfo(targetPath);
             // var directoryInfo = fileInfo.Directory;
 
             lock (_lock)
             {
-                File.Delete(targetPath);
+                this._fileProvider.Delete(targetPath);
                 
                 if (Urls.Contains(url))
                     Urls.Remove(url);
 
                 // CleanEmptyDirectory(directoryInfo.FullName);
             }
+
             FlushUrls();
 
             //SearchService.Delete(url);
@@ -115,17 +121,6 @@ namespace SpeedWagon.Services
             return Urls;
         }
 
-        //public SpeedWagonContent GetContent(HttpContext context)
-        //{
-        //    return GetContent(GetContentUrl(context));
-        //}
-
-        //public string GetContentUrl(HttpContext context)
-        //{
-        //    var url = context.Request.Url.Scheme + "://" + context.Request.Url.Host + context.Request.Url.AbsolutePath;
-        //    return url;
-        //}
-
         protected void FlushUrls()
         {
             // TODO: Configure flush interval
@@ -134,10 +129,9 @@ namespace SpeedWagon.Services
             {
                 _lastUrlFlush = DateTime.Now;
                 var urls = JsonConvert.SerializeObject(Urls, Formatting.Indented);
-                File.WriteAllText(_urlPath, urls);
+                this._fileProvider.WriteAllText(_urlPath, urls);
             }
         }
-
 
         protected string ProcessUrlAliases(string url)
         {
@@ -151,7 +145,7 @@ namespace SpeedWagon.Services
             return url;
         }
 
-        public virtual SpeedWagonContent GetContent(string url)
+        public async virtual Task<SpeedWagonContent> GetContent(string url)
         {
             url = ProcessUrlAliases(url);
 
@@ -160,25 +154,25 @@ namespace SpeedWagon.Services
 
             var contentFile = PathMapper.PathForUrl(url, false);
 
-            if (!File.Exists(contentFile))
+            if (!this._fileProvider.Exists(contentFile))
             {
                 //SearchService.Delete(url);
                 return null;
             }
 
-            var content = FromFile(contentFile);
+            var content = await FromFile(contentFile);
 
             //SearchService.Index(content);
             
             return content;
         }
 
-        private SpeedWagonContent FromFile(string path)
+        private async Task<SpeedWagonContent> FromFile(string path)
         {
-            if (!File.Exists(path))
+            if (!this._fileProvider.Exists(path))
                 return null;
 
-            var json = File.ReadAllText(path);
+            var json = await this._fileProvider.ReadAllText(path);
             return JsonConvert.DeserializeObject<SpeedWagonContent>(json);
         }
 
@@ -188,19 +182,22 @@ namespace SpeedWagon.Services
             return a.First();
         }
 
-        public virtual SpeedWagonContent Home(SpeedWagonContent model)
+        public async virtual Task<SpeedWagonContent> Home(SpeedWagonContent model)
         {
-            return GetContent(HomeUrl(model));
+            return await GetContent(HomeUrl(model));
         }
 
-        protected IEnumerable<string> TopNavigationUrls(SpeedWagonContent model)
+        protected async Task<IEnumerable<string>> TopNavigationUrls(SpeedWagonContent model)
         {
-            return Urls.Where(x => x.Split('/').Length == 5 && x.StartsWith(Home(model).Url));
+            SpeedWagonContent home = await Home(model);
+            return Urls.Where(x => x.Split('/').Length == 5 && x.StartsWith(home.Url));
         }
 
-        public virtual IEnumerable<SpeedWagonContent> TopNavigation(SpeedWagonContent model)
+        public async virtual Task<IEnumerable<SpeedWagonContent>> TopNavigation(SpeedWagonContent model)
         {
-            return FromUrls(TopNavigationUrls(model)).Where(x => x != null);   
+            var urls = await TopNavigationUrls(model);
+            IEnumerable<SpeedWagonContent> content = await FromUrls(urls);
+            return content.Where(x => x != null);   
         }
 
         protected IEnumerable<string> ChildrenUrls(SpeedWagonContent model)
@@ -208,9 +205,10 @@ namespace SpeedWagon.Services
             return Urls.Where(x => x.StartsWith(model.Url +"/") && x != model.Url && x.Split('/').Length == model.Url.Split('/').Length + 1);
         }
 
-        public virtual IEnumerable<SpeedWagonContent> Children(SpeedWagonContent model)
+        public async virtual Task<IEnumerable<SpeedWagonContent>> Children(SpeedWagonContent model)
         {
-            return FromUrls(ChildrenUrls(model)).Where(x => x != null);
+            IEnumerable<SpeedWagonContent> content = await FromUrls(ChildrenUrls(model));
+            return content.Where(x => x != null);
         }
 
         protected IEnumerable<string> DescendantsUrls(SpeedWagonContent model)
@@ -218,33 +216,36 @@ namespace SpeedWagon.Services
             return Urls.Where(x => x.StartsWith(model.Url) && x != model.Url);
         }
 
-        public virtual IEnumerable<SpeedWagonContent> Descendants(SpeedWagonContent model)
+        public async virtual Task<IEnumerable<SpeedWagonContent>> Descendants(SpeedWagonContent model)
         {
-            return FromUrls(DescendantsUrls(model)).Where(x => x != null);
+            IEnumerable<SpeedWagonContent> content = await FromUrls(DescendantsUrls(model));
+            return content.Where(x => x != null);
         }
 
-        public virtual SpeedWagonContent Parent(SpeedWagonContent model)
+        public async virtual Task<SpeedWagonContent> Parent(SpeedWagonContent model)
         {
             string parentUrl = model.Url.Substring(0, model.Url.LastIndexOf("/"));
-            return FromUrls(new[] { parentUrl }).FirstOrDefault();
+            IEnumerable<SpeedWagonContent> content = await FromUrls(new[] { parentUrl });
+
+            return content.FirstOrDefault();
         }
 
-        public virtual IEnumerable<SpeedWagonContent> BreadCrumb(SpeedWagonContent model)
+        public async virtual Task<IEnumerable<SpeedWagonContent>> BreadCrumb(SpeedWagonContent model)
         {
             IList<SpeedWagonContent> crumb = new List<SpeedWagonContent>();
             SpeedWagonContent parent = model;
 
             while(parent != null && parent.Level > 0) {
                 crumb.Add(parent);
-                parent = Parent(parent);
+                parent = await Parent(parent);
             }
 
             return crumb.Reverse();
         }
 
-        public virtual IEnumerable<SpeedWagonContent> Descendants(SpeedWagonContent model, IDictionary<string, string> filters)
+        public async virtual Task<IEnumerable<SpeedWagonContent>> Descendants(SpeedWagonContent model, IDictionary<string, string> filters)
         {
-            var descendants = Descendants(model);
+            var descendants = await Descendants(model);
             var filteredDescendants = new List<SpeedWagonContent>();
 
             foreach (var descendant in descendants)
@@ -305,12 +306,13 @@ namespace SpeedWagon.Services
             return content;
         }
 
-        private IEnumerable<SpeedWagonContent> FromUrls(IEnumerable<string> urls)
+        private async Task<IEnumerable<SpeedWagonContent>> FromUrls(IEnumerable<string> urls)
         {
             var content = new List<SpeedWagonContent>();
             foreach (var url in urls)
             {
-                content.Add(GetContent(url));
+                SpeedWagonContent c = await GetContent(url);
+                content.Add(c);
 
                 // var p = Path.Combine(_pathMapper.ContentFolder(path), _pathMapper.GetContentFileName());
                 // content.Add(FromFile(p));
@@ -319,11 +321,6 @@ namespace SpeedWagon.Services
         }
 
        
-
-
-
-
-
         //private void CleanEmptyDirectory(string path)
         //{
         //    if (!Directory.EnumerateFileSystemEntries(path).Any())

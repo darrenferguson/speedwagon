@@ -1,14 +1,15 @@
 ﻿using SpeedWagon.Models;
 using SpeedWagon.Web.Models.ContentType;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SpeedWagon.Web.Interfaces
 {
     public interface IWebContentService
     {
-        SpeedWagonContent GetContent(string path);
+        Task<SpeedWagonContent> GetContent(string path);
 
-        IEnumerable<SpeedWagonContent> List(string path);
+        Task<IEnumerable<SpeedWagonContent>> List(string path);
 
         void Add(string parent, string name, string type, string user);
 

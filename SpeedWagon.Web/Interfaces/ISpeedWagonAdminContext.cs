@@ -1,6 +1,7 @@
 ﻿using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
 using SpeedWagon.Web.Models;
+using System.Threading.Tasks;
 
 namespace SpeedWagon.Web.Interfaces
 {
@@ -17,9 +18,9 @@ namespace SpeedWagon.Web.Interfaces
 
         string Install(string user);
 
-        SpeedWagonContent GetContent(string path);
+        Task<SpeedWagonContent> GetContent(string path);
 
-        SpeedWagonPage PageFor(string path);
+        Task<SpeedWagonPage> PageFor(string path);
    
     }
 }

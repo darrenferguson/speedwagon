@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
+using SpeedWagon.Runtime.Interfaces;
 
 namespace SpeedWagon.Services
 {
@@ -31,7 +33,7 @@ namespace SpeedWagon.Services
 
         // private readonly CacheItemPolicy _policy;
 
-        public CachedRuntimeContentService(string path, string[] domains) : base(path, domains)
+        public CachedRuntimeContentService(string path, string[] domains, IFileProvider fileProvider) : base(path, domains, fileProvider)
         {
             _customCache = new MemoryCache(new MemoryCacheOptions {});
 
@@ -56,7 +58,7 @@ namespace SpeedWagon.Services
       
         }
 
-        public void SanitiseCache()
+        public async Task SanitiseCache()
         {
             var stale = new List<string>();
             var hasStale = false;
@@ -100,7 +102,7 @@ namespace SpeedWagon.Services
                     
                     if (content.CacheTime != null && DateTime.Compare(content.CacheTime.Value, lastModified) < 0)
                     {
-                        content = base.GetContent(localUrl);
+                        content = await base.GetContent(localUrl);
                         PlaceInCache(localUrl, content);
                     }
                 }
@@ -119,13 +121,13 @@ namespace SpeedWagon.Services
             this._customCache.Set<SpeedWagonContent>(url, content);            
         }
 
-        public override SpeedWagonContent GetContent(string url)
+        public override Task<SpeedWagonContent> GetContent(string url)
         {
             url = ProcessUrlAliases(url);
             return GetCachedContent(url);
         }
 
-        public override SpeedWagonContent Home(SpeedWagonContent model)
+        public override Task<SpeedWagonContent> Home(SpeedWagonContent model)
         {
             return (GetCachedContent(HomeUrl(model)));
         }
@@ -138,7 +140,7 @@ namespace SpeedWagon.Services
             return url;
         }
 
-        protected virtual SpeedWagonContent GetCachedContent(string url)
+        protected async virtual Task<SpeedWagonContent> GetCachedContent(string url)
         {
             url = RemovePortFromUrl(url);
 
@@ -149,42 +151,45 @@ namespace SpeedWagon.Services
                 return content;
             }
 
-            content = base.GetContent(url);
+            content = await base.GetContent(url);
             PlaceInCache(url, content);
 
 
             return content;
         }
 
-        private IEnumerable<SpeedWagonContent> FromUrls(IEnumerable<string> urls)
+        private async Task<IEnumerable<SpeedWagonContent>> FromUrls(IEnumerable<string> urls)
         {
             var contents = new List<SpeedWagonContent>();
 
             foreach (var url in urls)
             {
-                contents.Add(GetCachedContent(url));
+                contents.Add(await GetCachedContent(url));
             }
 
             return contents;
         }
 
-        public override IEnumerable<SpeedWagonContent> TopNavigation(SpeedWagonContent model)
+        public async override Task<IEnumerable<SpeedWagonContent>> TopNavigation(SpeedWagonContent model)
         {
-            return FromUrls(TopNavigationUrls(model)).Where(x => x != null);
+            IEnumerable<SpeedWagonContent> urls = await FromUrls(await TopNavigationUrls(model));
+            return urls.Where(x => x != null);
         }
 
-        public override IEnumerable<SpeedWagonContent> Children(SpeedWagonContent model)
+        public async override Task<IEnumerable<SpeedWagonContent>> Children(SpeedWagonContent model)
         {
-            return FromUrls(ChildrenUrls(model)).Where(x => x != null);
+            IEnumerable<SpeedWagonContent> content = await FromUrls(ChildrenUrls(model));
+            return content.Where(x => x != null);
         }
 
-        public override SpeedWagonContent Parent(SpeedWagonContent model)
+        public async override Task<SpeedWagonContent> Parent(SpeedWagonContent model)
         {
             string parentUrl = model.Url.Substring(0, model.Url.LastIndexOf("/"));
-            return FromUrls(new[] { parentUrl }).FirstOrDefault();
+            IEnumerable<SpeedWagonContent> content = await FromUrls(new[] { parentUrl });
+            return content.FirstOrDefault();
         }
 
-        public override IEnumerable<SpeedWagonContent> BreadCrumb(SpeedWagonContent model)
+        public async override Task<IEnumerable<SpeedWagonContent>> BreadCrumb(SpeedWagonContent model)
         {
             IList<SpeedWagonContent> crumb = new List<SpeedWagonContent>();
             SpeedWagonContent parent = model;
@@ -192,15 +197,16 @@ namespace SpeedWagon.Services
             while (parent != null && parent.Level > 0)
             {
                 crumb.Add(parent);
-                parent = Parent(parent);
+                parent = await Parent(parent);
             }
 
             return crumb.Reverse();
         }
 
-        public override IEnumerable<SpeedWagonContent> Descendants(SpeedWagonContent model)
+        public async override Task<IEnumerable<SpeedWagonContent>> Descendants(SpeedWagonContent model)
         {
-            return FromUrls(DescendantsUrls(model)).Where(x => x != null);
+            IEnumerable<SpeedWagonContent> content = await FromUrls(DescendantsUrls(model));
+            return content.Where(x => x != null);
         }
     }
 }

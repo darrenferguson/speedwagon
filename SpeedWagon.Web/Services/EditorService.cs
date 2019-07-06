@@ -4,6 +4,7 @@ using SpeedWagon.Runtime.Extension;
 using SpeedWagon.Web.Interfaces;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SpeedWagon.Web.Services
 {
@@ -20,10 +21,11 @@ namespace SpeedWagon.Web.Services
             this._contentRoot = contentRoot;
         }
 
-        public IEnumerable<SpeedWagonContent> List()
+        public async Task<IEnumerable<SpeedWagonContent>> List()
         {
-            SpeedWagonContent editorRoot = this._cachelessContentService.GetContent(RationalisePath(Root));
-            return this._cachelessContentService.Children(editorRoot).OrderBy(x => x.Name);            
+            SpeedWagonContent editorRoot = await this._cachelessContentService.GetContent(RationalisePath(Root));
+            IEnumerable<SpeedWagonContent> children = await this._cachelessContentService.Children(editorRoot);
+            return children.OrderBy(x => x.Name);            
         }
 
         public void Delete(string name)

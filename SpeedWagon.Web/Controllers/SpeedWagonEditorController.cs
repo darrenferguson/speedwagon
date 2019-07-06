@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models.View.Editor;
+using System.Threading.Tasks;
 
 namespace SpeedWagon.Web.Controllers
 {
@@ -15,19 +16,19 @@ namespace SpeedWagon.Web.Controllers
             this._speedWagon = speedWagon;
         }
 
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {           
             EditorViewModel viewModel = new EditorViewModel();
-            viewModel.Editors = this._speedWagon.EditorService.List();
+            viewModel.Editors = await this._speedWagon.EditorService.List();
             return View("~/Views/SpeedWagon/Editor/List.cshtml", viewModel);
         }
 
         [HttpPost]
-        public IActionResult Add(EditorViewModel model)
+        public async Task<IActionResult> Add(EditorViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                model.Editors = this._speedWagon.EditorService.List();
+                model.Editors = await this._speedWagon.EditorService.List();
                 return View("~/Views/SpeedWagon/Editor/List.cshtml", model);
             }
 

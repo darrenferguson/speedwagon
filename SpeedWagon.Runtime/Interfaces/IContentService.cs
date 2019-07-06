@@ -1,7 +1,7 @@
 ﻿using SpeedWagon.Models;
 using System;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
 
 namespace SpeedWagon.Interfaces
 {
@@ -16,21 +16,24 @@ namespace SpeedWagon.Interfaces
         void AddContent(SpeedWagonContent model);
         void RemoveContent(string url);
 
-        void RefreshUrls();
+        Task RefreshUrls();
+
         IEnumerable<string> GetUrlList();
 
-        SpeedWagonContent GetContent(string url);
-        SpeedWagonContent Home(SpeedWagonContent model);
+        Task<SpeedWagonContent> GetContent(string url);
 
-        IEnumerable<SpeedWagonContent> TopNavigation(SpeedWagonContent model);
-        IEnumerable<SpeedWagonContent> Children(SpeedWagonContent model);
+        Task<SpeedWagonContent> Home(SpeedWagonContent model);
 
-        IEnumerable<SpeedWagonContent> Descendants(SpeedWagonContent model);
-        IEnumerable<SpeedWagonContent> Descendants(SpeedWagonContent model, IDictionary<string, string> filter);
+        Task<IEnumerable<SpeedWagonContent>> TopNavigation(SpeedWagonContent model);
+        Task<IEnumerable<SpeedWagonContent>> Children(SpeedWagonContent model);
 
-        SpeedWagonContent Parent(SpeedWagonContent model);
+        Task<IEnumerable<SpeedWagonContent>> Descendants(SpeedWagonContent model);
 
-        IEnumerable<SpeedWagonContent> BreadCrumb(SpeedWagonContent model);
+        Task<IEnumerable<SpeedWagonContent>> Descendants(SpeedWagonContent model, IDictionary<string, string> filter);
+
+        Task<SpeedWagonContent> Parent(SpeedWagonContent model);
+
+        Task<IEnumerable<SpeedWagonContent>> BreadCrumb(SpeedWagonContent model);
 
         SpeedWagonContent CreateContent(string url, IDictionary<string, object> properties);
     }

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,9 @@ namespace SpeedWagon.Web.UI.Controllers
             this._speedWagon = speedWagon;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            SpeedWagonPage model = this._speedWagon.PageFor(Request);           
+            SpeedWagonPage model = await this._speedWagon.PageFor(Request);           
             return View(model);
         }
 

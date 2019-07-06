@@ -3,6 +3,7 @@ using SpeedWagon.Models;
 using SpeedWagon.Runtime.Extension;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models;
+using System.Threading.Tasks;
 
 namespace SpeedWagon.Web
 {
@@ -37,17 +38,17 @@ namespace SpeedWagon.Web
 
         public IWebContentService WebContentService => this._webContentService;
 
-        public SpeedWagonContent GetContent(string path)
+        public async Task<SpeedWagonContent> GetContent(string path)
         {
             path = SPEEDWAGON_HOST + path;
-            return this._cachelessContentService.GetContent(path);
+            return await this._cachelessContentService.GetContent(path);
         }
 
-        public SpeedWagonPage PageFor(string path)
+        public async Task<SpeedWagonPage> PageFor(string path)
         {
 
             SpeedWagonPage model = new SpeedWagonPage();
-            model.Content = GetContent(path);
+            model.Content = await GetContent(path);
             model.ContentService = this.ContentService;
 
             return model;

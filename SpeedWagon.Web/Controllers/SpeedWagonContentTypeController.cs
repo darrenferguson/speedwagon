@@ -9,6 +9,7 @@ using SpeedWagon.Web.Models.View.Editor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SpeedWagon.Web.Controllers
 {
@@ -22,11 +23,11 @@ namespace SpeedWagon.Web.Controllers
             this._speedWagon = speedWagon;
         }
 
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
             ContentTypeViewModel viewModel = new ContentTypeViewModel();
-            viewModel.ContentTypes = this._speedWagon.ContentTypeService.List();
-            IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentTypeService.List();
+            viewModel.ContentTypes = await this._speedWagon.ContentTypeService.List();
+            IEnumerable<SpeedWagonContent> contentTypes = await this._speedWagon.ContentTypeService.List();
 
             viewModel.AvailableContentTypes = SelectListHelper.GetSelectList(contentTypes);
 
@@ -34,11 +35,11 @@ namespace SpeedWagon.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(ContentTypeViewModel model)
+        public async Task<IActionResult> Add(ContentTypeViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                model.ContentTypes = this._speedWagon.ContentTypeService.List();
+                model.ContentTypes = await this._speedWagon.ContentTypeService.List();
                 return View("~/Views/SpeedWagon/ContentType/List.cshtml", model);
             }
 
@@ -48,8 +49,8 @@ namespace SpeedWagon.Web.Controllers
 
             if(!string.IsNullOrEmpty(model.CopyProperties))
             {
-                SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(model.Name);
-                SpeedWagonContent master = this._speedWagon.ContentTypeService.Get(model.CopyProperties);
+                SpeedWagonContent contentType = await this._speedWagon.ContentTypeService.Get(model.Name);
+                SpeedWagonContent master = await this._speedWagon.ContentTypeService.Get(model.CopyProperties);
 
                 contentType.Content["Editors"] = master.Content["Editors"];
 
@@ -59,11 +60,11 @@ namespace SpeedWagon.Web.Controllers
             return RedirectToAction("List", new { id = model.Name });
         }
 
-        public IActionResult Edit(string url, string operation = null)
+        public async Task<IActionResult> Edit(string url, string operation = null)
         {
-            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(url);
-            IEnumerable<SpeedWagonContent> editors = this._speedWagon.EditorService.List();
-            IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentTypeService.List();
+            SpeedWagonContent contentType = await this._speedWagon.ContentTypeService.Get(url);
+            IEnumerable<SpeedWagonContent> editors = await this._speedWagon.EditorService.List();
+            IEnumerable<SpeedWagonContent> contentTypes = await this._speedWagon.ContentTypeService.List();
 
             EditContentTypeViewModel viewModel = new EditContentTypeViewModel();
 
@@ -82,14 +83,14 @@ namespace SpeedWagon.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EditContentTypeViewModel viewModel)
+        public async Task<IActionResult> Edit(EditContentTypeViewModel viewModel)
         {
-            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(viewModel.Name);
+            SpeedWagonContent contentType = await this._speedWagon.ContentTypeService.Get(viewModel.Name);
 
             if (!ModelState.IsValid)
             {
-                IEnumerable<SpeedWagonContent> editors = this._speedWagon.EditorService.List();
-                IEnumerable<SpeedWagonContent> contentTypes = this._speedWagon.ContentTypeService.List();
+                IEnumerable<SpeedWagonContent> editors = await this._speedWagon.EditorService.List();
+                IEnumerable<SpeedWagonContent> contentTypes = await this._speedWagon.ContentTypeService.List();
 
                 viewModel.ContentType = contentType;
                 viewModel.Root = contentType.GetValue<bool>("Root");
@@ -114,13 +115,13 @@ namespace SpeedWagon.Web.Controllers
 
 
         [HttpPost]
-        public IActionResult AddProperty(EditContentTypeViewModel viewModel)
+        public async Task<IActionResult> AddProperty(EditContentTypeViewModel viewModel)
         {
-            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(viewModel.Url);
+            SpeedWagonContent contentType = await this._speedWagon.ContentTypeService.Get(viewModel.Url);
 
             if (!ModelState.IsValid)
             {
-                IEnumerable<SpeedWagonContent> editors = this._speedWagon.EditorService.List();
+                IEnumerable<SpeedWagonContent> editors = await this._speedWagon.EditorService.List();
 
                 viewModel.ContentType = contentType;
                 viewModel.Name = contentType.Name;
@@ -137,11 +138,11 @@ namespace SpeedWagon.Web.Controllers
             return RedirectToAction("Edit", new { url = viewModel.Url });
         }
 
-        public IActionResult EditProperty(string name, string property)
+        public async Task<IActionResult> EditProperty(string name, string property)
         {
-            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(name);
+            SpeedWagonContent contentType = await this._speedWagon.ContentTypeService.Get(name);
             ContentTypeEditor[] properties = this._speedWagon.ContentTypeService.GetEditors(contentType);
-            IEnumerable<SpeedWagonContent> editors = this._speedWagon.EditorService.List();
+            IEnumerable<SpeedWagonContent> editors = await this._speedWagon.EditorService.List();
 
             ContentTypeEditor prop = properties.FirstOrDefault(x => x.Name == property);
 
@@ -154,14 +155,14 @@ namespace SpeedWagon.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditProperty(EditProperty model)
+        public async Task<IActionResult> EditProperty(EditProperty model)
         {
             if(!ModelState.IsValid)
             {
 
             }
 
-            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(model.ContentTypeName);
+            SpeedWagonContent contentType = await this._speedWagon.ContentTypeService.Get(model.ContentTypeName);
             ContentTypeEditor[] properties = this._speedWagon.ContentTypeService.GetEditors(contentType);
 
             int index = Array.FindIndex(properties, x => x.Name == model.Property.Name);
@@ -184,9 +185,9 @@ namespace SpeedWagon.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult MoveEditorUp(ContentTypeEditor model)
+        public async Task<IActionResult> MoveEditorUp(ContentTypeEditor model)
         {
-            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(model.Name);
+            SpeedWagonContent contentType = await this._speedWagon.ContentTypeService.Get(model.Name);
             this._speedWagon.ContentTypeService.MoveEditorUp(contentType, model.Editor);
             this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
 
@@ -194,9 +195,9 @@ namespace SpeedWagon.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult MoveEditorDown(ContentTypeEditor model)
+        public async Task<IActionResult> MoveEditorDown(ContentTypeEditor model)
         {
-            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(model.Name);
+            SpeedWagonContent contentType = await this._speedWagon.ContentTypeService.Get(model.Name);
             this._speedWagon.ContentTypeService.MoveEditorDown(contentType, model.Editor);
             this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
 
@@ -204,9 +205,9 @@ namespace SpeedWagon.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteEditor(ContentTypeEditor model)
+        public async Task<IActionResult> DeleteEditor(ContentTypeEditor model)
         {
-            SpeedWagonContent contentType = this._speedWagon.ContentTypeService.Get(model.Name);
+            SpeedWagonContent contentType = await this._speedWagon.ContentTypeService.Get(model.Name);
             this._speedWagon.ContentTypeService.DeleteEditor(contentType, model.Editor);
             this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
 

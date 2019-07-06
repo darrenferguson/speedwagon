@@ -4,6 +4,7 @@ using SpeedWagon.Models;
 using SpeedWagon.Services;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models;
+using System.Threading.Tasks;
 
 namespace SpeedWagon.Web
 {
@@ -20,10 +21,10 @@ namespace SpeedWagon.Web
         }
 
        
-        public SpeedWagonContent ContentFor(HttpRequest request)
+        public async Task<SpeedWagonContent> ContentFor(HttpRequest request)
         {
             string url = SPEEDWAGON_HOST + "/content/" + request.Host + request.Path;
-            SpeedWagonContent content =  this._cachedContentService.GetContent(url);
+            SpeedWagonContent content =  await this._cachedContentService.GetContent(url);
 
             if(content == null)
             {
@@ -33,10 +34,10 @@ namespace SpeedWagon.Web
             return content;
         }
 
-        public SpeedWagonPage PageFor(HttpRequest request)
+        public async Task<SpeedWagonPage> PageFor(HttpRequest request)
         {
             SpeedWagonPage model = new SpeedWagonPage();
-            model.Content = ContentFor(request);
+            model.Content = await ContentFor(request);
             model.ContentService = this._cachedContentService;
 
             return model;

@@ -30,7 +30,7 @@
                     </li>
 
 
-                    @foreach (SpeedWagonContent crumb in Model.ContentService.BreadCrumb(Model.Content))
+                    @foreach (SpeedWagonContent crumb in await Model.ContentService.BreadCrumb(Model.Content))
                     {
 
                         <li class="breadcrumb-item">
