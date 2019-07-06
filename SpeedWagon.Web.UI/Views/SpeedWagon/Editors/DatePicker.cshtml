@@ -1,3 +1,6 @@
 ﻿@model SpeedWagon.Web.Models.Content.ContentEditorModel
 
+@Html.ClientRequirement("/lib/simple-jquery-datepicker/dist/datepicker.js", ClientSideIncludeType.Javascript)
+@Html.ClientRequirement("datePicker.js", ClientSideIncludeType.Javascript)
+
 <input autocomplete="off" type="text" data-toggle="datepicker" class="form-control" required="required" placeholder="@Model.PropertyName" asp-for="Values[Model.PropertyName]">

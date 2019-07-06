@@ -1,18 +1,43 @@
 ﻿@model SpeedWagon.Web.Models.Content.ContentEditorModel
-
+@{ 
+    IEnumerable<string> files = Model.Values[Model.PropertyName].Split(',').Where(x => !string.IsNullOrEmpty(x));
+}
 
 @Html.ClientRequirement("/lib/blueimp-file-upload/js/vendor/jquery.ui.widget.js", ClientSideIncludeType.Javascript)
 @Html.ClientRequirement("/lib/blueimp-file-upload/js/jquery.fileupload.js", ClientSideIncludeType.Javascript)
+@Html.ClientRequirement("/lib/blueimp-file-upload/css/jquery.fileupload.css", ClientSideIncludeType.Css)
 
 @Html.ClientRequirement("upload.js", ClientSideIncludeType.Javascript)
 @Html.ClientRequirement("upload.css", ClientSideIncludeType.Css)
 
-<input type="file" class="form-control-file upload" multiple data-url="/SpeedWagonFile/Upload">
+<h2></h2>
 
-<div class="progress">
-    <div class="bar" style=""></div>
+
+<div class="root">
+
+    <ul class="result list-group">
+        @if (files.Any())
+        {
+            foreach (string file in files)
+            {
+                <li class="list-group-item">@file</li>
+            }
+        }
+
+    </ul>
+
+    <div class="progress">
+        <div class="bar" style=""></div>
+    </div>
+
+    <span class="btn btn-success fileinput-button">
+        <i class="glyphicon glyphicon-plus"></i>
+        <span>Add files...</span>
+        <input type="file" multiple data-url="/SpeedWagonFile/Upload" class="form-control-file upload">
+    </span>
+
+    @*<input type="file" class="form-control-file upload" multiple data-url="/SpeedWagonFile/Upload">*@
+
+    <input type="hidden" asp-for="Values[Model.PropertyName]">
+
 </div>
-
-<ul class="result list-group"></ul>
-
-<input type="hidden" asp-for="Values[Model.PropertyName]">

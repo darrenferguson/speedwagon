@@ -3,8 +3,8 @@
     $('.upload').fileupload({
         dataType: 'json',
         progressall: function (e, data) {
-            $(e.target.parentElement).find('div.progress').show();
-            var bar = $(e.target.parentElement).find('div.progress div.bar');
+            $(e.target.parentElement).closest('div.root').find('div.progress').show();
+            var bar = $(e.target.parentElement).closest('div.root').find('div.progress div.bar');
             var progress = parseInt(data.loaded / data.total * 100, 10);
 
             
@@ -15,8 +15,9 @@
         },
         done: function (e, data) {
 
-            var items = $(e.target.parentElement).find('ul');
-            var input = $(e.target.parentElement).find('input[type=hidden]');
+            var items = $(e.target.parentElement).closest('div.root').find('ul');
+            var input = $(e.target.parentElement).closest('div.root').find('input[type=hidden]');
+
             $.each(data.result.files, function (index, file) {
                 $(items).append('<li class="list-group-item">' + file + '</li>');
 

@@ -35,7 +35,7 @@ namespace SpeedWagon.Web.Services
         {
             SpeedWagonContent editor = new SpeedWagonContent(name.ToTitleCasedName(), RationalisePath(name), "editor", user);
 
-            string viewName = name.ToTitleCasedName() + ".cshtml";
+            string viewName = name.ToTitleCasedName().Replace("-", "") + ".cshtml";
             editor.Template = "~/Views/SpeedWagon/Editors/" + viewName;
             
             this._cachelessContentService.AddContent(editor);
