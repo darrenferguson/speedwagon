@@ -1,9 +1,16 @@
 ﻿@model SpeedWagon.Web.Models.Content.ContentEditorModel
 
+
+@Html.ClientRequirement("/lib/blueimp-file-upload/js/vendor/jquery.ui.widget.js", ClientSideIncludeType.Javascript)
+@Html.ClientRequirement("/lib/blueimp-file-upload/js/jquery.fileupload.js", ClientSideIncludeType.Javascript)
+
+@Html.ClientRequirement("upload.js", ClientSideIncludeType.Javascript)
+@Html.ClientRequirement("upload.css", ClientSideIncludeType.Css)
+
 <input type="file" class="form-control-file upload" multiple data-url="/SpeedWagonFile/Upload">
 
-<div id="progress">
-    <div class="bar" style="width: 0%;"></div>
+<div class="progress">
+    <div class="bar" style=""></div>
 </div>
 
 <ul class="result list-group"></ul>

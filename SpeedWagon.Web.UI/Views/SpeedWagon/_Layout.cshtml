@@ -7,7 +7,9 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
         <link rel="stylesheet" href="~/lib/simple-jquery-datepicker/dist/datepicker.css" />
+
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -21,6 +23,7 @@
             margin-bottom: 20px;
         }
     </style>
+    @Html.RenderPartialViewStyles()
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -35,7 +38,7 @@
                 <a asp-area="" asp-controller="SpeedWagon" asp-action="Index" class="navbar-brand">SpeedWagon</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">       
+                <ul class="nav navbar-nav">
                     <li><a href="/">WebSite</a></li>
                     <li><a asp-area="" asp-controller="SpeedWagonContent" asp-action="List">Content</a></li>
                     <li><a asp-area="" asp-controller="SpeedWagonEditor" asp-action="List">Editors</a></li>
@@ -62,9 +65,6 @@
         <script src="~/lib/simple-jquery-datepicker/dist/datepicker.js"></script>
         <script src="~/lib/jquery-tablesort/jquery.tablesort.js"></script>
         <script src="~/lib/tinymce/tinymce.min.js"></script>
-        <script src="~/lib/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
-        <script src="~/lib/blueimp-file-upload/js/jquery.fileupload.js"></script>
-
 
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
@@ -85,5 +85,6 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
+    @Html.RenderPartialViewScripts()
 </body>
 </html>

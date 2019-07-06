@@ -1,0 +1,10 @@
+﻿div.progress {
+    margin-top: 15px;
+    display: none;
+}
+
+.bar {
+    width: 0%;
+    height: 18px;
+    background: green;
+}

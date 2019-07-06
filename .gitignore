@@ -35,5 +35,9 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
-SpeedWagon.Web.UI/wwwroot/
 SpeedWagon.Web.UI/appsettings.json
+SpeedWagon.Web.UI/wwwroot/lib/
+SpeedWagon.Web.UI/wwwroot/css/site.min.css
+SpeedWagon.Web.UI/wwwroot/js/site.min.js
+SpeedWagon.Web.UI/wwwroot/js/site.js
+SpeedWagon.Web.UI/wwwroot/css/site.css
