@@ -38,6 +38,8 @@ namespace SpeedWagon.Web.Extension
 
         public static IServiceCollection AddSpeedWagon(this IServiceCollection services, string path, bool cached, IFileProvider contentFileProvider)
         {
+            services.AddHostedService<CacheRefreshingHostedService>();
+
 
             if (cached)
             {
