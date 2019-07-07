@@ -5,8 +5,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SpeedWagon.Runtime.Interfaces;
+using SpeedWagon.Runtime.Services.Files;
 using SpeedWagon.Web.Extension;
 using SpeedWagon.Web.Interfaces;
+using SpeedWagon.Web.Services;
 using System.IO;
 
 namespace SpeedWagon.Web.UI
@@ -37,11 +40,20 @@ namespace SpeedWagon.Web.UI
             .AddAzureAd(options => Configuration.Bind("AzureAd", options))
             .AddCookie();
 
-            //string path = Path.Combine(this._env.ContentRootPath, _appDataFolder, "speedwagon");
+            
             string path = @"C:\git\speedwagon-content";
+            string uploadPath = @"speedwagon";
 
-            services.AddSpeedWagon(path, false);
-            services.AddSpeedWagonCms(path);
+            // COntent file provider can also use blob.
+            //IFileProvider contentFileProvider = new BlobFileProvider("<connectionString>", "speedwagon");
+            //string path = Path.Combine(this._env.ContentRootPath, _appDataFolder, "speedwagon");
+
+            string blobConnection = Configuration["Blob:ConnectionString"];
+            IFileProvider contentFileProvider = new FileSystemFileProvider();
+            IFileProvider uploadFileProvider = new BlobFileProvider(blobConnection, "speedwagon");
+
+            services.AddSpeedWagon(path, false, contentFileProvider);
+            services.AddSpeedWagonCms(path, uploadPath, contentFileProvider, uploadFileProvider);
 
             services.AddMvc();
         }
