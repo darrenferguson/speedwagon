@@ -7,7 +7,26 @@ namespace SpeedWagon.Services.Search
 {
     public class DummySearchService : ISearchService
     {
-       
+
+        private readonly IContentService _contentService;
+
+        public DummySearchService(IContentService contentService)
+        {
+            this._contentService = contentService;
+            contentService.Added += ContentServiceAdded;
+            contentService.Removed += ContentServiceRemoved;
+        }
+
+        private void ContentServiceRemoved(string sender, EventArgs e)
+        {
+            Delete(sender);
+        }
+
+        private void ContentServiceAdded(SpeedWagonContent sender, EventArgs e)
+        {
+            Index(sender);
+        }
+
         public void IndexAll(IContentService contentService)
         {
         }

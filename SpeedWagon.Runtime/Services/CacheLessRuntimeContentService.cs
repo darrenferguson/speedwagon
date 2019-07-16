@@ -87,8 +87,8 @@ namespace SpeedWagon.Services
             }
             FlushUrls();
 
-            //SearchService.Index(model);
-      
+            
+            Added?.Invoke(model, new EventArgs());
         }
 
         public void RemoveContent(string url)
@@ -113,7 +113,7 @@ namespace SpeedWagon.Services
 
             FlushUrls();
 
-            //SearchService.Delete(url);
+            Removed?.Invoke(url, new EventArgs());
         }
 
         public IEnumerable<string> GetUrlList()
@@ -156,13 +156,14 @@ namespace SpeedWagon.Services
 
             if (!this._fileProvider.Exists(contentFile))
             {
-                //SearchService.Delete(url);
+                Removed?.Invoke(url, new EventArgs());
                 return null;
             }
 
             var content = await FromFile(contentFile);
 
-            //SearchService.Index(content);
+
+            // Added?.Invoke(content, new EventArgs());
             
             return content;
         }
@@ -317,6 +318,7 @@ namespace SpeedWagon.Services
                 // var p = Path.Combine(_pathMapper.ContentFolder(path), _pathMapper.GetContentFileName());
                 // content.Add(FromFile(p));
             }
+
             return content;
         }
 

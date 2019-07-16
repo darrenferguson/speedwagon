@@ -20,7 +20,8 @@ namespace SpeedWagon.Web
             this._cachedContentService = cachedContentService;
         }
 
-       
+        public IContentService ContentService => this._cachedContentService;
+
         public async Task<SpeedWagonContent> ContentFor(HttpRequest request)
         {
             string url = SPEEDWAGON_HOST + "/content/" + request.Host + request.Path;
