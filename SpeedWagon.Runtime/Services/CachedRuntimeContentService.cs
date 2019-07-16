@@ -14,20 +14,7 @@ namespace SpeedWagon.Services
     public class CachedRuntimeContentService : CacheLessRuntimeContentService
     {
 
-        //[DisallowConcurrentExecution]
-        //private class CacheRefresherJob : IJob
-        //{
-        //    public void Execute(IJobExecutionContext context)
-        //    {
-        //        Logger.Info(GetType().Name + " scheduled task..");
-
-        //        var contentService = (CachedRuntimeContentService)RuntimeContext.Instance.ContentService;
-        //        contentService.SanitiseCache();
-        //    }
-        //}
-
         public override event ContentRemovedHandler Removed;
-
 
         private readonly IMemoryCache _customCache;
 
@@ -37,31 +24,12 @@ namespace SpeedWagon.Services
         {
             _customCache = new MemoryCache(new MemoryCacheOptions {});
 
-
-            //var scheduler = StdSchedulerFactory.GetDefaultScheduler();
-            //scheduler.Start();
-
-            //var job = JobBuilder.Create<CacheRefresherJob>()
-            //    .WithIdentity("moriyamaCacheRefresherJob", "cacheRefresherJob")
-            //    .Build();
-
-            //var trigger = TriggerBuilder.Create()
-            //    .WithIdentity("cacheRefresherJobTrigger", "cacheRefresherJobGroup")
-            //    .StartNow()
-            //    .WithSimpleSchedule(x => x
-            //    .WithIntervalInSeconds(60)
-            //    .RepeatForever())
-            //    .Build();
-
-            //scheduler.ScheduleJob(job, trigger);
-
-      
         }
 
         public async Task SanitiseCache()
         {
-            var stale = new List<string>();
-            var hasStale = false;
+            IList<string> stale = new List<string>();
+            bool hasStale = false;
 
             foreach (var url in Urls)
             {
@@ -75,7 +43,7 @@ namespace SpeedWagon.Services
             {
                 Urls.Remove(url);
 
-                //SearchService.Delete(url);
+                Removed?.Invoke(url, new EventArgs());
 
                 hasStale = true;
             }
@@ -113,9 +81,6 @@ namespace SpeedWagon.Services
         {
             if (content == null)
                 return;
-
-            //if (Logger.IsDebugEnabled)
-            //    Logger.Debug("Caching: " + url);
 
             content.CacheTime = DateTime.Now;
             this._customCache.Set<SpeedWagonContent>(url, content);            
