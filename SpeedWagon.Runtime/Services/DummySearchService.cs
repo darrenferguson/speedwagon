@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
+using SpeedWagon.Runtime.Extension;
 
 namespace SpeedWagon.Services.Search
 {
@@ -27,8 +29,9 @@ namespace SpeedWagon.Services.Search
             Index(sender);
         }
 
-        public void IndexAll(IContentService contentService)
+        public Task IndexAll(IContentService contentService)
         {
+            return Task.CompletedTask;
         }
 
         public void Index(SpeedWagonContent model)
@@ -43,12 +46,29 @@ namespace SpeedWagon.Services.Search
             //    Logger.Debug("Delete " + url);
         }
 
-        public IEnumerable<SearchResult> Search(string query)
+        public async Task<IEnumerable<SearchResult>> Search(string query)
         {
-            throw new NotImplementedException();
+            IList<SearchResult> results = new List<SearchResult>();
+            query = query.ToLower().ToUrlName();
+            foreach(string url in this._contentService.GetUrlList())
+            {
+                if(url.Contains(query))
+                {
+                    SearchResult result = new SearchResult();
+                    result.Url = url;
+                    result.Score = 1;
+                    result.PreviewText = string.Empty;
+                    
+                    SpeedWagonContent content = await this._contentService.GetContent(url);
+                    result.Content = content;
+                    results.Add(result);
+                }                
+            }
+
+            return results;
         }
 
-        public IEnumerable<string> Search(IDictionary<string, string> matches)
+        public async Task<IEnumerable<string>> Search(IDictionary<string, string> matches)
         {
             throw new NotImplementedException();
         }

@@ -2,6 +2,7 @@
 using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
 using SpeedWagon.Runtime.Interfaces;
+using SpeedWagon.Runtime.Services;
 using SpeedWagon.Runtime.Services.Files;
 using SpeedWagon.Services;
 using SpeedWagon.Services.Search;
@@ -26,7 +27,7 @@ namespace SpeedWagon.Web.Extension
 
             IContentService uploadContentService = new CacheLessRuntimeContentService(uploadsPath, null, uploadFileProvider);
             IFileUploadService fileUploadService = new FileUploadService(uploadContentService, string.Empty, uploadFileProvider);
-            ISearchService searchService = new DummySearchService(contentService);
+            ISearchService searchService = new LuceneSearchService(contentService);
 
 
             services.AddSingleton<ISpeedWagonAdminContext>(s => 
