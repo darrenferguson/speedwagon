@@ -15,33 +15,30 @@ using System.Threading.Tasks;
 using Lucene.Net.Analysis;
 using Lucene.Net.Util;
 using Lucene.Net.QueryParsers.Classic;
+using SpeedWagon.Runtime.Interfaces;
+using SpeedWagon.Runtime.Models;
+using Directory = Lucene.Net.Store.Directory;
 
 namespace SpeedWagon.Runtime.Services
 {
     public class LuceneSearchService : ISearchService
     {
         private readonly IContentService _contentService;
-        private readonly object _lock;
 
-        private readonly RAMDirectory _directory;
-        private readonly IndexWriter _writer;
+        private readonly string _directory;
 
-        private Analyzer SetupAnalyzer() => 
-            new StandardAnalyzer(LuceneVersion.LUCENE_48, StandardAnalyzer.STOP_WORDS_SET);
+        private Analyzer SetupAnalyzer() =>
+            new StandardAnalyzer(LuceneVersion.LUCENE_48);
 
-        public LuceneSearchService(IContentService contentService)
+        public LuceneSearchService(IContentService contentService, string directory)
         {
-            _lock = new object();
 
-           
-            _directory = new RAMDirectory();
 
-            //_writer = new IndexWriter(_directory, new StandardAnalyzer(_version), IndexWriter.MaxFieldLength.UNLIMITED);
 
             this._contentService = contentService;
             this._contentService.Added += ContentServiceAdded;
             this._contentService.Removed += ContentServiceRemoved;
-
+            this._directory = directory;
         }
 
         private void ContentServiceRemoved(string sender, EventArgs e)
@@ -70,12 +67,22 @@ namespace SpeedWagon.Runtime.Services
             }
         }
 
+        private string SafeFieldValue(string v)
+        {
+            if (!string.IsNullOrEmpty(v))
+            {
+                return v;
+            }
+
+            return string.Empty;
+        }
+
         private Document GetLuceneDocument(SpeedWagonContent content)
         {
             var d = new Document();
 
             d.Add(new Field("Url", content.Url, Field.Store.YES, Field.Index.NOT_ANALYZED));
-            d.Add(new Field("Name", content.Name, Field.Store.YES, Field.Index.ANALYZED));
+            d.Add(new TextField("Name", content.Name, Field.Store.YES));
 
             d.Add(new Field("CreateDate", content.CreateDate.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
             d.Add(new Field("UpdateDate", content.UpdateDate.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
@@ -85,16 +92,16 @@ namespace SpeedWagon.Runtime.Services
             d.Add(new Field("WriterName", content.WriterName, Field.Store.YES, Field.Index.NOT_ANALYZED));
 
             d.Add(new Field("RelativeUrl", content.RelativeUrl, Field.Store.YES, Field.Index.NOT_ANALYZED));
-            d.Add(new Field("Template", content.Template, Field.Store.YES, Field.Index.NOT_ANALYZED));
+            d.Add(new Field("Template", SafeFieldValue(content.Template), Field.Store.YES, Field.Index.NOT_ANALYZED));
             d.Add(new Field("SortOrder", content.SortOrder.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
             d.Add(new Field("Level", content.Level.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
 
             foreach (var property in content.Content)
             {
-                var value = property.Value.ToString();
+                var value = property.Value == null ? string.Empty : property.Value.ToString();
                 value = StripHtml(value);
-
-                d.Add(new Field(property.Key, value, Field.Store.YES, Field.Index.ANALYZED));
+                string key = property.Key.Replace(" ", "");
+                d.Add(new TextField(key, value, Field.Store.YES));
             }
 
             return d;
@@ -106,52 +113,28 @@ namespace SpeedWagon.Runtime.Services
             return Regex.Replace(htmlString, pattern, string.Empty);
         }
 
-        // For debugging!
 
-        //public void FlushToDisc()
-        //{
-        //    var dir = new DirectoryInfo(@"C:\temp\index");
-        //    foreach (var file in dir.GetFiles())
-        //    {
-        //        file.Delete();
-        //    }
-
-        //    var targetDir = FSDirectory.Open(dir);
-
-        //    Directory.Copy(_directory, targetDir, false);
-        //}
 
         public void Index(SpeedWagonContent model)
         {
             var doc = GetLuceneDocument(model);
-
-            using (var writer = new IndexWriter(_directory, new IndexWriterConfig(LuceneVersion.LUCENE_48, SetupAnalyzer())))
+            using (Directory directory = FSDirectory.Open(this._directory))
             {
+                using (IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(LuceneVersion.LUCENE_48, SetupAnalyzer())))
+                {
+                    writer.DeleteDocuments(new Term("Url", doc.Get("Url")));
+                    writer.Commit();
 
-
-                writer.DeleteDocuments(new Term("Url", doc.Get("Url")));
-                writer.Commit();
-
-                writer.AddDocument(doc);
-                writer.Commit();
-
-                    //if (Logger.IsDebugEnabled)
-                    //{
-                    //    Logger.Debug("Indexing: " + model.Name + " for search.");
-                    //    // FlushToDisc();
-                    //}
-                
-               
+                    writer.AddDocument(doc);
+                    writer.Commit();
+                }
             }
-
-            
         }
-
 
         private string GeneratePreviewText(Query q, string text)
         {
             return text;
-            //var scorer = new QueryScorer(q);
+            // var scorer = new QueryScorer(q);
             //var formatter = new SimpleHTMLFormatter("<em>", "</em>");
 
             //var highlighter = new Highlighter(formatter, scorer);
@@ -164,21 +147,13 @@ namespace SpeedWagon.Runtime.Services
 
         public void Delete(string url)
         {
-            using (var writer = new IndexWriter(_directory, new IndexWriterConfig(LuceneVersion.LUCENE_48, SetupAnalyzer())))
+            using (Directory directory = FSDirectory.Open(this._directory))
             {
-                try
+                using (var writer = new IndexWriter(directory,
+                    new IndexWriterConfig(LuceneVersion.LUCENE_48, SetupAnalyzer())))
                 {
                     writer.DeleteDocuments(new Term("Url", url));
                     writer.Commit();
-                }
-                catch (Exception ex)
-                {
-                    //Logger.Warn(ex);
-                }
-                finally
-                {
-                    // writer.Optimize();
-                    writer.Dispose();
                 }
             }
         }
@@ -187,74 +162,69 @@ namespace SpeedWagon.Runtime.Services
         {
             return new MultiFieldQueryParser(
             LuceneVersion.LUCENE_48,
-            new[] { "bodyText", "description" },
+            new[] { "BodyText", "Description" },
             analyzer
             );
         }
 
-        public Task<IEnumerable<SearchResult>> Search(string searchTerm)
+        public async Task<IEnumerable<SearchResult>> Search(string searchTerm)
         {
             var results = new List<SearchResult>();
 
+            var queryParser = SetupQueryParser(SetupAnalyzer());
+            var query = queryParser.Parse(searchTerm);
 
-            SearcherManager searchManager = new SearcherManager(_directory, null);
+            ScoreDoc[] scored;
 
-            searchManager.MaybeRefreshBlocking();
-            IndexSearcher indexSearcher = searchManager.Acquire();
-
-
-
-            try
+            using (Directory directory = FSDirectory.Open(this._directory))
             {
-                var queryParser = SetupQueryParser(SetupAnalyzer());
+                SearcherManager searchManager = new SearcherManager(directory, null);
 
-                var query = queryParser.Parse(searchTerm);
-                var hits = indexSearcher.Search(query, int.MaxValue);
-                var scored = hits.ScoreDocs;
+                searchManager.MaybeRefreshBlocking();
+                IndexSearcher indexSearcher = searchManager.Acquire();
 
+                TopDocs hits = indexSearcher.Search(query, int.MaxValue);
+                
+                scored = hits.ScoreDocs;
 
                 foreach (var item in scored)
                 {
                     Document doc = indexSearcher.Doc(item.Doc);
                     var previewText = GeneratePreviewText(query, doc.Get("bodyText"));
+                    string url = doc.Get("Url");
+                    var content = await this._contentService.GetContent(url);
 
                     results.Add(new SearchResult
                     {
-                        Url = doc.Get("Url"),
-                        PreviewText = previewText
-
+                        Url = url,
+                        PreviewText = doc.Get("BodyText"),
+                        Score = item.Score,
+                        Content = content
+                        
                     });
                 }
             }
-            catch (Exception ex)
-            {
-                //Logger.Warn(ex);
-            }
-            finally
-            {
-                // indexSearcher.Close();
-            }
 
-            return Task.FromResult<IEnumerable<SearchResult>>(results);
+            return results;
         }
 
         public Task<IEnumerable<string>> Search(IDictionary<string, string> matches)
         {
             var results = new List<string>();
-            SearcherManager searchManager = new SearcherManager(_directory, null);
-
-            searchManager.MaybeRefreshBlocking();
-            IndexSearcher indexSearcher = searchManager.Acquire();
-
-            var booleanQuery = new BooleanQuery();
-
-            foreach (var match in matches)
+            using (Directory directory = FSDirectory.Open(this._directory))
             {
-                booleanQuery.Add(new TermQuery(new Term(match.Key, match.Value)), Occur.MUST);
-            }
+                SearcherManager searchManager = new SearcherManager(directory, null);
 
-            try
-            {
+                searchManager.MaybeRefreshBlocking();
+                IndexSearcher indexSearcher = searchManager.Acquire();
+
+                var booleanQuery = new BooleanQuery();
+
+                foreach (var match in matches)
+                {
+                    booleanQuery.Add(new TermQuery(new Term(match.Key, match.Value)), Occur.MUST);
+                }
+
                 var hits = indexSearcher.Search(booleanQuery, int.MaxValue);
                 var scored = hits.ScoreDocs;
 
@@ -264,15 +234,6 @@ namespace SpeedWagon.Runtime.Services
                     var url = doc.Get("Url");
                     results.Add(url);
                 }
-            }
-            catch (Exception ex)
-            {
-                //Logger.Warn(ex);
-            }
-            finally
-            {
-                //indexSearcher.Close();
-                //indexSearcher.Dispose();
             }
 
             return Task.FromResult<IEnumerable<string>>(results);

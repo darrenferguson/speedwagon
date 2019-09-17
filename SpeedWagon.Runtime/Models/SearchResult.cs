@@ -1,6 +1,6 @@
 ﻿using SpeedWagon.Models;
 
-namespace SpeedWagon.Models
+namespace SpeedWagon.Runtime.Models
 {
     public class SearchResult
     {

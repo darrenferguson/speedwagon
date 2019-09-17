@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
 using SpeedWagon.Runtime.Extension;
+using SpeedWagon.Runtime.Interfaces;
+using SpeedWagon.Runtime.Models;
 
 namespace SpeedWagon.Services.Search
 {

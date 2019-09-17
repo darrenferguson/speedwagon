@@ -2,8 +2,9 @@
 using System.Threading.Tasks;
 using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
+using SpeedWagon.Runtime.Models;
 
-namespace SpeedWagon.Interfaces
+namespace SpeedWagon.Runtime.Interfaces
 {
     public interface ISearchService
     {

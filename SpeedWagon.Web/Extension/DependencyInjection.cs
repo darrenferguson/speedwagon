@@ -18,8 +18,6 @@ namespace SpeedWagon.Web.Extension
         public static IServiceCollection AddSpeedWagonCms(this IServiceCollection services, string path, string uploadsPath, IFileProvider contentFileProvider, IFileProvider uploadFileProvider)
         {
 
-
-            
             IContentService contentService = new CacheLessRuntimeContentService(path, null, contentFileProvider);
             IEditorService editorService = new EditorService(contentService, SPEEDWAGON_HOST);
             IContentTypeService contentTypeService = new ContentTypeService(contentService, SPEEDWAGON_HOST);
@@ -27,8 +25,7 @@ namespace SpeedWagon.Web.Extension
 
             IContentService uploadContentService = new CacheLessRuntimeContentService(uploadsPath, null, uploadFileProvider);
             IFileUploadService fileUploadService = new FileUploadService(uploadContentService, string.Empty, uploadFileProvider);
-            ISearchService searchService = new LuceneSearchService(contentService);
-
+            ISearchService searchService = new LuceneSearchService(contentService, @"d:\tmp");
 
             services.AddSingleton<ISpeedWagonAdminContext>(s => 
                 new SpeedWagonAdminContext(
@@ -37,7 +34,8 @@ namespace SpeedWagon.Web.Extension
                     contentTypeService,
                     editorService, 
                     webContentService,
-                    fileUploadService)
+                    fileUploadService,
+                    searchService)
             );
          
             return services;

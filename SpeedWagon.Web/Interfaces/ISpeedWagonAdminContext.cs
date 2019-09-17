@@ -4,6 +4,7 @@ using SpeedWagon.Models;
 using SpeedWagon.Web.Models;
 using System.IO;
 using System.Threading.Tasks;
+using SpeedWagon.Runtime.Interfaces;
 
 namespace SpeedWagon.Web.Interfaces
 {
@@ -19,6 +20,8 @@ namespace SpeedWagon.Web.Interfaces
         IWebContentService WebContentService { get;  }
 
         IFileUploadService FileUploadService { get;  }
+
+        ISearchService SearchService { get; }
 
         string Install(string user);
 

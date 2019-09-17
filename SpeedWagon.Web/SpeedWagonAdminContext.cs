@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using SpeedWagon.Interfaces;
+﻿using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
 using SpeedWagon.Runtime.Extension;
 using SpeedWagon.Runtime.Interfaces;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace SpeedWagon.Web
@@ -18,6 +16,7 @@ namespace SpeedWagon.Web
         private readonly IEditorService _editorService;
         private readonly IWebContentService _webContentService;
         private readonly IFileUploadService _fileUploadService;
+        private readonly ISearchService _searchService;
 
         public SpeedWagonAdminContext(
             string path, 
@@ -25,7 +24,8 @@ namespace SpeedWagon.Web
             IContentTypeService contentTypeService,
             IEditorService editorService,
             IWebContentService webContentService,
-            IFileUploadService fileUploadService)
+            IFileUploadService fileUploadService,
+            ISearchService searchService)
         {
             this._path = path;
             this._cachelessContentService = cachelessContentService;
@@ -33,6 +33,7 @@ namespace SpeedWagon.Web
             this._contentTypeService = contentTypeService;
             this._webContentService = webContentService;
             this._fileUploadService = fileUploadService;
+            this._searchService = searchService;
         }
 
         public IContentService ContentService => this._cachelessContentService;
@@ -45,6 +46,8 @@ namespace SpeedWagon.Web
 
         public IFileUploadService FileUploadService => this._fileUploadService;
 
+        public ISearchService SearchService => this._searchService;
+
         public async Task<SpeedWagonContent> GetContent(string path)
         {
             path = SPEEDWAGON_HOST + path;
@@ -53,7 +56,6 @@ namespace SpeedWagon.Web
 
         public async Task<SpeedWagonPage> PageFor(string path)
         {
-
             SpeedWagonPage model = new SpeedWagonPage();
             model.Content = await GetContent(path);
             model.ContentService = this.ContentService;
