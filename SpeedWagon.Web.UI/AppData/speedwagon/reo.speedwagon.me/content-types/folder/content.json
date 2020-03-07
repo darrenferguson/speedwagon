@@ -1,0 +1,18 @@
+{
+  "Name": "Folder",
+  "Type": "content-type",
+  "CreateDate": "2020-03-07T12:47:58.5470361+00:00",
+  "UpdateDate": "2020-03-07T12:47:58.5470392+00:00",
+  "CreatorName": "darren-at-moriyama-dot-co-dot-uk",
+  "WriterName": "darren-at-moriyama-dot-co-dot-uk",
+  "Url": "https://reo.speedwagon.me/content-types/folder",
+  "RelativeUrl": "/content-types/folder",
+  "Content": {
+    "Root": false,
+    "Children": []
+  },
+  "Template": "~/Views/SpeedWagon/ContentType/Folder.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}

@@ -2,14 +2,17 @@
   "Name": "Home",
   "Type": "content-type",
   "CreateDate": "2020-03-07T12:43:09.185934+00:00",
-  "UpdateDate": "2020-03-07T12:44:35.4078636+00:00",
+  "UpdateDate": "2020-03-07T12:48:07.8779523+00:00",
   "CreatorName": "darren-at-moriyama-dot-co-dot-uk",
   "WriterName": "darren-at-moriyama-dot-co-dot-uk",
   "Url": "https://reo.speedwagon.me/content-types/home",
   "RelativeUrl": "/content-types/home",
   "Content": {
     "Root": true,
-    "Children": [],
+    "Children": [
+      "Folder",
+      "Textpage"
+    ],
     "Editors": [
       {
         "Name": "Title",

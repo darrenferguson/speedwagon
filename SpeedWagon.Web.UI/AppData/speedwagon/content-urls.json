@@ -13,5 +13,9 @@
   "https://reo.speedwagon.me/editors/checkbox",
   "https://reo.speedwagon.me/editors/datepicker",
   "https://reo.speedwagon.me/editors/picker",
-  "https://reo.speedwagon.me/editors/upload"
+  "https://reo.speedwagon.me/editors/upload",
+  "https://reo.speedwagon.me/content-types/textpage",
+  "https://reo.speedwagon.me/content-types/folder",
+  "https://reo.speedwagon.me/content/home/about",
+  "https://reo.speedwagon.me/content/home/posts"
 ]
