@@ -6,5 +6,12 @@
   "https://reo.speedwagon.me/users",
   "https://reo.speedwagon.me/users/darren-at-moriyama-dot-co-dot-uk",
   "https://reo.speedwagon.me/content-types/text-page",
-  "https://reo.speedwagon.me/content/home"
+  "https://reo.speedwagon.me/content/home",
+  "https://reo.speedwagon.me/editors/textbox",
+  "https://reo.speedwagon.me/editors/textarea",
+  "https://reo.speedwagon.me/editors/richtext",
+  "https://reo.speedwagon.me/editors/checkbox",
+  "https://reo.speedwagon.me/editors/datepicker",
+  "https://reo.speedwagon.me/editors/picker",
+  "https://reo.speedwagon.me/editors/upload"
 ]
