@@ -1,0 +1,19 @@
+{
+  "Name": "Home",
+  "Type": "Home",
+  "CreateDate": "2020-03-07T12:43:27.4648139+00:00",
+  "UpdateDate": "2020-03-07T12:45:26.7148892+00:00",
+  "CreatorName": "darren-at-moriyama-dot-co-dot-uk",
+  "WriterName": "darren-at-moriyama-dot-co-dot-uk",
+  "Url": "https://reo.speedwagon.me/content/home",
+  "RelativeUrl": "/content/home",
+  "Content": {
+    "Title": "Home",
+    "Description": "My Blog",
+    "Body": "Welcome!"
+  },
+  "Template": "~/Views/SpeedWagon/Content/Home.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}
