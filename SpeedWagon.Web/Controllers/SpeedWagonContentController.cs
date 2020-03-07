@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Newtonsoft.Json.Linq;
 using SpeedWagon.Models;
+using SpeedWagon.Web.Extension;
 using SpeedWagon.Web.Helper;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models.ContentType;
@@ -74,7 +75,7 @@ namespace SpeedWagon.Web.Controllers
                 return View("~/Views/SpeedWagon/Content/List.cshtml", viewModel);
             }
 
-            this._speedWagon.WebContentService.Add(viewModel.Parent, viewModel.Name, viewModel.Type, User.Identity.Name);
+            this._speedWagon.WebContentService.Add(viewModel.Parent, viewModel.Name, viewModel.Type, User.Identity.Name.MaskEmail());
             return RedirectToAction("List", "SpeedWagonContent",  new { url = viewModel.Parent });
         }
 
@@ -117,7 +118,7 @@ namespace SpeedWagon.Web.Controllers
             SpeedWagonContent content = await this._speedWagon.GetContent(model.Url);
             this._speedWagon.WebContentService.SetValues(content, model.Values);
 
-            this._speedWagon.WebContentService.Save(content, User.Identity.Name);
+            this._speedWagon.WebContentService.Save(content, User.Identity.Name.MaskEmail());
             SpeedWagonContent parent = await this._speedWagon.ContentService.Parent(content);
 
             return RedirectToAction("List", "SpeedWagonContent", new { url = parent.RelativeUrl });        

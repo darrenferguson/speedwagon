@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SpeedWagon.Web.Extension;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models.View.Editor;
 using System.Threading.Tasks;
@@ -32,7 +33,7 @@ namespace SpeedWagon.Web.Controllers
                 return View("~/Views/SpeedWagon/Editor/List.cshtml", model);
             }
 
-            this._speedWagon.EditorService.Add(model.Name, User.Identity.Name);
+            this._speedWagon.EditorService.Add(model.Name, User.Identity.Name.MaskEmail());
             return RedirectToAction("List", new { Added = model.Name });
         }
 

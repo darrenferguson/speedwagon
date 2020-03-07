@@ -1,0 +1,21 @@
+﻿namespace SpeedWagon.Web.Extension
+{
+    public static class StringExtension
+    {
+        public static string MaskEmail(this string userName)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(userName);
+                userName = userName.Replace("@", "-at-");
+                userName = userName.Replace(".", "-dot-");
+            }
+            catch
+            {
+                return userName;
+            }
+
+            return userName;
+        }
+    }
+}

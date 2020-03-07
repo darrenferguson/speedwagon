@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SpeedWagon.Runtime.Interfaces;
+using SpeedWagon.Web.Extension;
 using SpeedWagon.Web.Interfaces;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SpeedWagon.Web.Controllers
@@ -27,7 +25,7 @@ namespace SpeedWagon.Web.Controllers
             {
                 if (formFile.Length > 0)
                 {
-                    string swPath = await this._speedwagon.FileUploadService.UploadFile(path, formFile, User.Identity.Name);
+                    string swPath = await this._speedwagon.FileUploadService.UploadFile(path, formFile, User.Identity.Name.MaskEmail());
                     result.Add(swPath);
                 }              
             }

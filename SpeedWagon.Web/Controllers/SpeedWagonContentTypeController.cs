@@ -44,8 +44,7 @@ namespace SpeedWagon.Web.Controllers
             }
 
             
-
-            this._speedWagon.ContentTypeService.Add(model.Name, User.Identity.Name, model.Root, model.Children);
+            this._speedWagon.ContentTypeService.Add(model.Name, User.Identity.Name.MaskEmail(), model.Root, model.Children);
 
             if(!string.IsNullOrEmpty(model.CopyProperties))
             {
@@ -54,7 +53,7 @@ namespace SpeedWagon.Web.Controllers
 
                 contentType.Content["Editors"] = master.Content["Editors"];
 
-                this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
+                this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name.MaskEmail());
             }
 
             return RedirectToAction("List", new { id = model.Name });
@@ -108,7 +107,7 @@ namespace SpeedWagon.Web.Controllers
 
             contentType.Content["Root"] = viewModel.Root;
             contentType.Content["Children"] = viewModel.Children;
-            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
+            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name.MaskEmail());
 
             return RedirectToAction("Edit", new { url = contentType.Name, operation = "edited" });
         }
@@ -133,7 +132,7 @@ namespace SpeedWagon.Web.Controllers
             }
 
             this._speedWagon.ContentTypeService.AddEditor(contentType, viewModel.ContentTypeEditor);
-            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
+            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name.MaskEmail());
 
             return RedirectToAction("Edit", new { url = viewModel.Url });
         }
@@ -172,7 +171,7 @@ namespace SpeedWagon.Web.Controllers
             }
 
             contentType.Content["Editors"] = properties;
-            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
+            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name.MaskEmail());
             return RedirectToAction("Edit", new { url = model.ContentTypeName });
         }
 
@@ -189,7 +188,7 @@ namespace SpeedWagon.Web.Controllers
         {
             SpeedWagonContent contentType = await this._speedWagon.ContentTypeService.Get(model.Name);
             this._speedWagon.ContentTypeService.MoveEditorUp(contentType, model.Editor);
-            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
+            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name.MaskEmail());
 
             return RedirectToAction("Edit", new { url = model.Name });
         }
@@ -199,7 +198,7 @@ namespace SpeedWagon.Web.Controllers
         {
             SpeedWagonContent contentType = await this._speedWagon.ContentTypeService.Get(model.Name);
             this._speedWagon.ContentTypeService.MoveEditorDown(contentType, model.Editor);
-            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
+            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name.MaskEmail());
 
             return RedirectToAction("Edit", new { url = model.Name });
         }
@@ -209,7 +208,7 @@ namespace SpeedWagon.Web.Controllers
         {
             SpeedWagonContent contentType = await this._speedWagon.ContentTypeService.Get(model.Name);
             this._speedWagon.ContentTypeService.DeleteEditor(contentType, model.Editor);
-            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name);
+            this._speedWagon.ContentTypeService.Save(contentType, User.Identity.Name.MaskEmail());
 
             return RedirectToAction("Edit", new { url = model.Name });
         }

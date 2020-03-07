@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
+using SpeedWagon.Web.Extension;
 using SpeedWagon.Web.Interfaces;
 
 namespace SpeedWagon.Web.Controllers
@@ -24,7 +25,7 @@ namespace SpeedWagon.Web.Controllers
 
         public IActionResult Install()
         {
-            string path = this._speedWagon.Install(User.Identity.Name);
+            string path = this._speedWagon.Install(User.Identity.Name.MaskEmail());
             return View();
         }
     }
