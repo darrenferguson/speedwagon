@@ -1,4 +1,12 @@
-﻿$(function () {
+﻿function clearUploads(name) {
+
+    $('#' + name + ' > ul').empty();
+    $('#' + name + ' > input[type=hidden][class=value]').val('');
+    
+}
+
+$(function () {
+
 
     $('.upload').fileupload({
         dataType: 'json',
@@ -15,10 +23,13 @@
 
             var items = $(e.target.parentElement).closest('div.root').find('ul');
             var input = $(e.target.parentElement).closest('div.root').find('input[type=hidden][class=value]');
+            var bar = $(e.target.parentElement).closest('div.root').find('div.progress');
+
+            $(bar).hide();
 
             $.each(data.result.files, function (index, file) {
 
-                $(items).append('<li class="list-group-item">' + file + '</li>');
+                $(items).append('<li class="list-group-item"><a href="/uploads'+file+'" target="_blank">' + file + '</a></li>');
 
                 var filtered = $(input).val().split(',').filter(function (el) {
                     return el != null && el != '';
