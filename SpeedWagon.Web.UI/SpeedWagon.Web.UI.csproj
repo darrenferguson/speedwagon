@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -8,9 +8,18 @@
 
   <ItemGroup>
     <Compile Remove="Views\SpeedWagon\ContentTypes\**" />
+    <Compile Remove="wwwroot\speedwagon\dist\**" />
     <Content Remove="Views\SpeedWagon\ContentTypes\**" />
+    <Content Remove="wwwroot\speedwagon\dist\**" />
     <EmbeddedResource Remove="Views\SpeedWagon\ContentTypes\**" />
+    <EmbeddedResource Remove="wwwroot\speedwagon\dist\**" />
     <None Remove="Views\SpeedWagon\ContentTypes\**" />
+    <None Remove="wwwroot\speedwagon\dist\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="package-lock.json" />
+    <Content Remove="package.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,8 +33,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="package-lock.json" />
+    <None Include="package.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SpeedWagon.Runtime\SpeedWagon.Runtime.csproj" />
     <ProjectReference Include="..\SpeedWagon.Web\SpeedWagon.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\theme\" />
   </ItemGroup>
 
 </Project>

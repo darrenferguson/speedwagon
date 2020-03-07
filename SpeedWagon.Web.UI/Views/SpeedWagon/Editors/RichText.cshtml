@@ -1,6 +1,6 @@
 ﻿@model SpeedWagon.Web.Models.Content.ContentEditorModel
 
-@Html.ClientRequirement("/lib/tinymce/tinymce.min.js", ClientSideIncludeType.Javascript)
+@Html.ClientRequirement("/speedwagon/lib/tinymce/tinymce.min.js", ClientSideIncludeType.Javascript)
 @Html.ClientRequirement("richText.js", ClientSideIncludeType.Javascript)
 
 <textarea class="form-control editor" placeholder="@Model.PropertyName" asp-for="Values[Model.PropertyName]" rows="3"></textarea>

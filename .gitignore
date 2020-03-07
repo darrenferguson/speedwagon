@@ -42,3 +42,10 @@ SpeedWagon.Web.UI/wwwroot/js/site.min.js
 SpeedWagon.Web.UI/wwwroot/js/site.js
 SpeedWagon.Web.UI/wwwroot/css/site.css
 SpeedWagon.Client/node_modules/
+SpeedWagon.Web.UI/AppData/speedwagon/search/
+SpeedWagon.Web.UI/node_modules/
+SpeedWagon.Web.UI/wwwroot/speedwagon/dist/
+SpeedWagon.Web.UI/wwwroot/speedwagon/lib/
+
+SpeedWagon.Web.UI/wwwroot/uploads/
+SpeedWagon.Web.UI/AppData/speedwagon/reo.speedwagon.me/content/

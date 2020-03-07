@@ -1,15 +1,15 @@
 {
-  "Name": "Textpage",
+  "Name": "Post",
   "Type": "content-type",
-  "CreateDate": "2020-03-07T12:47:40.9409369+00:00",
-  "UpdateDate": "2020-03-07T13:49:27.5790438+00:00",
+  "CreateDate": "2020-03-07T13:08:18.1485862+00:00",
+  "UpdateDate": "2020-03-07T13:11:16.6313383+00:00",
   "CreatorName": "darren-at-moriyama-dot-co-dot-uk",
   "WriterName": "darren-at-moriyama-dot-co-dot-uk",
-  "Url": "https://reo.speedwagon.me/content-types/textpage",
-  "RelativeUrl": "/content-types/textpage",
+  "Url": "https://reo.speedwagon.me/content-types/post",
+  "RelativeUrl": "/content-types/post",
   "Content": {
     "Root": false,
-    "Children": [],
+    "Children": null,
     "Editors": [
       {
         "Name": "Title",
@@ -17,18 +17,18 @@
         "Description": null
       },
       {
-        "Name": "Body",
-        "Editor": "Richtext",
+        "Name": "Date",
+        "Editor": "Datepicker",
         "Description": null
       },
       {
-        "Name": "Image",
-        "Editor": "Upload",
+        "Name": "Body",
+        "Editor": "Richtext",
         "Description": null
       }
     ]
   },
-  "Template": "~/Views/SpeedWagon/ContentType/Textpage.cshtml",
+  "Template": "~/Views/SpeedWagon/ContentType/Post.cshtml",
   "CacheTime": null,
   "SortOrder": 0,
   "Level": 1

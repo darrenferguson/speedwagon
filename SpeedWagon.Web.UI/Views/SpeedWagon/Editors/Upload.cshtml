@@ -1,26 +1,31 @@
 ﻿@model SpeedWagon.Web.Models.Content.ContentEditorModel
-@{ 
+@{
     IEnumerable<string> files = Model.Values[Model.PropertyName].Split(',').Where(x => !string.IsNullOrEmpty(x));
 }
 
-@Html.ClientRequirement("/lib/blueimp-file-upload/js/vendor/jquery.ui.widget.js", ClientSideIncludeType.Javascript)
-@Html.ClientRequirement("/lib/blueimp-file-upload/js/jquery.fileupload.js", ClientSideIncludeType.Javascript)
-@Html.ClientRequirement("/lib/blueimp-file-upload/css/jquery.fileupload.css", ClientSideIncludeType.Css)
+@Html.ClientRequirement("/speedwagon/lib/blueimp-file-upload/js/vendor/jquery.ui.widget.js", ClientSideIncludeType.Javascript)
+@Html.ClientRequirement("/speedwagon/lib/blueimp-file-upload/js/jquery.fileupload.js", ClientSideIncludeType.Javascript)
+@Html.ClientRequirement("/speedwagon/lib/blueimp-file-upload/css/jquery.fileupload.css", ClientSideIncludeType.Css)
 
 @Html.ClientRequirement("upload.js", ClientSideIncludeType.Javascript)
 @Html.ClientRequirement("upload.css", ClientSideIncludeType.Css)
-
-<h2></h2>
-
 
 <div class="root">
 
     <ul class="result list-group">
         @if (files.Any())
         {
+            int counter = 1;
             foreach (string file in files)
             {
-                <li class="list-group-item">@file</li>
+                <li class="list-group-item" data-count="@counter">
+                    <a target="_blank" href="/uploads@(file)">@file</a>
+                    <a href="#" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-minus"></span> Remove
+                    </a>
+                </li>
+                counter++;
+
             }
         }
 
@@ -35,10 +40,8 @@
         <span>Add files...</span>
         <input type="file" multiple data-url="/SpeedWagonFile/Upload" class="form-control-file upload">
     </span>
-    
+
     <input type="hidden" asp-for="Values[Model.PropertyName]" class="value">
-
-
 
     <input type="hidden" asp-for="ContentPath">
 

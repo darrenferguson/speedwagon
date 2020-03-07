@@ -35,9 +35,9 @@ namespace SpeedWagon.Web.Extension
                     var template = htmlHelper.ViewContext.HttpContext.Items[key] as string;
                     if (template != null)
                     {
-                        if(!template.StartsWith("/"))
+                        if(!template.StartsWith("/") && !template.StartsWith("http"))
                         {
-                            template = $"/js/speedwagon/editor/{template}";
+                            template = $"/speedwagon/editor/js/{template}";
                         }
                         htmlHelper.ViewContext.Writer.Write($"<script type=\"text/javascript\" src=\"{template}\"></script>" + Environment.NewLine);
                     }
@@ -55,7 +55,7 @@ namespace SpeedWagon.Web.Extension
                     var template = htmlHelper.ViewContext.HttpContext.Items[key] as string;
                     if (template != null)
                     {
-                        if (!template.StartsWith("/"))
+                        if (!template.StartsWith("/") && !template.StartsWith("http"))
                         {
                             template = $"/css/speedwagon/editor/{template}";
                         }

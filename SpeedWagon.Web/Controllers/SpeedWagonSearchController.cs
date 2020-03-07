@@ -28,7 +28,7 @@ namespace SpeedWagon.Web.Controllers
         {
             await this._speedwagon.SearchService.IndexAll(this._speedwagon.ContentService);
 
-            return Redirect("SpeedWagonSearch");
+            return View("~/Views/SpeedWagon/Search/Index.cshtml", new SearchViewModel());
         }
 
         [HttpPost]

@@ -6,9 +6,7 @@
             $(e.target.parentElement).closest('div.root').find('div.progress').show();
             var bar = $(e.target.parentElement).closest('div.root').find('div.progress div.bar');
             var progress = parseInt(data.loaded / data.total * 100, 10);
-
-            
-
+           
             $(bar).css(
                 'width', progress + '%'
             );
@@ -19,6 +17,7 @@
             var input = $(e.target.parentElement).closest('div.root').find('input[type=hidden][class=value]');
 
             $.each(data.result.files, function (index, file) {
+
                 $(items).append('<li class="list-group-item">' + file + '</li>');
 
                 var filtered = $(input).val().split(',').filter(function (el) {
@@ -26,7 +25,6 @@
                 });
 
                 filtered.push(file);
-
                 $(input).val(filtered.join(','));
             });
         }

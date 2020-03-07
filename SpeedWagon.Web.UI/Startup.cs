@@ -39,9 +39,7 @@ namespace SpeedWagon.Web.UI
             .AddCookie();
 
             string path = Path.Combine(this._env.ContentRootPath, _appDataFolder, "speedwagon");
-
-            // string path = @"C:\git\speedwagon-content";
-            string uploadPath = @"speedwagon";
+            string uploadPath = Path.Combine(this._env.ContentRootPath, "wwwroot");
 
             // COntent file provider can also use blob.
             //IFileProvider contentFileProvider = new BlobFileProvider("<connectionString>", "speedwagon");

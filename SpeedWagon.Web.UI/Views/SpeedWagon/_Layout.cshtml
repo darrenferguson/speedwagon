@@ -6,15 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>SpeedWagon</title>
-    
-    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"/>
-       
-    <style type="text/css">
-        .nav-tabs {
-            margin-bottom: 20px;
-        }
-    </style>
 
+    <link rel="stylesheet" href="/speedwagon/dist/speedwagon.min.css" />   
+    
     @Html.RenderPartialViewStyles()
 
 </head>
@@ -47,7 +41,8 @@
         </div>
     </nav>
 
-    <div class="container body-content" style="margin-top: 50px;">
+    <div class="container body-content" @*style="margin-top: 50px;"*@>
+
         @RenderBody()
 
         <hr />
@@ -57,16 +52,8 @@
         </footer>
     </div>
     
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"          
-            crossorigin="anonymous"
-            integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-    </script>
-
-    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"         
-            crossorigin="anonymous"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-    </script>
-       
+    <script type="text/javascript" src="/speedwagon/dist/speedwagon.min.js"></script>
+    
     @RenderSection("Scripts", required: false)
 
     @Html.RenderPartialViewScripts()
