@@ -29,7 +29,7 @@ namespace SpeedWagon.Web.Controllers
             viewModel.ContentTypes = await this._speedWagon.ContentTypeService.List();
             IEnumerable<SpeedWagonContent> contentTypes = await this._speedWagon.ContentTypeService.List();
 
-            viewModel.AvailableContentTypes = SelectListHelper.GetSelectList(contentTypes);
+            viewModel.AvailableContentTypes = SelectListHelper.GetSelectList(contentTypes, true);
 
             return View("~/Views/SpeedWagon/ContentType/List.cshtml", viewModel);
         }
