@@ -5,7 +5,7 @@
 
 gulp.task('css', function () {
     return gulp.src(
-        ['./node_modules/bootstrap/dist/css/bootstrap.min.css']
+        ['./node_modules/bootstrap/dist/css/bootstrap.min.css','./wwwroot/speedwagon/css/speedwagon.css']
     ).pipe(concat('site.min.css'))
         .pipe(rename('speedwagon.min.css'))
         .pipe(gulp.dest('./wwwroot/speedwagon/dist'));

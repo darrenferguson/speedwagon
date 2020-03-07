@@ -1,0 +1,38 @@
+﻿footer {
+    padding: 15px;
+    background-color: #326597;
+    color: white;
+}
+
+
+nav {
+    background-color: #2B9C74;
+}
+
+.navbar-toggle {
+    border: 1px solid white;
+}
+
+nav a, .navbar-text {
+    color: white;
+}
+
+h2 { margin-bottom: 20px; }
+
+div.body-content {
+    margin-top: 50px;
+}
+
+div.tab-pane {
+    margin-top: 20px;
+}
+
+.btn-info {
+    background-color: #326597;
+    border-color: #326597;
+}
+
+.btn-danger {
+    background-color: #E97740;
+    border-color: #E97740;
+}

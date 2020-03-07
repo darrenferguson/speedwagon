@@ -7,13 +7,13 @@
 
     <title>SpeedWagon</title>
 
-    <link rel="stylesheet" href="/speedwagon/dist/speedwagon.min.css" />   
-    
+    <link rel="stylesheet" href="/speedwagon/dist/speedwagon.min.css" />
+
     @Html.RenderPartialViewStyles()
 
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -27,14 +27,15 @@
 
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a href="/">WebSite</a>
-                    </li>
+
                     <li><a asp-controller="SpeedWagonContent" asp-action="List">Content</a></li>
                     <li><a asp-controller="SpeedWagonEditor" asp-action="List">Editors</a></li>
                     <li><a asp-controller="SpeedWagonContentType" asp-action="List">Content Types</a></li>
                     <li><a asp-controller="SpeedWagonSearch" asp-action="Index">Search</a></li>
-                    <li><a asp-controller="SpeedWagon" asp-action="Install">Install</a></li>
+
+                    <li>
+                        <a href="/">Front End</a>
+                    </li>
                 </ul>
                 @await Html.PartialAsync("~/Views/SpeedWagon/_LoginPartial.cshtml")
             </div>
@@ -45,17 +46,20 @@
 
         @RenderBody()
 
-        <hr />
-
+    </div>
+    <div class="footer navbar-fixed-bottom">
         <footer>
-            <p>&copy; @DateTime.UtcNow.Year - SpeedWagon (Don't fight the feeling)</p>
+            <div class="container">
+                <p>&copy; @DateTime.UtcNow.Year - SpeedWagon (Don't fight the feeling)</p>
+            </div>
         </footer>
     </div>
-    
-    <script type="text/javascript" src="/speedwagon/dist/speedwagon.min.js"></script>
-    
-    @RenderSection("Scripts", required: false)
 
+
+
+    <script type="text/javascript" src="/speedwagon/dist/speedwagon.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
     @Html.RenderPartialViewScripts()
 
 </body>
