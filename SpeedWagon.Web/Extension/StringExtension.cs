@@ -7,8 +7,8 @@
             try
             {
                 var addr = new System.Net.Mail.MailAddress(userName);
-                userName = userName.Replace("@", "-at-");
-                userName = userName.Replace(".", "-dot-");
+                userName = userName.Substring(0, userName.IndexOf("@"));
+                
             }
             catch
             {
