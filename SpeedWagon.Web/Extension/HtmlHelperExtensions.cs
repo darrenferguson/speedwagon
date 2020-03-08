@@ -57,7 +57,7 @@ namespace SpeedWagon.Web.Extension
                     {
                         if (!template.StartsWith("/") && !template.StartsWith("http"))
                         {
-                            template = $"/css/speedwagon/editor/{template}";
+                            template = $"/speedwagon/editor/css/{template}";
                         }
                         htmlHelper.ViewContext.Writer.Write($"<link rel=\"stylesheet\" href=\"{template}\" />" + Environment.NewLine);
                     }

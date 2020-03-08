@@ -5,7 +5,9 @@
 
 gulp.task('css', function () {
     return gulp.src(
-        ['./node_modules/bootstrap/dist/css/bootstrap.min.css','./wwwroot/speedwagon/css/speedwagon.css']
+        ['./node_modules/bootstrap/dist/css/bootstrap.min.css',
+            './node_modules/@fortawesome/fontawesome-free/css/all.min.css',
+            './wwwroot/speedwagon/css/speedwagon.css']
     ).pipe(concat('site.min.css'))
         .pipe(rename('speedwagon.min.css'))
         .pipe(gulp.dest('./wwwroot/speedwagon/dist'));
@@ -50,12 +52,21 @@ gulp.task('img', function () {
         .pipe(gulp.dest('./wwwroot/theme'));
 });
 
-gulp.task('font', function () {
+gulp.task('themeFont', function () {
     return gulp.src([
         './node_modules/@fortawesome/fontawesome-free/webfonts/**/*'
 
     ], { base: './node_modules/@fortawesome/fontawesome-free/webfonts' })
         .pipe(gulp.dest('./wwwroot/webfonts'));
+});
+
+
+gulp.task('font', function () {
+    return gulp.src([
+        './node_modules/@fortawesome/fontawesome-free/webfonts/**/*'
+
+    ], { base: './node_modules/@fortawesome/fontawesome-free/webfonts' })
+        .pipe(gulp.dest('./wwwroot/speedwagon/webfonts'));
 });
 
 gulp.task('tiny', function () {
@@ -76,4 +87,4 @@ gulp.task('file-upload', function () {
         .pipe(gulp.dest('./wwwroot/speedwagon/lib/blueimp-file-upload'));
 });
 
-gulp.task('build', gulp.series('css', 'js', 'themeCss', 'themeJs', 'img', 'font', 'tiny', 'file-upload'));
+gulp.task('build', gulp.series('css', 'js', 'themeCss', 'themeJs', 'img', 'font', 'themeFont', 'tiny', 'file-upload'));

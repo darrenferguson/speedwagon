@@ -1,0 +1,27 @@
+﻿.ge-canvas.ge-editing .column {
+    background-color: white;
+}
+
+.ge-layout-mode, .gm-edit-mode {
+    display: none;
+}
+
+.ge-canvas.ge-editing .column > .ge-tools-drawer {
+    background-color: #eeeeee;
+}
+
+.ge-canvas.ge-editing .column {
+    border-color: #dddddd;
+}
+
+.ge-canvas.ge-editing .row {
+    border-color: transparent;
+}
+
+    .ge-canvas.ge-editing .column > .ge-tools-drawer a, .ge-canvas.ge-editing .row > .ge-tools-drawer > a.ge-add-column {
+        color: #6c757d;
+    }
+
+.gm-preview, .ge-canvas.ge-editing .column > .ge-tools-drawer > a.ge-add-row {
+    display: none;
+}
