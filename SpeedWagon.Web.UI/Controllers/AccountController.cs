@@ -23,8 +23,8 @@ namespace SpeedWagon.Web.UI.Controllers
             var callbackUrl = Url.Action(nameof(SignedOut), "Account", values: null, protocol: Request.Scheme);
             return SignOut(
                 new AuthenticationProperties { RedirectUri = callbackUrl },
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                OpenIdConnectDefaults.AuthenticationScheme);
+                CookieAuthenticationDefaults.AuthenticationScheme
+                /* for azure AD: OpenIdConnectDefaults.AuthenticationScheme*/);
         }
 
         [HttpGet]

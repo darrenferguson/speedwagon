@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SpeedWagon.Interfaces;
-using SpeedWagon.Models;
-using SpeedWagon.Runtime.Extension;
 using SpeedWagon.Runtime.Interfaces;
 using SpeedWagon.Services;
 using SpeedWagon.Web.Interfaces;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace SpeedWagon.Web.Services

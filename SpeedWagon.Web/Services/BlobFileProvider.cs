@@ -1,7 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using SpeedWagon.Runtime.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

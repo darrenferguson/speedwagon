@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using SpeedWagon.Runtime.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
 using SpeedWagon.Web.Interfaces;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using SpeedWagon.Web.Models.View.Search;
 

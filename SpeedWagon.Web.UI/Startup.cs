@@ -33,17 +33,29 @@ namespace SpeedWagon.Web.UI
             services.AddAuthentication(sharedOptions =>
             {
                 sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                //sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-            .AddAzureAd(options => Configuration.Bind("AzureAd", options))
-            .AddCookie();
+            // Use Azure AD Login
+            //.AddAzureAd(options => Configuration.Bind("AzureAd", options))
+
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                options =>
+                {
+                    options.LoginPath = "/SpeedWagonAccount/Login";
+                    options.LogoutPath = "/SpeedWagonAccount/Logout";
+                });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            });
 
             string path = Path.Combine(this._env.ContentRootPath, _appDataFolder, "speedwagon");
             string uploadPath = Path.Combine(this._env.ContentRootPath, "wwwroot");
 
             // COntent file provider can also use blob.
             //IFileProvider contentFileProvider = new BlobFileProvider("<connectionString>", "speedwagon");
-            
+
 
             string blobConnection = Configuration["Blob:ConnectionString"];
             IFileProvider contentFileProvider = new FileSystemFileProvider();
@@ -74,7 +86,7 @@ namespace SpeedWagon.Web.UI
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default", 
+                    name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
