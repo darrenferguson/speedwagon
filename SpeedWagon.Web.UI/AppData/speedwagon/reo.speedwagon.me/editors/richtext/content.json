@@ -1,0 +1,15 @@
+{
+  "Name": "Richtext",
+  "Type": "editor",
+  "CreateDate": "2020-03-08T15:19:29.70474+00:00",
+  "UpdateDate": "2020-03-08T15:19:29.7047441+00:00",
+  "CreatorName": "darren",
+  "WriterName": "darren",
+  "Url": "https://reo.speedwagon.me/editors/richtext",
+  "RelativeUrl": "/editors/richtext",
+  "Content": {},
+  "Template": "~/Views/SpeedWagon/Editors/Richtext.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}

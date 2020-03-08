@@ -1,0 +1,15 @@
+{
+  "Name": "Upload",
+  "Type": "editor",
+  "CreateDate": "2020-03-08T15:19:40.4683992+00:00",
+  "UpdateDate": "2020-03-08T15:19:40.4684024+00:00",
+  "CreatorName": "darren",
+  "WriterName": "darren",
+  "Url": "https://reo.speedwagon.me/editors/upload",
+  "RelativeUrl": "/editors/upload",
+  "Content": {},
+  "Template": "~/Views/SpeedWagon/Editors/Upload.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}
