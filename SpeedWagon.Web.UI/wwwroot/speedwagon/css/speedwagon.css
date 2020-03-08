@@ -4,9 +4,13 @@
 
 
 .nav-tabs {
-    border:0; 
+    border: 0;
     margin-bottom: 20px;
 }
+
+    .nav-tabs > li {
+        margin-right: 15px;
+    }
 
 .feather {
     width: 16px;
