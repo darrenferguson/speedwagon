@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SpeedWagon.Web.Enum;
+using SpeedWagon.Web.Interfaces;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -11,16 +14,25 @@ namespace SpeedWagon.Web.Controllers
 
     public class SpeedWagonAccountController : Controller
     {
-        
-        public SpeedWagonAccountController()
+
+        private readonly IAuthTypeInformationProvider _authTypeInformationProvider;
+
+        public SpeedWagonAccountController(IAuthTypeInformationProvider authTypeInformationProvider)
         {
-           
+            this._authTypeInformationProvider = authTypeInformationProvider;
         }
 
 
         [HttpGet]
         public async Task<IActionResult> LogIn()
         {
+
+            if (this._authTypeInformationProvider.GetAuthType() == AuthType.AzureAd)
+            {
+                return Challenge(
+                new AuthenticationProperties { RedirectUri = "/" },
+                OpenIdConnectDefaults.AuthenticationScheme);
+            }
 
             ClaimsIdentity identity = new ClaimsIdentity(GetUserRoleClaims(), CookieAuthenticationDefaults.AuthenticationScheme);
             ClaimsPrincipal principal = new ClaimsPrincipal(identity);
@@ -31,8 +43,16 @@ namespace SpeedWagon.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout()      
         {
+            if (this._authTypeInformationProvider.GetAuthType() == AuthType.AzureAd)
+            {
+                return SignOut(
+                    new AuthenticationProperties { RedirectUri = "/" },
+                    CookieAuthenticationDefaults.AuthenticationScheme
+                    , OpenIdConnectDefaults.AuthenticationScheme);
+            } 
+
             await HttpContext.SignOutAsync();
             return Redirect("/");
         }
@@ -41,8 +61,8 @@ namespace SpeedWagon.Web.Controllers
         {
             List<Claim> claims = new List<Claim>();
 
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, "tesuser"));
-            claims.Add(new Claim(ClaimTypes.Name, "tesuser"));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, "testuser"));
+            claims.Add(new Claim(ClaimTypes.Name, "testuser"));
             claims.Add(new Claim(ClaimTypes.Role, "user"));
             return claims;
         }
