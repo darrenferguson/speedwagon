@@ -23,7 +23,7 @@ namespace SpeedWagon.Web.Controllers
         {
             await this._speedwagon.SearchService.IndexAll(this._speedwagon.ContentService);
 
-            return View("~/Views/SpeedWagon/Search/Index.cshtml", new SearchViewModel());
+            return View("~/Views/SpeedWagon/Search/Index.cshtml", new SearchViewModel { IndexPerformed = true });
         }
 
         [HttpPost]
@@ -32,6 +32,7 @@ namespace SpeedWagon.Web.Controllers
             var results = await this._speedwagon.SearchService.Search(viewModel.Term);
 
             viewModel.Results = results;
+            viewModel.SearchPerformed = true;
             return View("~/Views/SpeedWagon/Search/Index.cshtml", viewModel);
         }
     }

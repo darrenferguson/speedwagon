@@ -29,7 +29,6 @@
                         <a asp-controller="SpeedWagonContent" asp-action="List" asp-route-url="/content">Content</a>
                     </li>
 
-
                     @foreach (SpeedWagonContent crumb in await Model.ContentService.BreadCrumb(Model.Content))
                     {
 

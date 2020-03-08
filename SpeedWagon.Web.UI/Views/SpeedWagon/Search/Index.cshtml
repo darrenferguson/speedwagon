@@ -6,40 +6,59 @@
 
 <h2>Search</h2>
 
-<a asp-controller="SpeedWagonSearch" asp-action="IndexAll"><span data-feather="database"></span> ReIndex All</a>
+<ul class="nav nav-tabs">
+    <li>
+        <a asp-controller="SpeedWagonSearch" asp-action="IndexAll"><span data-feather="database"></span> ReIndex All</a>
+    </li>
+</ul>
 
-<hr/>
+<h4>Content Search</h4>
+
+@if (Model.IndexPerformed)
+{
+    <div class="alert alert-success" role="alert">
+        Content was re-indexed
+    </div>
+}
 
 <form asp-controller="SpeedWagonSearch" asp-action="Search" method="post">
 
     <div class="form-group">
-        <label for="term">Term</label>
+        <label for="term">Search Term</label>
         <input type="text" class="form-control" id="term" placeholder="Enter a term" asp-for="Term">
     </div>
 
     <button type="submit" class="btn btn-primary">Search</button>
 
 </form>
-   
-@if (Model.Results != null && Model.Results.Any())
+
+@if (Model.SearchPerformed)
 {
-<ul>
-    @foreach (var result in Model.Results)
+    <hr />
+    <h4>Results</h4>
+
+    @if (Model.Results != null && Model.Results.Any())
     {
-        if (result.Content != null)
-        {
-            <li>
-                <a href="/SpeedWagonContent/Edit?url=@HttpUtility.UrlEncode(result.Content.RelativeUrl)">@result.Content.Name</a>
-            </li>
-        }
-        else
-        {
-            <li>@result.Url</li>
-        }
+
+        <ul>
+            @foreach (var result in Model.Results)
+            {
+                if (result.Content != null)
+                {
+                    <li>
+                        <a href="/SpeedWagonContent/Edit?url=@HttpUtility.UrlEncode(result.Content.RelativeUrl)">@result.Content.Name</a>
+                    </li>
+                }
+                else
+                {
+                    <li>@result.Url</li>
+                }
+            }
+        </ul>
     }
-</ul>
+    else
+    {
+        <p class="lead">Your search didn't return any results</p>
+    }
 }
-
-
-
 
