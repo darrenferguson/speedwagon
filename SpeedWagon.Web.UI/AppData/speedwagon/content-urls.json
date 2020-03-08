@@ -14,5 +14,11 @@
   "https://reo.speedwagon.me/content-types/home",
   "https://reo.speedwagon.me/content-types/textpage",
   "https://reo.speedwagon.me/content/localhost",
-  "https://reo.speedwagon.me/content/localhost/about"
+  "https://reo.speedwagon.me/content/localhost/about",
+  "https://reo.speedwagon.me/content/images",
+  "https://reo.speedwagon.me/content-types/imagefolder",
+  "https://reo.speedwagon.me/content/images/banners",
+  "https://reo.speedwagon.me/content-types/image",
+  "https://reo.speedwagon.me/content/images/banners/home-banner",
+  "https://reo.speedwagon.me/editors/picker"
 ]

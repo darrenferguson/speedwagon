@@ -102,17 +102,17 @@
                                 <td>
                                     <a asp-controller="SpeedWagonContent" asp-action="Edit" asp-route-url="@content.RelativeUrl" class="btn btn-info">Edit</a>
 
-                                    <form asp-controller="SpeedWagonContentType" asp-action="DeleteProperty" method="delete" style="display: inline;">
+                                    <form asp-controller="SpeedWagonContent" asp-action="Up" method="delete" style="display: inline;">
                                         <input type="hidden" value="@Model.Name" asp-for="Name" />
                                         <input type="submit" class="btn btn-secondary" value="Up" />
                                     </form>
 
-                                    <form asp-controller="SpeedWagonContentType" asp-action="DeleteProperty" method="delete" style="display: inline;">
+                                    <form asp-controller="SpeedWagonContent" asp-action="Down" method="delete" style="display: inline;">
                                         <input type="hidden" value="@Model.Name" asp-for="Name" />
                                         <input type="submit" class="btn btn-secondary" value="Down" />
                                     </form>
 
-                                    <form asp-controller="SpeedWagonContentType" asp-action="DeleteProperty" method="delete" style="display: inline;">
+                                    <form asp-controller="SpeedWagonContent" asp-action="Delete" method="delete" style="display: inline;">
                                         <input type="hidden" value="@Model.Name" asp-for="Name" />
                                         <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
                                     </form>

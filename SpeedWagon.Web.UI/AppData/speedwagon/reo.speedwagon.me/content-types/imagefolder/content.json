@@ -1,0 +1,21 @@
+{
+  "Name": "Imagefolder",
+  "Type": "content-type",
+  "CreateDate": "2020-03-08T16:56:58.2335019+00:00",
+  "UpdateDate": "2020-03-08T16:57:38.6164494+00:00",
+  "CreatorName": "darren",
+  "WriterName": "darren",
+  "Url": "https://reo.speedwagon.me/content-types/imagefolder",
+  "RelativeUrl": "/content-types/imagefolder",
+  "Content": {
+    "Root": true,
+    "Children": [
+      "Image",
+      "Imagefolder"
+    ]
+  },
+  "Template": "~/Views/SpeedWagon/ContentType/Imagefolder.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}
