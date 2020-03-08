@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SpeedWagon.Models;
+using SpeedWagon.Web.Extension;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models;
 using SpeedWagon.Web.UI.Models;
@@ -23,22 +24,10 @@ namespace SpeedWagon.Web.UI.Controllers
         public async Task<IActionResult> Index()
         {
             SpeedWagonPage model = await this._speedWagon.PageFor(Request);           
-            return View(model);
+            return View(model.Content.View(), model);
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
+        
 
         [AllowAnonymous]
         public IActionResult Error()

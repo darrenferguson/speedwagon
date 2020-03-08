@@ -12,8 +12,7 @@
     @await Html.PartialAsync("~/Views/Partials/Header.cshtml", Model)
 
     <div class="container">
-        @RenderBody()
-        @await Html.PartialAsync("~/Views/Partials/Posts.cshtml", Model)
+        @RenderBody()      
     </div>
 
     @await Html.PartialAsync("~/Views/Partials/Footer.cshtml", Model)

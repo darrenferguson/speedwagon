@@ -40,8 +40,8 @@ namespace SpeedWagon.Web.Services
             string urlName = RationalisePath(parent) + "/" + name.ToUrlName();
 
             SpeedWagonContent content = new SpeedWagonContent(name.ToTitleCasedName(), urlName, "content", user);
-            string viewName = type.ToTitleCasedName() + ".cshtml";
-            content.Template = "~/Views/SpeedWagon/Content/" + viewName;
+            string viewName = type.ToTitleCasedName();
+            content.Template = viewName;
             content.Type = type;
 
             this._cachelessContentService.AddContent(content);

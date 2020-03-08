@@ -110,6 +110,12 @@ namespace SpeedWagon.Web.UI
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                "404-PageNotFound",
+                "{*url}",
+                new { controller = "Home", action = "Index" }
+                );
             });
         }
     }
