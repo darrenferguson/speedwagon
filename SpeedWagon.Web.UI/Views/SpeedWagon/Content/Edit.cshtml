@@ -8,10 +8,9 @@
 
     @await Html.PartialAsync("~/Views/SpeedWagon/_EditorScripts.cshtml")
 }
-<h2>Edit Content</h2>
 
 <h3>
-    @Model.Content.Name
+    Edit '@Model.Content.Name'
 </h3>
 
 <form asp-controller="SpeedWagonContent" asp-action="Edit" method="post">
@@ -48,8 +47,7 @@
         </div>
     }
 
-    <hr/>
-
+  
     <button type="submit" class="btn btn-primary">Save Content</button>
-    <a class="btn btn-danger" asp-action="List" asp-controller="SpeedWagonContent" asp-route-url="@Model.Parent">Cancel</a>
+    <a class="btn btn-secondary" asp-action="List" asp-controller="SpeedWagonContent" asp-route-url="@Model.Parent">Cancel</a>
 </form>
