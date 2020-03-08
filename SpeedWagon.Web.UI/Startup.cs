@@ -83,7 +83,7 @@ namespace SpeedWagon.Web.UI
             IFileProvider contentFileProvider = new FileSystemFileProvider();
             // IFileProvider uploadFileProvider = new BlobFileProvider(blobConnection, "speedwagon");
 
-            services.AddSpeedWagon(path, true, contentFileProvider);
+            services.AddSpeedWagon(path, false, contentFileProvider);
             services.AddSpeedWagonCms(path, uploadPath, contentFileProvider, contentFileProvider);
 
             services.AddMvc();

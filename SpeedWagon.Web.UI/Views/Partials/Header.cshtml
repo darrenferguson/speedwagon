@@ -7,7 +7,14 @@
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <div class="site-heading">
                         <h1>@(Model.Content.GetValue<string>("Title"))</h1>
-                        <span class="subheading">@(Model.Content.GetValue<string>("Description"))</span>
+                        @if (string.IsNullOrEmpty(Model.Content.GetValue<string>("Description")))
+                        {
+                            <span class="subheading">Take it on the Run</span>
+                        }
+                        else
+                        {
+                            <span class="subheading">@(Model.Content.GetValue<string>("Description"))</span>
+                        }
                     </div>
                 </div>
             </div>
