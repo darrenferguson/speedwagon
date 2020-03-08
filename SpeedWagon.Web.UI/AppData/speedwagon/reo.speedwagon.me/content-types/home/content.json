@@ -2,7 +2,7 @@
   "Name": "Home",
   "Type": "content-type",
   "CreateDate": "2020-03-08T15:20:34.5615852+00:00",
-  "UpdateDate": "2020-03-08T15:34:28.8802608+00:00",
+  "UpdateDate": "2020-03-08T17:18:21.4289156+00:00",
   "CreatorName": "darren",
   "WriterName": "darren",
   "Url": "https://reo.speedwagon.me/content-types/home",
@@ -10,6 +10,8 @@
   "Content": {
     "Root": true,
     "Children": [
+      "Contactpage",
+      "Postfolder",
       "Textpage"
     ],
     "Editors": [

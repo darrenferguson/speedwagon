@@ -1,0 +1,20 @@
+{
+  "Name": "Postfolder",
+  "Type": "content-type",
+  "CreateDate": "2020-03-08T17:18:15.2264584+00:00",
+  "UpdateDate": "2020-03-08T17:18:38.5868756+00:00",
+  "CreatorName": "darren",
+  "WriterName": "darren",
+  "Url": "https://reo.speedwagon.me/content-types/postfolder",
+  "RelativeUrl": "/content-types/postfolder",
+  "Content": {
+    "Root": false,
+    "Children": [
+      "Post"
+    ]
+  },
+  "Template": "~/Views/SpeedWagon/ContentType/Postfolder.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}

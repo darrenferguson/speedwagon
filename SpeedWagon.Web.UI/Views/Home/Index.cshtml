@@ -1,11 +1,6 @@
 ﻿@model SpeedWagonPage
-@{
-    ViewData["Title"] = "Home Page";
-}
 
-<h1 class="mb-5">@(Model.Content.GetValue<string>("Title"))</h1>
-
-@foreach (SpeedWagonContent child in await Model.ContentService.Children(Model.Content))
+@*@foreach (SpeedWagonContent child in await Model.ContentService.Children(Model.Content))
 {
    <h2>@child.Name</h2>
-}
+}*@

@@ -1,0 +1,18 @@
+{
+  "Name": "Contactpage",
+  "Type": "content-type",
+  "CreateDate": "2020-03-08T17:17:17.8534125+00:00",
+  "UpdateDate": "2020-03-08T17:17:17.8534172+00:00",
+  "CreatorName": "darren",
+  "WriterName": "darren",
+  "Url": "https://reo.speedwagon.me/content-types/contactpage",
+  "RelativeUrl": "/content-types/contactpage",
+  "Content": {
+    "Root": false,
+    "Children": []
+  },
+  "Template": "~/Views/SpeedWagon/ContentType/Contactpage.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}

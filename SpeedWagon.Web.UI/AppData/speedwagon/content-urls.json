@@ -20,5 +20,11 @@
   "https://reo.speedwagon.me/content/images/banners",
   "https://reo.speedwagon.me/content-types/image",
   "https://reo.speedwagon.me/content/images/banners/home-banner",
-  "https://reo.speedwagon.me/editors/picker"
+  "https://reo.speedwagon.me/editors/picker",
+  "https://reo.speedwagon.me/content-types/contactpage",
+  "https://reo.speedwagon.me/content/localhost/contact",
+  "https://reo.speedwagon.me/content-types/postfolder",
+  "https://reo.speedwagon.me/content-types/post",
+  "https://reo.speedwagon.me/content/localhost/posts",
+  "https://reo.speedwagon.me/content/localhost/posts/my-first-post"
 ]
