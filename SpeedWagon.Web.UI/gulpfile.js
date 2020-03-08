@@ -35,6 +35,7 @@ gulp.task('js', function () {
     return gulp.src([
         './node_modules/jquery/dist/jquery.min.js',
         './node_modules/bootstrap/dist/js/bootstrap.min.js',
+        './node_modules/feather-icons/dist/feather.min.js',
     ])
         .pipe(concat('speedwagon.min.js'))
         .pipe(uglify())

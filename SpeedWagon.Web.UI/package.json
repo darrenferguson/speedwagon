@@ -12,6 +12,7 @@
     "@fortawesome/fontawesome-free": "^5.12.1",
     "blueimp-file-upload": "^10.8.0",
     "bootstrap": "^4.3.1",
+    "feather-icons": "^4.26.0",
     "jquery": "^3.4.1",
     "jquery-ui": "^1.12.1",
     "tinymce": "^5.2.0"

@@ -47,88 +47,89 @@
             <p>No content defined</p>
         }
         else
-        {
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>
+        {<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
 
-                        </th>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Type
-                        </th>
-                        <th>
-                            Creator
-                        </th>
-                        <th>
-                            Created
-                        </th>
-                        <th>
-                            Updater
-                        </th>
-                        <th>
-                            Updated
-                        </th>
-                        <th>
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Creator
+                </th>
+                <th>
+                    Created
+                </th>
+                <th>
+                    Updater
+                </th>
+                <th>
+                    Updated
+                </th>
+                <th>
 
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (SpeedWagonContent content in Model.Contents)
-                    {
-                        <tr>
-                            <td>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (SpeedWagonContent content in Model.Contents)
+            {
+                <tr>
+                    <td>
 
 
-                                <a asp-controller="SpeedWagonContent" asp-action="Edit" asp-route-url="@content.RelativeUrl" class="btn btn-info">Edit</a>
+                        <a asp-controller="SpeedWagonContent" asp-action="Edit" asp-route-url="@content.RelativeUrl" class="btn btn-info">Edit</a>
 
-                                <form asp-controller="SpeedWagonContentType" asp-action="DeleteProperty" method="delete" style="display: inline;">
-                                    <input type="hidden" value="@Model.Name" asp-for="Name" />
-                                    <input type="submit" class="btn btn-default" value="Up" />
-                                </form>
+                        <form asp-controller="SpeedWagonContentType" asp-action="DeleteProperty" method="delete" style="display: inline;">
+                            <input type="hidden" value="@Model.Name" asp-for="Name" />
+                            <input type="submit" class="btn btn-default" value="Up" />
+                        </form>
 
-                                <form asp-controller="SpeedWagonContentType" asp-action="DeleteProperty" method="delete" style="display: inline;">
-                                    <input type="hidden" value="@Model.Name" asp-for="Name" />
-                                    <input type="submit" class="btn btn-default" value="Down" />
-                                </form>
+                        <form asp-controller="SpeedWagonContentType" asp-action="DeleteProperty" method="delete" style="display: inline;">
+                            <input type="hidden" value="@Model.Name" asp-for="Name" />
+                            <input type="submit" class="btn btn-default" value="Down" />
+                        </form>
 
-                            </td>
-                            <td>
-                                <a asp-controller="SpeedWagonContent" asp-action="List" asp-route-url="@content.RelativeUrl">@content.Name</a>
-                            </td>
-                            <td>
-                                @content.Type
-                            </td>
-                            <td>
-                                @content.CreatorName
-                            </td>
-                            <td>
-                                @content.CreateDate
-                            </td>
-                            <td>
-                                @content.WriterName
-                            </td>
-                            <td>
-                                @content.UpdateDate
-                            </td>
+                    </td>
+                    <td>
+                        <a asp-controller="SpeedWagonContent" asp-action="List" asp-route-url="@content.RelativeUrl">@content.Name</a>
+                    </td>
+                    <td>
+                        @content.Type
+                    </td>
+                    <td>
+                        @content.CreatorName
+                    </td>
+                    <td>
+                        @content.CreateDate
+                    </td>
+                    <td>
+                        @content.WriterName
+                    </td>
+                    <td>
+                        @content.UpdateDate
+                    </td>
 
-                            <td>
-                                <form asp-controller="SpeedWagonContentType" asp-action="DeleteProperty" method="delete" style="display: inline;">
-                                    <input type="hidden" value="@Model.Name" asp-for="Name" />
-                                    <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
+                    <td>
+                        <form asp-controller="SpeedWagonContentType" asp-action="DeleteProperty" method="delete" style="display: inline;">
+                            <input type="hidden" value="@Model.Name" asp-for="Name" />
+                            <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+        </div>
+    }
 
-    </div>
+</div>
     <div class="tab-pane" id="create">
 
         <form asp-controller="SpeedWagonContent" asp-action="Add" method="post">

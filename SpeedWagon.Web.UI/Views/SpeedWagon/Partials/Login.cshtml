@@ -1,0 +1,13 @@
+@using System.Security.Principal
+<ul class="navbar-nav px-3">
+    <li class="nav-item text-nowrap">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a class="nav-link" SpeedWagonAccount" asp-action="Logout">Sign out</a>
+        }
+        else
+        {
+            <a class="nav-link" asp-controller="SpeedWagonAccount" asp-action="Login">Sign in</a>
+        }
+    </li>
+</ul>
