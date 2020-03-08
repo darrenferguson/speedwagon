@@ -30,7 +30,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th></th>
+                        
                         <th>Name</th>
                         <th>Creator</th>
                         <th>Created</th>
@@ -41,16 +41,13 @@
                     @foreach (SpeedWagonContent contentType in Model.ContentTypes)
                     {
                         <tr>
-                            <td>
-                                <a class="btn btn-info" asp-controller="SpeedWagonContentType" asp-action="Edit" asp-route-url="@contentType.RelativeUrl">Edit</a>
 
-
-
-                            </td>
                             <td>@contentType.Name</td>
                             <td>@contentType.CreatorName</td>
                             <td>@contentType.CreateDate</td>
                             <td>
+                                <a class="btn btn-info" asp-controller="SpeedWagonContentType" asp-action="Edit" asp-route-url="@contentType.RelativeUrl">Edit</a>
+
                                 <form asp-controller="SpeedWagonContentType" asp-action="Delete" method="post" style="display: inline;">
                                     <input type="hidden" value="@contentType.Name" asp-for="Name" />
                                     <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
@@ -61,6 +58,10 @@
                 </tbody>
             </table>
         }
+    
+        <h4>Help</h4>
+        <p>Content types are groupings of editors - that are used to create content items</p>
+        <p>You can also define a site structure by allowing content types to be created at the root of the content structure or as children of other items.</p>
     </div>
     <div class="tab-pane" id="create">
 

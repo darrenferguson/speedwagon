@@ -1,0 +1,18 @@
+{
+  "Name": "Textpage",
+  "Type": "content-type",
+  "CreateDate": "2020-03-08T15:21:30.4953821+00:00",
+  "UpdateDate": "2020-03-08T15:21:30.4953853+00:00",
+  "CreatorName": "darren",
+  "WriterName": "darren",
+  "Url": "https://reo.speedwagon.me/content-types/textpage",
+  "RelativeUrl": "/content-types/textpage",
+  "Content": {
+    "Root": false,
+    "Children": []
+  },
+  "Template": "~/Views/SpeedWagon/ContentType/Textpage.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}

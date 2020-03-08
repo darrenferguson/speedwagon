@@ -10,5 +10,7 @@
   "https://reo.speedwagon.me/editors/richtext",
   "https://reo.speedwagon.me/editors/textarea",
   "https://reo.speedwagon.me/editors/upload",
-  "https://reo.speedwagon.me/editors/grid"
+  "https://reo.speedwagon.me/editors/grid",
+  "https://reo.speedwagon.me/content-types/home",
+  "https://reo.speedwagon.me/content-types/textpage"
 ]

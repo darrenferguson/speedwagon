@@ -5,7 +5,8 @@
 
 <h3>Edit Property '@Model.Property.Name'</h3>
 
-<form asp-controller="SpeedWagonContentType" asp-action="EditProperty" method="post" class="border">
+<form asp-controller="SpeedWagonContentType" asp-action="EditProperty" method="post">
+
     <div class="form-group">
         <label for="name">Name</label>
         <input readonly asp-for="Property.Name" class="form-control" />
@@ -29,4 +30,5 @@
 
     <button type="submit" class="btn btn-primary">Save</button>
 
+    <button onclick="history.back()" class="btn btn-secondary">Cancel</button>
 </form>
