@@ -1,5 +1,6 @@
 ﻿using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
+using SpeedWagon.Web.Interfaces;
 
 namespace SpeedWagon.Web.Models
 {
@@ -9,5 +10,8 @@ namespace SpeedWagon.Web.Models
 
         public IContentService ContentService { get; set; }
 
+        public ISpeedWagonWebContext Context { get; set; }
+
+        public int Status { get; set; }
     }
 }

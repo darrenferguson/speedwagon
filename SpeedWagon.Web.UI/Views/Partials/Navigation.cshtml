@@ -1,11 +1,7 @@
 ﻿@model SpeedWagonPage
-@using System.Linq;
 @{ 
-    SpeedWagonContent root = await Model.ContentService.Home(Model.Content);
-    IEnumerable<SpeedWagonContent> homes = await Model.ContentService.Children(root);
-    SpeedWagonContent home = homes.FirstOrDefault();
-
-
+    SpeedWagonContent home = await Model.Context.ContentFor(Context.Request, "/");
+    
 
 }
 
@@ -24,7 +20,7 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
 
-                @foreach (SpeedWagonContent child in await Model.ContentService.Children(home))
+                @foreach (SpeedWagonContent child in await Model.Context.ContentService.Children(home))
                 {
                     if (child.Type == "Textpage")
                     {

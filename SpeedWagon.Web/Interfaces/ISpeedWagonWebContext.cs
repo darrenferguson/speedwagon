@@ -13,5 +13,8 @@ namespace SpeedWagon.Web.Interfaces
         Task<SpeedWagonContent> ContentFor(HttpRequest request);
 
         Task<SpeedWagonPage> PageFor(HttpRequest request);
+
+        Task<SpeedWagonContent> ContentFor(HttpRequest request, string path);
+        
     }
 }

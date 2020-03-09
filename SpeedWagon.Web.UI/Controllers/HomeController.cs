@@ -23,7 +23,12 @@ namespace SpeedWagon.Web.UI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            SpeedWagonPage model = await this._speedWagon.PageFor(Request);           
+            SpeedWagonPage model = await this._speedWagon.PageFor(Request);  
+            if(model.Status == 404)
+            {
+                return View("~/Views/404.cshtml", model);
+            }
+
             return View(model.Content.View(), model);
         }
 

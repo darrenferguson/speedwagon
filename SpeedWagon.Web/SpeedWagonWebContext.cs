@@ -23,12 +23,20 @@ namespace SpeedWagon.Web
 
         public async Task<SpeedWagonContent> ContentFor(HttpRequest request)
         {
-            string url = SPEEDWAGON_HOST + "/content/" + request.Host + request.Path;
-            SpeedWagonContent content =  await this._cachedContentService.GetContent(url);
+            
+            return await this.ContentFor(request, request.Path);
+        }
 
-            if(content == null)
+        
+
+        public async Task<SpeedWagonContent> ContentFor(HttpRequest request, string path)
+        {
+            string url = SPEEDWAGON_HOST + "/content/" + request.Host + path;
+            SpeedWagonContent content = await this._cachedContentService.GetContent(url);
+
+            if (content == null)
             {
-                return new SpeedWagonContent("Not found", request.Path);
+                return new SpeedWagonContent("404NotFound", request.Path);
             }
 
             return content;
@@ -38,10 +46,14 @@ namespace SpeedWagon.Web
         {
             SpeedWagonPage model = new SpeedWagonPage();
             model.Content = await ContentFor(request);
-            model.ContentService = this._cachedContentService;
+            model.Status = model.Content.Name == "404NotFound" ? 404 : 200;
+            model.Context = this;
+            model.ContentService = this.ContentService;
 
             return model;
 
         }
+
+       
     }
 }
