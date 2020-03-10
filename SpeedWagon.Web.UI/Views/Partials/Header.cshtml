@@ -1,6 +1,13 @@
 ﻿@model SpeedWagon.Web.UI.Models.Page.Site
+@{ 
+    string image = "/theme/home-bg.jpg";
+    if(!string.IsNullOrEmpty(Model.Content.GetValue<string>("BannerImage")))
+    {
+        image = "/uploads/" + Model.Content.GetValue<string>("BannerImage");
+    }
+}
 
-    <header class="masthead" style="background-image: url('/theme/home-bg.jpg')">
+    <header class="masthead" style="background-image: url('@image')">
         <div class="overlay"></div>
         <div class="container">
             <div class="row">
