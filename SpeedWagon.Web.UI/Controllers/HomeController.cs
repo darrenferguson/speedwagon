@@ -39,9 +39,21 @@ namespace SpeedWagon.Web.UI.Controllers
             if (model.Content.Type == "Home")
             {
                 return await Home(site);
+            } 
+            else if (model.Content.Type == "Rssfeed")
+            {
+                return await Rss(site);
             }
 
             return View(model.Content.View(), site);
+        }
+
+        public async Task<IActionResult> Rss(Site site)
+        {
+            Response.ContentType = "application/rss+xml";
+            RssFeed rssFeed = new RssFeed(site);
+            rssFeed.Posts = await this._speedWagon.SearchService.Search(new Dictionary<string, string>() { { "Type", "Post" } });
+            return View(rssFeed.Content.View(), rssFeed);
         }
 
         public async Task<IActionResult> Home(Site site)

@@ -1,0 +1,29 @@
+﻿@model SpeedWagon.Web.UI.Models.Page.RssFeed
+@using SpeedWagon.Runtime.Models
+@{
+    Layout = null;
+
+    string date = String.Format("{0:MM/dd/yyyy hh:mm tt}", DateTime.UtcNow);
+}
+<rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>@(Model.Home.GetValue<string>("Title"))</title>
+        <link>@Model.Content.WebUrl()</link>
+        <description>@(Model.Home.GetValue<string>("Description"))</description>
+        <language>en-gb</language>
+        <lastBuildDate>@date</lastBuildDate>
+        <items>
+            @foreach (SearchResult post in Model.Posts)
+            {
+            <item>
+                <title>@(post.Content.GetValue<string>("Title"))</title>
+
+                <description>@(post.Content.GetValue<string>("Description"))</description>
+                <guid>@post.Content.WebUrl()</guid>
+                <pubDate>@(String.Format("{0:MM/dd/yyyy hh:mm tt}", Model.Content.UpdateDate))</pubDate>
+            </item>
+            }
+        </items>
+
+    </channel>
+</rss>
