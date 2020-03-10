@@ -43,17 +43,27 @@ namespace SpeedWagon.Web.Extension
 
         public static IServiceCollection AddSpeedWagon(this IServiceCollection services, string path, bool cached, IFileProvider contentFileProvider)
         {
-            
 
+            IContentService contentService;
             if (cached)
             {
                 services.AddHostedService<CacheRefreshingHostedService>();
+                contentService = new CachedRuntimeContentService(
+                            path, null, contentFileProvider
+                         );
 
-                services.AddSingleton<ISpeedWagonWebContext>(s => new SpeedWagonWebContext(path, new CachedRuntimeContentService(path, null, contentFileProvider)));
+                
             } else
             {
-                services.AddSingleton<ISpeedWagonWebContext>(s => new SpeedWagonWebContext(path, new CacheLessRuntimeContentService(path, null, contentFileProvider)));
+                contentService = new CacheLessRuntimeContentService(
+                             path, null, contentFileProvider
+                         );
             }
+
+            ISearchService searchService = new LuceneSearchService(contentService, Path.Combine(path, "search"));
+            services.AddSingleton<ISpeedWagonWebContext>(
+                    s => new SpeedWagonWebContext(
+                        path, contentService, searchService));
 
             return services;
         }

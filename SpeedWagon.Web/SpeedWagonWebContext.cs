@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SpeedWagon.Interfaces;
 using SpeedWagon.Models;
+using SpeedWagon.Runtime.Interfaces;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models;
 using System.Threading.Tasks;
@@ -12,14 +13,19 @@ namespace SpeedWagon.Web
         private readonly string _path;
 
         private readonly IContentService _cachedContentService;
-       
-        public SpeedWagonWebContext(string path, IContentService cachedContentService)
+        private readonly ISearchService _searchService;
+
+        public SpeedWagonWebContext(string path, IContentService cachedContentService, ISearchService searchService)
         {
             this._path = path;
             this._cachedContentService = cachedContentService;
+            this._searchService = searchService;
         }
 
         public IContentService ContentService => this._cachedContentService;
+
+        public ISearchService SearchService => this._searchService;
+
 
         public async Task<SpeedWagonContent> ContentFor(HttpRequest request)
         {
@@ -27,8 +33,7 @@ namespace SpeedWagon.Web
             return await this.ContentFor(request, request.Path);
         }
 
-        
-
+       
         public async Task<SpeedWagonContent> ContentFor(HttpRequest request, string path)
         {
             string url = SPEEDWAGON_HOST + "/content/" + request.Host + path;
@@ -53,7 +58,5 @@ namespace SpeedWagon.Web
             return model;
 
         }
-
-       
     }
 }

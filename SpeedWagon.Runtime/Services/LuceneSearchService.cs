@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
@@ -252,9 +251,9 @@ namespace SpeedWagon.Runtime.Services
             return results;
         }
 
-        public Task<IEnumerable<string>> Search(IDictionary<string, string> matches)
+        public async Task<IEnumerable<SearchResult>> Search(IDictionary<string, string> matches)
         {
-            var results = new List<string>();
+            var results = new List<SearchResult>();
             using (Directory directory = FSDirectory.Open(this._directory))
             {
                
@@ -277,12 +276,22 @@ namespace SpeedWagon.Runtime.Services
                 foreach (var item in scored)
                 {
                     Document doc = indexSearcher.Doc(item.Doc);
-                    var url = doc.Get("Url");
-                    results.Add(url);
+                    
+                    string url = doc.Get("Url");
+                    var content = await this._contentService.GetContent(url);
+
+                    results.Add(new SearchResult
+                    {
+                        Url = url,
+                        PreviewText = doc.Get("BodyText"),
+                        Score = item.Score,
+                        Content = content
+
+                    });
                 }
             }
 
-            return Task.FromResult<IEnumerable<string>>(results);
+            return results;
         }
     }
 }

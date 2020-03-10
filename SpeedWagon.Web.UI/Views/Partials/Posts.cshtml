@@ -1,37 +1,33 @@
-﻿@model SpeedWagonPage
-
-
+﻿@model SpeedWagon.Web.UI.Models.Page.HomePage
+@using SpeedWagon.Runtime.Models
 
 <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
 
-        @foreach (var post in await Model.Context.ContentService.Descendants(Model.Content, "Post"))
+        @foreach (SearchResult post in Model.Posts)
         {
             <div class="post-preview">
-                <a href="@post.WebUrl()">
+                <a href="@post.Content.WebUrl()">
                     <h2 class="post-title">
-                        @post.Name
+                        @(post.Content.GetValue<string>("Title"))
                     </h2>
                     <h3 class="post-subtitle">
-                        Problems look mighty small from 150 miles up
+                        @(post.Content.GetValue<string>("Description"))
                     </h3>
                 </a>
                 <p class="post-meta">
                     Posted by
-                    <a href="#">Start Bootstrap</a>
-                    on September 24, 2019
+                    <a href="#">@post.Content.CreatorName</a>
+                    on @post.Content.CreateDate
                 </p>
             </div>
-            <hr/>
+            <hr />
         }
 
-
-       
-        
         <!-- Pager -->
         <div class="clearfix">
             <a class="btn btn-primary float-right" href="http://blog.darren-ferguson.com/">Older Posts &rarr;</a>
         </div>
+
     </div>
 </div>
-

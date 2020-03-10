@@ -13,7 +13,7 @@ namespace SpeedWagon.Runtime.Interfaces
         void Delete(string url);
 
         Task<IEnumerable<SearchResult>> Search(string query);
-        Task<IEnumerable<string>> Search(IDictionary<string, string> matches);
+        Task<IEnumerable<SearchResult>> Search(IDictionary<string, string> matches);
 
     }
 }

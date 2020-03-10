@@ -70,7 +70,7 @@ namespace SpeedWagon.Services.Search
             return results;
         }
 
-        public async Task<IEnumerable<string>> Search(IDictionary<string, string> matches)
+        public async Task<IEnumerable<SearchResult>> Search(IDictionary<string, string> matches)
         {
             throw new NotImplementedException();
         }
