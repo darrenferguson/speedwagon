@@ -36,5 +36,7 @@ namespace SpeedWagon.Interfaces
         Task<IEnumerable<SpeedWagonContent>> BreadCrumb(SpeedWagonContent model);
 
         SpeedWagonContent CreateContent(string url, IDictionary<string, object> properties);
+
+        
     }
 }

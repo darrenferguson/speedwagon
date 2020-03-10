@@ -108,7 +108,7 @@ namespace SpeedWagon.Services
                 if (Urls.Contains(url))
                     Urls.Remove(url);
 
-                // CleanEmptyDirectory(directoryInfo.FullName);
+                //CleanEmptyDirectory(directoryInfo.FullName);
             }
 
             FlushUrls();
@@ -322,7 +322,9 @@ namespace SpeedWagon.Services
             return content;
         }
 
-       
+        
+
+
         //private void CleanEmptyDirectory(string path)
         //{
         //    if (!Directory.EnumerateFileSystemEntries(path).Any())

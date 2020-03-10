@@ -1,0 +1,18 @@
+{
+  "Name": "Rssfeed",
+  "Type": "content-type",
+  "CreateDate": "2020-03-09T09:27:06.2777542+00:00",
+  "UpdateDate": "2020-03-09T09:58:49.0483684+00:00",
+  "CreatorName": "darren",
+  "WriterName": "darren",
+  "Url": "https://reo.speedwagon.me/content-types/rssfeed",
+  "RelativeUrl": "/content-types/rssfeed",
+  "Content": {
+    "Root": false,
+    "Children": null
+  },
+  "Template": "~/Views/SpeedWagon/ContentType/Rssfeed.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}

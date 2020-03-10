@@ -25,5 +25,7 @@
   "https://reo.speedwagon.me/content-types/postfolder",
   "https://reo.speedwagon.me/content-types/post",
   "https://reo.speedwagon.me/content/localhost/posts",
-  "https://reo.speedwagon.me/content/localhost/posts/my-first-post"
+  "https://reo.speedwagon.me/content/localhost/posts/my-first-post",
+  "https://reo.speedwagon.me/content-types/rssfeed",
+  "https://reo.speedwagon.me/content/localhost/rss"
 ]

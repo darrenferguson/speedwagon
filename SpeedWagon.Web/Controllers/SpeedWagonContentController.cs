@@ -9,6 +9,7 @@ using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models.ContentType;
 using SpeedWagon.Web.Models.View.Content;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SpeedWagon.Web.Controllers
@@ -29,6 +30,7 @@ namespace SpeedWagon.Web.Controllers
         {
             SpeedWagonContent contentRoot = await this._speedWagon.WebContentService.GetContent(url);
             IEnumerable<SpeedWagonContent> contents = await this._speedWagon.ContentService.Children(contentRoot);
+            contents = contents.OrderBy(x => x.SortOrder);
 
             IEnumerable<SpeedWagonContent> contentTypes = null;
 
@@ -121,5 +123,63 @@ namespace SpeedWagon.Web.Controllers
 
             return RedirectToAction("List", "SpeedWagonContent", new { url = parent.RelativeUrl });        
         }
+
+        [HttpPost]
+        public IActionResult Delete(ContentOperationViewModel model)
+        {
+            this._speedWagon.ContentService.RemoveContent(model.Url);
+            return RedirectToAction("List");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MoveUp(ContentOperationViewModel model)
+        {          
+            SpeedWagonContent content = await this._speedWagon.ContentService.GetContent(model.Url);
+            SpeedWagonContent parent = await this._speedWagon.ContentService.Parent(content);
+            IEnumerable<SpeedWagonContent> children = await this._speedWagon.ContentService.Children(parent);
+            children = children.OrderBy(x => x.SortOrder);
+
+            SpeedWagonContent[] childArray = children.ToArray();
+            
+            for (int index = 0; index < childArray.Length; index++)
+            {
+                if (childArray[index].Url == content.Url && index > 0)
+                {
+                    childArray[index - 1].SortOrder++;
+                    childArray[index].SortOrder--;
+
+                    this._speedWagon.WebContentService.Save(childArray[index - 1], User.Identity.Name.MaskEmail());
+                    this._speedWagon.WebContentService.Save(childArray[index], User.Identity.Name.MaskEmail());
+                }
+            }
+                    
+            return RedirectToAction("List");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MoveDown(ContentOperationViewModel model)
+        {
+            SpeedWagonContent content = await this._speedWagon.ContentService.GetContent(model.Url);
+            SpeedWagonContent parent = await this._speedWagon.ContentService.Parent(content);
+            IEnumerable<SpeedWagonContent> children = await this._speedWagon.ContentService.Children(parent);
+            children = children.OrderBy(x => x.SortOrder);
+
+            SpeedWagonContent[] childArray = children.ToArray();
+
+            for (int index = 0; index < childArray.Length; index++)
+            {
+                if (childArray[index].Url == content.Url && index < childArray.Length -1)
+                {
+                    childArray[index + 1].SortOrder--;
+                    childArray[index].SortOrder++;
+
+                    this._speedWagon.WebContentService.Save(childArray[index + 1], User.Identity.Name.MaskEmail());
+                    this._speedWagon.WebContentService.Save(childArray[index], User.Identity.Name.MaskEmail());
+                }
+            }
+
+            return RedirectToAction("List");
+        }
+
     }
 }
