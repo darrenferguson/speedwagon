@@ -233,14 +233,14 @@ namespace SpeedWagon.Runtime.Services
                 foreach (var item in scored)
                 {
                     Document doc = indexSearcher.Doc(item.Doc);
-                    var previewText = GeneratePreviewText(query, doc.Get("bodyText"));
+                    var previewText = GeneratePreviewText(query, doc.Get("Body"));
                     string url = doc.Get("Url");
                     var content = await this._contentService.GetContent(url);
 
                     results.Add(new SearchResult
                     {
                         Url = url,
-                        PreviewText = doc.Get("BodyText"),
+                        PreviewText = doc.Get("Body"),
                         Score = item.Score,
                         Content = content
                         
@@ -283,7 +283,7 @@ namespace SpeedWagon.Runtime.Services
                     results.Add(new SearchResult
                     {
                         Url = url,
-                        PreviewText = doc.Get("BodyText"),
+                        PreviewText = doc.Get("Body"),
                         Score = item.Score,
                         Content = content
 

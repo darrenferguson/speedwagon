@@ -1,7 +1,7 @@
 ﻿$(function () {
     tinyMCE.init({
         selector: "textarea.editor",
-        plugins: "image,code",
+        plugins: "image,code,link",
         
     });
 });
