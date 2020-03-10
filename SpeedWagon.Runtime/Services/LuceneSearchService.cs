@@ -18,6 +18,7 @@ using Lucene.Net.QueryParsers.Classic;
 using SpeedWagon.Runtime.Interfaces;
 using SpeedWagon.Runtime.Models;
 using Directory = Lucene.Net.Store.Directory;
+using Newtonsoft.Json;
 
 namespace SpeedWagon.Runtime.Services
 {
@@ -28,17 +29,20 @@ namespace SpeedWagon.Runtime.Services
         private readonly string _directory;
 
         private Analyzer SetupAnalyzer() =>
-            new StandardAnalyzer(LuceneVersion.LUCENE_48);
+            new StandardAnalyzer(LuceneVersion.LUCENE_CURRENT);
 
         public LuceneSearchService(IContentService contentService, string directory)
         {
-
-
-
+            
             this._contentService = contentService;
             this._contentService.Added += ContentServiceAdded;
             this._contentService.Removed += ContentServiceRemoved;
             this._directory = directory;
+        }
+
+        private string GetFieldsFilePath()
+        {
+            return Path.Combine(this._directory, "..\\fields.config");
         }
 
         private void ContentServiceRemoved(string sender, EventArgs e)
@@ -58,13 +62,29 @@ namespace SpeedWagon.Runtime.Services
             // BIG TODO: make search index in the background or on demand.
             // Forces everything to be cached on startup... :(
 
+            IList<string> fields = new List<string>();
+
             foreach (var url in urls.ToList())
             {
                 var content = await contentService.GetContent(url);
 
                 if (content != null)
                     Index(content);
+
+                foreach (var property in content.Content)
+                {
+
+                    string key = property.Key.Replace(" ", "");
+                    if(!fields.Contains(key))
+                    {
+                        fields.Add(key);
+                    }
+                }
             }
+
+            File.WriteAllText(GetFieldsFilePath(), JsonConvert.SerializeObject(fields));
+
+
         }
 
         private string SafeFieldValue(string v)
@@ -112,15 +132,13 @@ namespace SpeedWagon.Runtime.Services
             const string pattern = @"<(.|\n)*?>";
             return Regex.Replace(htmlString, pattern, string.Empty);
         }
-
-
-
+        
         public void Index(SpeedWagonContent model)
         {
             var doc = GetLuceneDocument(model);
             using (Directory directory = FSDirectory.Open(this._directory))
             {
-                using (IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(LuceneVersion.LUCENE_48, SetupAnalyzer())))
+                using (IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(LuceneVersion.LUCENE_CURRENT, SetupAnalyzer())))
                 {
                     writer.DeleteDocuments(new Term("Url", doc.Get("Url")));
                     writer.Commit();
@@ -150,7 +168,7 @@ namespace SpeedWagon.Runtime.Services
             using (Directory directory = FSDirectory.Open(this._directory))
             {
                 using (var writer = new IndexWriter(directory,
-                    new IndexWriterConfig(LuceneVersion.LUCENE_48, SetupAnalyzer())))
+                    new IndexWriterConfig(LuceneVersion.LUCENE_CURRENT, SetupAnalyzer())))
                 {
                     writer.DeleteDocuments(new Term("Url", url));
                     writer.Commit();
@@ -160,11 +178,13 @@ namespace SpeedWagon.Runtime.Services
 
         private QueryParser SetupQueryParser(Analyzer analyzer)
         {
-            return new MultiFieldQueryParser(
-            LuceneVersion.LUCENE_48,
-            new[] { "BodyText", "Description" },
-            analyzer
-            );
+            List<string> fields = new List<string> { "Name", "Type", "CreateDate", "UpdateDate", "SortOrder", "Level" };
+            string fieldsPath = GetFieldsFilePath();
+            if(File.Exists(fieldsPath))
+            {
+                fields.AddRange(JsonConvert.DeserializeObject<string[]>(File.ReadAllText(fieldsPath)));
+            }
+            return new MultiFieldQueryParser(LuceneVersion.LUCENE_CURRENT, fields.ToArray(), analyzer);
         }
 
         public async Task<IEnumerable<SearchResult>> Search(string searchTerm)
@@ -176,13 +196,37 @@ namespace SpeedWagon.Runtime.Services
 
             ScoreDoc[] scored;
 
-            using (Directory directory = FSDirectory.Open(this._directory))
+            //using (Directory directory = FSDirectory.Open(this._directory))
+            //{
+            //    using (var writer = new IndexWriter(directory,
+            //       new IndexWriterConfig(LuceneVersion.LUCENE_CURRENT, SetupAnalyzer())))
+            //    {
+            //        using(var reader = writer.GetReader(false))
+            //        {
+            //            for (int i = 0; i < reader.MaxDoc; i++)
+            //            {
+                            
+
+            //                Document doc = reader.Document(i);
+            //                string type = doc.GetField("Type").GetStringValue();
+                            
+            //                if(type == "content")
+            //                {
+
+            //                }
+            //                // do something with docId here...
+            //            }
+            //        }
+            //    }
+            //}
+
+                using (Directory directory = FSDirectory.Open(this._directory))
             {
                 SearcherManager searchManager = new SearcherManager(directory, null);
 
                 searchManager.MaybeRefreshBlocking();
                 IndexSearcher indexSearcher = searchManager.Acquire();
-
+                
                 TopDocs hits = indexSearcher.Search(query, int.MaxValue);
                 
                 scored = hits.ScoreDocs;
@@ -213,7 +257,9 @@ namespace SpeedWagon.Runtime.Services
             var results = new List<string>();
             using (Directory directory = FSDirectory.Open(this._directory))
             {
+               
                 SearcherManager searchManager = new SearcherManager(directory, null);
+                
 
                 searchManager.MaybeRefreshBlocking();
                 IndexSearcher indexSearcher = searchManager.Acquire();

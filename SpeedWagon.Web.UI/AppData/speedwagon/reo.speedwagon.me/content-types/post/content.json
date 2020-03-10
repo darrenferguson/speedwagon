@@ -2,14 +2,36 @@
   "Name": "Post",
   "Type": "content-type",
   "CreateDate": "2020-03-08T17:18:32.1227043+00:00",
-  "UpdateDate": "2020-03-08T17:18:32.1227099+00:00",
+  "UpdateDate": "2020-03-10T10:15:03.7634923+00:00",
   "CreatorName": "darren",
   "WriterName": "darren",
   "Url": "https://reo.speedwagon.me/content-types/post",
   "RelativeUrl": "/content-types/post",
   "Content": {
     "Root": false,
-    "Children": []
+    "Children": [],
+    "Editors": [
+      {
+        "Name": "Title",
+        "Editor": "Textbox",
+        "Description": null
+      },
+      {
+        "Name": "Date",
+        "Editor": "Datepicker",
+        "Description": null
+      },
+      {
+        "Name": "Summary",
+        "Editor": "Textarea",
+        "Description": null
+      },
+      {
+        "Name": "Content",
+        "Editor": "Richtext",
+        "Description": null
+      }
+    ]
   },
   "Template": "~/Views/SpeedWagon/ContentType/Post.cshtml",
   "CacheTime": null,
