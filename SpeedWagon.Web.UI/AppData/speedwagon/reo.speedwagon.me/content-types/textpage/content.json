@@ -2,7 +2,7 @@
   "Name": "Textpage",
   "Type": "content-type",
   "CreateDate": "2020-03-08T15:21:30.4953821+00:00",
-  "UpdateDate": "2020-03-10T14:18:49.3980108+00:00",
+  "UpdateDate": "2020-03-10T14:23:15.0444715+00:00",
   "CreatorName": "darren",
   "WriterName": "darren",
   "Url": "https://reo.speedwagon.me/content-types/textpage",
@@ -19,6 +19,11 @@
       {
         "Name": "ShowInNavigation",
         "Editor": "Checkbox",
+        "Description": null
+      },
+      {
+        "Name": "Body",
+        "Editor": "Richtext",
         "Description": null
       },
       {
