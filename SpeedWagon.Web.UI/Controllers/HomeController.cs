@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SpeedWagon.Models;
-using SpeedWagon.Runtime.Interfaces;
 using SpeedWagon.Web.Extension;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Models;
@@ -27,25 +25,31 @@ namespace SpeedWagon.Web.UI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            SpeedWagonPage model = await this._speedWagon.PageFor(Request);  
-            if(model.Status == 404)
+            SpeedWagonPage model = await this._speedWagon.PageFor(Request);
+
+            Site site = new Site(model);
+            site.Home = await this._speedWagon.ContentFor(Request, "/");
+            site.TopNavigation = await this._speedWagon.ContentService.Children(site.Home);
+            
+            if (model.Status == 404)
             {
-                return View("~/Views/404.cshtml", model);
+                return View("~/Views/404.cshtml", site);
+            }
+ 
+            if (model.Content.Type == "Home")
+            {
+                return await Home(site);
             }
 
-            if(model.Content.Type == "Home")
-            {
-                return await Home(model);
-            }
-
-            return View(model.Content.View(), model);
+            return View(model.Content.View(), site);
         }
 
-        public async Task<IActionResult> Home(SpeedWagonPage model)
+        public async Task<IActionResult> Home(Site site)
         {
-            HomePage page = new HomePage(model);
-            page.Posts = await this._speedWagon.SearchService.Search(new Dictionary<string, string>() {{ "Type", "Post" }});
-            return View(page.Content.View(), page);
+            HomePage homePage = new HomePage(site);
+
+            homePage.Posts = await this._speedWagon.SearchService.Search(new Dictionary<string, string>() {{ "Type", "Post" }});
+            return View(homePage.Content.View(), homePage);
         }
 
         [AllowAnonymous]

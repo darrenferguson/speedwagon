@@ -2,7 +2,7 @@
   "Name": "Textpage",
   "Type": "content-type",
   "CreateDate": "2020-03-08T15:21:30.4953821+00:00",
-  "UpdateDate": "2020-03-08T17:02:18.1955041+00:00",
+  "UpdateDate": "2020-03-10T14:18:49.3980108+00:00",
   "CreatorName": "darren",
   "WriterName": "darren",
   "Url": "https://reo.speedwagon.me/content-types/textpage",
@@ -17,13 +17,13 @@
         "Description": null
       },
       {
-        "Name": "Grid",
-        "Editor": "Grid",
+        "Name": "ShowInNavigation",
+        "Editor": "Checkbox",
         "Description": null
       },
       {
-        "Name": "Image",
-        "Editor": "Picker",
+        "Name": "Grid",
+        "Editor": "Grid",
         "Description": null
       }
     ]

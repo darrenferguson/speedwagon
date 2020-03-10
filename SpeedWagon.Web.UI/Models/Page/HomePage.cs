@@ -1,19 +1,15 @@
-﻿using SpeedWagon.Models;
-using SpeedWagon.Runtime.Models;
-using SpeedWagon.Web.Models;
+﻿using SpeedWagon.Runtime.Models;
 using System.Collections.Generic;
 
 namespace SpeedWagon.Web.UI.Models.Page
 {
-    public class HomePage : SpeedWagonPage
+    public class HomePage : Site
     {
-        public HomePage(SpeedWagonPage page)
-        {
-            this.Content = page.Content;
-            this.ContentService = page.ContentService;
-            this.Context = page.Context;
-            this.Status = page.Status;
-        }
+        public HomePage(Site site) : base(site) {
+
+            this.Home = site.Home;
+            this.TopNavigation = site.TopNavigation;
+        } 
 
         public IEnumerable<SearchResult> Posts { get; set; }
     }
