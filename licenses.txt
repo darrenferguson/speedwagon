@@ -1,0 +1,21 @@
+
+Font Awesome Free License	Font Awesome Free License		https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt
+blueimp-file-upload		MIT					https://github.com/blueimp/jQuery-File-Upload/blob/master/LICENSE.txt
+bootstrap			MIT					https://github.com/twbs/bootstrap/blob/master/LICENSE
+feather icons			MIT					https://github.com/feathericons/feather/blob/master/LICENSE
+jquery				MIT					https://github.com/jquery/jquery/blob/master/LICENSE.txt
+jquery-ui			MIT					https://github.com/jquery/jquery-ui/blob/master/LICENSE.txt
+tinymce				GNU LESSER GENERAL PUBLIC LICENSE	https://github.com/tinymce/tinymce/blob/master/LICENSE.TXT
+gulp				MIT					https://github.com/gulpjs/gulp/blob/master/LICENSE
+jquery grid editor		MIT					https://github.com/Frontwise/grid-editor/blob/master/LICENSE
+
+newtonsoft json			MIT					https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md
+Flurl				MIT					https://github.com/tmenier/Flurl/blob/dev/LICENSE
+Lucene.net			Apache					https://github.com/apache/lucenenet/blob/master/LICENSE.txt
+
+
+
+
+
+
+

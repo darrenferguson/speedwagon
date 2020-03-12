@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using SpeedWagon.Runtime.Interfaces;
 using SpeedWagon.Runtime.Services.Files;
 using SpeedWagon.Web.Auth;
@@ -18,11 +19,12 @@ namespace SpeedWagon.Web.UI
     public class Startup
     {
         private readonly IHostingEnvironment _env;
-
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        private readonly ILogger<Startup> _logger;
+        public Startup(IConfiguration configuration, IHostingEnvironment env, ILogger<Startup> logger)
         {
             Configuration = configuration;
             this._env = env;
+            this._logger = logger;
 
         }
 
@@ -33,11 +35,14 @@ namespace SpeedWagon.Web.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string auth = Configuration["SpeedWagon:Login"];
-            
+            this._logger.LogInformation("Speedwagon is starting");
 
-            if (auth == "AzureAd")
+            string auth = Configuration["SpeedWagon:Login"];
+            this._logger.LogInformation("Got config " + auth);
+
+            if (auth != "Simple")
             {
+                this._logger.LogInformation("Registering AD AUTH");
                 services.AddSingleton<IAuthTypeInformationProvider>(s => new AuthTypeInformationProvider(AuthType.AzureAd));
 
                 services.AddAuthentication(sharedOptions =>
@@ -48,10 +53,11 @@ namespace SpeedWagon.Web.UI
                 // Use Azure AD Login
                 .AddAzureAd(options => Configuration.Bind("AzureAd", options))
                 .AddCookie();
-
+                this._logger.LogInformation("Registered AD AUTH");
             }
             else
             {
+                this._logger.LogInformation("Registering Simple AUTH");
                 services.AddSingleton<IAuthTypeInformationProvider>(s => new AuthTypeInformationProvider(AuthType.Dummy));
 
                 // Dummy Login provider
@@ -71,6 +77,8 @@ namespace SpeedWagon.Web.UI
                     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 });
             }
+
+            this._logger.LogInformation("Initialised auth");
 
             string path = Path.Combine(this._env.ContentRootPath, _appDataFolder, "speedwagon");
             string uploadPath = Path.Combine(this._env.ContentRootPath, "wwwroot");
@@ -97,7 +105,7 @@ namespace SpeedWagon.Web.UI
                 app.UseDeveloperExceptionPage();
             }
             else
-            {
+            {              
                 app.UseExceptionHandler("/Home/Error");
             }
 
