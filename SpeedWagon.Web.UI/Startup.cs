@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using SpeedWagon.Runtime.Interfaces;
 using SpeedWagon.Runtime.Services.Files;
 using SpeedWagon.Web.Extension;
+using SpeedWagon.Web.Services;
 using System.IO;
 
 namespace SpeedWagon.Web.UI
@@ -48,13 +49,24 @@ namespace SpeedWagon.Web.UI
 
             // COntent file provider can also use blob.
             //IFileProvider contentFileProvider = new BlobFileProvider("<connectionString>", "speedwagon");
-            
-            string blobConnection = Configuration["Blob:ConnectionString"];
-            IFileProvider contentFileProvider = new FileSystemFileProvider();
-            // IFileProvider uploadFileProvider = new BlobFileProvider(blobConnection, "speedwagon");
 
+            IFileProvider contentFileProvider;
+            IFileProvider uploadFileProvider;
+
+            string fileProvider = Configuration["Files:Provider"];
+            if(fileProvider == "Blob")
+            {
+                string blobConnection = Configuration["Files:ConnectionString"];
+                contentFileProvider = new FileSystemFileProvider();
+                uploadFileProvider = new BlobFileProvider(blobConnection, "speedwagon");
+            } else
+            {
+                contentFileProvider = new FileSystemFileProvider();
+                uploadFileProvider = new FileSystemFileProvider();
+            }
+                     
             services.AddSpeedWagon(path, false, contentFileProvider);
-            services.AddSpeedWagonCms(path, uploadPath, contentFileProvider, contentFileProvider);
+            services.AddSpeedWagonCms(path, uploadPath, contentFileProvider, uploadFileProvider);
             services.AddMvc();
         }
 
