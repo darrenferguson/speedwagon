@@ -43,7 +43,7 @@ namespace SpeedWagon.Runtime.Services.Files
             {
                 return Task.FromResult(Directory.GetFiles(path, pattern, SearchOption.AllDirectories));
             }
-
+            
             return Task.FromResult(Directory.GetFiles(path));
         }
 

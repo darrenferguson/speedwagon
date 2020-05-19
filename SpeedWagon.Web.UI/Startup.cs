@@ -47,26 +47,32 @@ namespace SpeedWagon.Web.UI
             string path = Path.Combine(this._env.ContentRootPath, _appDataFolder, "speedwagon");
             string uploadPath = Path.Combine(this._env.ContentRootPath, "wwwroot");
 
-            // COntent file provider can also use blob.
-            //IFileProvider contentFileProvider = new BlobFileProvider("<connectionString>", "speedwagon");
-
-            IFileProvider contentFileProvider;
+            // Proivders for file storage.
+            IFileProvider contentFileProvider = new FileSystemFileProvider();
             IFileProvider uploadFileProvider;
 
             string fileProvider = Configuration["Files:Provider"];
-            if(fileProvider == "Blob")
+            if (fileProvider == "Blob")
             {
-                string blobConnection = Configuration["Files:ConnectionString"];
-                contentFileProvider = new FileSystemFileProvider();
-                uploadFileProvider = new BlobFileProvider(blobConnection, "speedwagon");
-            } else
+                // Container must exist
+                uploadFileProvider = new BlobFileProvider(Configuration["Files:ConnectionString"], "speedwagon", uploadPath);
+            }
+            else
             {
-                contentFileProvider = new FileSystemFileProvider();
                 uploadFileProvider = new FileSystemFileProvider();
             }
-                     
-            services.AddSpeedWagon(path, false, contentFileProvider);
-            services.AddSpeedWagonCms(path, uploadPath, contentFileProvider, uploadFileProvider);
+            
+            // Add Front end
+            bool.TryParse(Configuration["SpeedWagon:CacheRuntime"], out bool cahceRuntime);
+            services.AddSpeedWagon(path, cahceRuntime, contentFileProvider);
+
+            // Optionally register CMS backend
+            bool.TryParse(Configuration["SpeedWagon:RegisterCms"], out bool registerCms);
+            if (registerCms)
+            {
+                services.AddSpeedWagonCms(path, uploadPath, contentFileProvider, uploadFileProvider);
+            }
+
             services.AddMvc();
         }
 

@@ -12,14 +12,16 @@ namespace SpeedWagon.Web.Services
     {
         private readonly string _connectionString;
         private readonly string _container;
+        private readonly string _localPath;
 
         private CloudBlobContainer _cloudBlobContainer;
 
 
-        public BlobFileProvider(string connectionString, string container)
+        public BlobFileProvider(string connectionString, string container, string localPath)
         {
             this._connectionString = connectionString;
             this._container = container;
+            this._localPath = localPath;
 
             CloudStorageAccount storageAccount;
             CloudStorageAccount.TryParse(this._connectionString, out storageAccount);
@@ -44,17 +46,22 @@ namespace SpeedWagon.Web.Services
 
         public void Delete(string path)
         {
-            this._cloudBlobContainer.GetBlockBlobReference(path).DeleteIfExistsAsync();
+            this._cloudBlobContainer.GetBlockBlobReference(RationalisePath(path)).DeleteIfExistsAsync();
         }
 
         public bool Exists(string path)
         {
-            return this._cloudBlobContainer.GetBlockBlobReference(path).ExistsAsync().Result;
+            path = RationalisePath(path);
+            if(string.IsNullOrEmpty(path))
+            {
+                return true;
+            }
+            return this._cloudBlobContainer.GetBlockBlobReference(RationalisePath(path)).ExistsAsync().Result;
         }
 
         public async Task<Stream> GetStream(string path)
         {
-            return await this._cloudBlobContainer.GetBlockBlobReference(path).OpenWriteAsync();
+            return await this._cloudBlobContainer.GetBlockBlobReference(RationalisePath(path)).OpenWriteAsync();
         }
 
         public async Task<string[]> List(string path, string pattern, bool recursive)
@@ -76,18 +83,30 @@ namespace SpeedWagon.Web.Services
             }
             while (blobContinuationToken != null);
 
-
             return blobs.ToArray();
         }
 
         public Task<string> ReadAllText(string path)
         {
-            return this._cloudBlobContainer.GetBlockBlobReference(path).DownloadTextAsync();
+            return this._cloudBlobContainer.GetBlockBlobReference(RationalisePath(path)).DownloadTextAsync();
         }
 
         public async Task WriteAllText(string path, string contents)
         {
-            await this._cloudBlobContainer.GetBlockBlobReference(path).UploadTextAsync(contents);
+            await this._cloudBlobContainer.GetBlockBlobReference(RationalisePath(path)).UploadTextAsync(contents);
+        }
+
+        private string RationalisePath(string path)
+        {
+            if(path.StartsWith(this._localPath))
+            {
+                path = path.Replace(this._localPath, string.Empty);
+            }
+            if(path.StartsWith("/") || path.StartsWith("\\"))
+            {
+                path = path.Substring(1);
+            }
+            return path;
         }
     }
 }
