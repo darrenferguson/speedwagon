@@ -44,7 +44,17 @@ namespace SpeedWagon.Web.UI
 
             this._logger.LogInformation("Initialised auth");
 
-            string path = Path.Combine(this._env.ContentRootPath, _appDataFolder, "speedwagon");
+            // Start with / for relative - or specify an absolute path
+            string path;
+            string contentPath = Configuration["SpeedWagon:ContentPath"];
+            if (contentPath.StartsWith("/"))
+            {
+                path = Path.Combine(this._env.ContentRootPath, _appDataFolder, contentPath.Substring(1));
+            } else
+            {
+                path = contentPath;
+            }
+
             string uploadPath = Path.Combine(this._env.ContentRootPath, "wwwroot");
 
             // Proivders for file storage.
