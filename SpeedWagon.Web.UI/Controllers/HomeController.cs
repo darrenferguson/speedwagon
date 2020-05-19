@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -61,6 +63,7 @@ namespace SpeedWagon.Web.UI.Controllers
             HomePage homePage = new HomePage(site);
 
             homePage.Posts = await this._speedWagon.SearchService.Search(new Dictionary<string, string>() {{ "Type", "Post" }});
+            homePage.Posts = homePage.Posts.OrderByDescending(x => x.Content.GetValue<DateTime>("Date"));
             return View(homePage.Content.View(), homePage);
         }
 

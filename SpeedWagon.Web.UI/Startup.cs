@@ -1,17 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SpeedWagon.Runtime.Interfaces;
 using SpeedWagon.Runtime.Services.Files;
-using SpeedWagon.Web.Auth;
-using SpeedWagon.Web.Enum;
 using SpeedWagon.Web.Extension;
-using SpeedWagon.Web.Interfaces;
 using System.IO;
 
 namespace SpeedWagon.Web.UI
@@ -25,14 +19,12 @@ namespace SpeedWagon.Web.UI
             Configuration = configuration;
             this._env = env;
             this._logger = logger;
-
         }
 
         public IConfiguration Configuration { get; }
 
         private const string _appDataFolder = "AppData";
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             this._logger.LogInformation("Speedwagon is starting");
@@ -40,42 +32,13 @@ namespace SpeedWagon.Web.UI
             string auth = Configuration["SpeedWagon:Login"];
             this._logger.LogInformation("Got config " + auth);
 
-            if (auth != "Simple")
+            if (auth == "Simple")
             {
-                this._logger.LogInformation("Registering AD AUTH");
-                services.AddSingleton<IAuthTypeInformationProvider>(s => new AuthTypeInformationProvider(AuthType.AzureAd));
-
-                services.AddAuthentication(sharedOptions =>
-                {
-                    sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-                })
-                // Use Azure AD Login
-                .AddAzureAd(options => Configuration.Bind("AzureAd", options))
-                .AddCookie();
-                this._logger.LogInformation("Registered AD AUTH");
+                services.AddSimpleAuthentication();
             }
             else
             {
-                this._logger.LogInformation("Registering Simple AUTH");
-                services.AddSingleton<IAuthTypeInformationProvider>(s => new AuthTypeInformationProvider(AuthType.Dummy));
-
-                // Dummy Login provider
-                services.AddAuthentication(sharedOptions =>
-                {
-                    sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                })
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-                    options =>
-                    {
-                        options.LoginPath = "/SpeedWagonAccount/Login";
-                        options.LogoutPath = "/SpeedWagonAccount/Logout";
-                    });
-
-                services.AddAuthentication(options =>
-                {
-                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                });
+                services.AddAzureAdAuthentication(Configuration);
             }
 
             this._logger.LogInformation("Initialised auth");
@@ -85,15 +48,13 @@ namespace SpeedWagon.Web.UI
 
             // COntent file provider can also use blob.
             //IFileProvider contentFileProvider = new BlobFileProvider("<connectionString>", "speedwagon");
-
-
+            
             string blobConnection = Configuration["Blob:ConnectionString"];
             IFileProvider contentFileProvider = new FileSystemFileProvider();
             // IFileProvider uploadFileProvider = new BlobFileProvider(blobConnection, "speedwagon");
 
             services.AddSpeedWagon(path, false, contentFileProvider);
             services.AddSpeedWagonCms(path, uploadPath, contentFileProvider, contentFileProvider);
-
             services.AddMvc();
         }
 
@@ -105,12 +66,12 @@ namespace SpeedWagon.Web.UI
                 app.UseDeveloperExceptionPage();
             }
             else
-            {              
+            {
+                // app.UseDeveloperExceptionPage();
                 app.UseExceptionHandler("/Home/Error");
             }
 
             app.UseStaticFiles();
-
             app.UseAuthentication();
 
             app.UseMvc(routes =>

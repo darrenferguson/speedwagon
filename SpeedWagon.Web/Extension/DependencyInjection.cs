@@ -1,8 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using SpeedWagon.Interfaces;
 using SpeedWagon.Runtime.Interfaces;
 using SpeedWagon.Runtime.Services;
 using SpeedWagon.Services;
+using SpeedWagon.Web.Auth;
+using SpeedWagon.Web.Enum;
 using SpeedWagon.Web.Interfaces;
 using SpeedWagon.Web.Services;
 using System.IO;
@@ -12,7 +18,7 @@ namespace SpeedWagon.Web.Extension
     public static class DependencyInjection
     {
         private  const string SPEEDWAGON_HOST = "https://reo.speedwagon.me";
-
+        
         public static IServiceCollection AddSpeedWagonCms(this IServiceCollection services, string path, string uploadsPath, IFileProvider contentFileProvider, IFileProvider uploadFileProvider)
         {
 
@@ -64,6 +70,46 @@ namespace SpeedWagon.Web.Extension
             services.AddSingleton<ISpeedWagonWebContext>(
                     s => new SpeedWagonWebContext(
                         path, contentService, searchService));
+
+            return services;
+        }
+
+        public static IServiceCollection AddAzureAdAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton<IAuthTypeInformationProvider>(s => new AuthTypeInformationProvider(AuthType.AzureAd));
+
+            services.AddAuthentication(sharedOptions =>
+            {
+                sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+            // Use Azure AD Login
+            .AddAzureAd(options => configuration.Bind("AzureAd", options))
+            .AddCookie();
+            
+            return services;
+        }
+
+        public static IServiceCollection AddSimpleAuthentication(this IServiceCollection services)
+        {
+            services.AddSingleton<IAuthTypeInformationProvider>(s => new AuthTypeInformationProvider(AuthType.Dummy));
+
+            // Dummy Login provider
+            services.AddAuthentication(sharedOptions =>
+            {
+                sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                options =>
+                {
+                    options.LoginPath = "/SpeedWagonAccount/Login";
+                    options.LogoutPath = "/SpeedWagonAccount/Logout";
+                });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            });
 
             return services;
         }

@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AppData\**" />
     <Compile Remove="Views\SpeedWagon\ContentTypes\**" />
     <Compile Remove="wwwroot\speedwagon\dist\**" />
+    <Content Remove="AppData\**" />
     <Content Remove="Views\SpeedWagon\ContentTypes\**" />
     <Content Remove="wwwroot\speedwagon\dist\**" />
+    <EmbeddedResource Remove="AppData\**" />
     <EmbeddedResource Remove="Views\SpeedWagon\ContentTypes\**" />
     <EmbeddedResource Remove="wwwroot\speedwagon\dist\**" />
+    <None Remove="AppData\**" />
     <None Remove="Views\SpeedWagon\ContentTypes\**" />
     <None Remove="wwwroot\speedwagon\dist\**" />
   </ItemGroup>
