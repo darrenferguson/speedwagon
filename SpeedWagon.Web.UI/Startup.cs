@@ -106,6 +106,16 @@ namespace SpeedWagon.Web.UI
                 RequestPath = new PathString("/speedwagon/dist"),
                 FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "speedwagon", "dist"))
             });
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                RequestPath = new PathString("/theme"),
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "theme"))
+            });
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                RequestPath = new PathString("/webfonts"),
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "webfonts"))
+            });
 
             app.UseRouting();
             app.UseAuthentication();
