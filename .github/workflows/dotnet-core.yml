@@ -24,11 +24,16 @@ jobs:
       with:
         dotnet-version: 5.x
 
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.7
+      with:
+        versionSpec: '5.x'
+
+    - name: Determine Version
+      uses: gittools/actions/gitversion/execute@v0.9.7
+
     - name: Install dependencies
       run: dotnet restore
-
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
 
     - name: NPM install
       run: npm install
@@ -38,6 +43,12 @@ jobs:
       run: gulp build
       working-directory: SpeedWagon.Web.UI
 
+    - name: Build
+      run: dotnet build --configuration Release --no-restore /p:Version=${$GITVERSION_SEMVER}
+
+    - name: Build
+      run: dotnet pack --configuration Release --no-restore /p:Version=${$GITVERSION_SEMVER}
+        
     - name: Test
       run: dotnet test --no-restore --verbosity normal
 
