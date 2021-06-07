@@ -18,9 +18,6 @@
     <None Remove="AppData\**" />
     <None Remove="Views\SpeedWagon\ContentTypes\**" />
  
-  <Content Include="wwwroot\speedwagon\dist\**\*"> 
-    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> 
-  </Content> 
 
   </ItemGroup>
 
