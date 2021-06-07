@@ -17,7 +17,7 @@ namespace SpeedWagon.Web.UI
                 {
                     logging.ClearProviders();
                     logging.AddConsole();
-                    logging.AddAzureWebAppDiagnostics();
+                    // logging.AddAzureWebAppDiagnostics();
                 })
                 .UseStartup<Startup>()
                 .Build();

@@ -1,21 +1,24 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using SpeedWagon.Runtime.Interfaces;
+using Microsoft.Extensions.Hosting;
 using SpeedWagon.Runtime.Services.Files;
 using SpeedWagon.Web.Extension;
 using SpeedWagon.Web.Services;
 using System.IO;
+using Microsoft.Extensions.FileProviders;
 
 namespace SpeedWagon.Web.UI
 {
     public class Startup
     {
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly ILogger<Startup> _logger;
-        public Startup(IConfiguration configuration, IHostingEnvironment env, ILogger<Startup> logger)
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             Configuration = configuration;
             this._env = env;
@@ -58,8 +61,8 @@ namespace SpeedWagon.Web.UI
             string uploadPath = Path.Combine(this._env.ContentRootPath, "wwwroot");
 
             // Proivders for file storage.
-            IFileProvider contentFileProvider = new FileSystemFileProvider();
-            IFileProvider uploadFileProvider;
+            Runtime.Interfaces.IFileProvider contentFileProvider = new FileSystemFileProvider();
+            Runtime.Interfaces.IFileProvider uploadFileProvider;
 
             string fileProvider = Configuration["Files:Provider"];
             if (fileProvider == "Blob")
@@ -87,7 +90,7 @@ namespace SpeedWagon.Web.UI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -95,24 +98,29 @@ namespace SpeedWagon.Web.UI
             }
             else
             {
-                // app.UseDeveloperExceptionPage();
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
-            app.UseAuthentication();
-
-            app.UseMvc(routes =>
+            app.UseStaticFiles(new StaticFileOptions
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                RequestPath = new PathString("/speedwagon/dist"),
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "speedwagon", "dist"))
+            });
 
-                routes.MapRoute(
-                "404-PageNotFound",
-                "{*url}",
-                new { controller = "Home", action = "Index" }
-                );
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+        
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                
+                endpoints.MapControllerRoute(
+                    "default", "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                   "404-PageNotFound", "{*url}",
+                    new { controller = "Home", action = "Index" });
             });
         }
     }

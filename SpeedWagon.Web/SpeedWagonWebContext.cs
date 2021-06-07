@@ -36,7 +36,9 @@ namespace SpeedWagon.Web
        
         public async Task<SpeedWagonContent> ContentFor(HttpRequest request, string path)
         {
-            string url = SPEEDWAGON_HOST + "/content/" + request.Host + path;
+
+            string url = SPEEDWAGON_HOST + "/content/" + request.Host.Host + path;
+
             SpeedWagonContent content = await this._cachedContentService.GetContent(url);
 
             if (content == null)
