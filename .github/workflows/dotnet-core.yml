@@ -13,13 +13,29 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.x
+
     - name: Install dependencies
       run: dotnet restore
+
     - name: Build
       run: dotnet build --configuration Release --no-restore
+
+    - name: npm install
+      run: npm install
+      working-directory: SpeedWagon.Web.UI
+
+    - name: gulp
+      run: gulp build
+      working-directory: SpeedWagon.Web.UI
+
     - name: Test
       run: dotnet test --no-restore --verbosity normal
