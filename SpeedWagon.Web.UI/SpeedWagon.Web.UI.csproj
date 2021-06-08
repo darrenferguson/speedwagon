@@ -9,8 +9,7 @@
     <Content Remove="AppData\speedwagon\search\**" />
     <EmbeddedResource Remove="AppData\speedwagon\search\**" />
     <None Remove="AppData\speedwagon\search\**" />
-    <Content Include="AppData\speedwagon\content-urls.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\**\*" />
+    
   </ItemGroup>
   <ItemGroup>
     <Content Remove="package-lock.json" />
