@@ -1,31 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>aspnet-WebApp_OpenIDConnect_DotNet-81EA87AD-E64D-4755-A1CC-5EA47F49B5D8</UserSecretsId>
     <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <Compile Remove="AppData\**" />
-    <Compile Remove="Views\SpeedWagon\ContentTypes\**" />
-    <Content Remove="AppData\**" />
-    <Content Remove="Views\SpeedWagon\ContentTypes\**" />
-
-    <EmbeddedResource Remove="AppData\**" />
-    <EmbeddedResource Remove="Views\SpeedWagon\ContentTypes\**" />
-
-    <None Remove="AppData\**" />
-    <None Remove="Views\SpeedWagon\ContentTypes\**" />
- 
-
-  </ItemGroup>
-
   <ItemGroup>
     <Content Remove="package-lock.json" />
     <Content Remove="package.json" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="AppData\speedwagon\content-urls.json" />
     <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\content.json" />
@@ -52,29 +34,22 @@
     <Content Include="AppData\speedwagon\reo.speedwagon.me\users\content.json" />
     <Content Include="AppData\speedwagon\reo.speedwagon.me\users\tesuser\content.json" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="package-lock.json" />
     <None Include="package.json" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\SpeedWagon.Runtime\SpeedWagon.Runtime.csproj" />
     <ProjectReference Include="..\SpeedWagon.Web\SpeedWagon.Web.csproj" />
   </ItemGroup>
-
   <ItemGroup>
-    <Folder Include="AppData\speedwagon\reo.speedwagon.me\users\testuser\" />
     <Folder Include="wwwroot\theme\" />
   </ItemGroup>
-
 </Project>
