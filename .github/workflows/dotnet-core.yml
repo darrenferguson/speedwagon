@@ -46,10 +46,10 @@ jobs:
       working-directory: SpeedWagon.Web.UI
 
     - name: Build
-      run: dotnet build --configuration Release --no-restore /p:Version="${{ env.GITVERSION_FULLSEMVER }}""
+      run: dotnet build --configuration Release --no-restore /p:Version="${{ env.GITVERSION_FULLSEMVER }}"
 
     - name: Build
-      run: dotnet pack --configuration Release --no-restore /p:Version="${{ env.GITVERSION_FULLSEMVER }}""
+      run: dotnet pack --configuration Release --no-restore /p:Version="${{ env.GITVERSION_FULLSEMVER }}"
         
     - name: Test
       run: dotnet test --no-restore --verbosity normal
