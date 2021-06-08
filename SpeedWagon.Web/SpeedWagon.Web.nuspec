@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>SpeedWagon.Web</id>
+    <version>${GITVERSION_FULLSEMVER}</version>
+    <title>SpeedWagon.Web</title>
+    <authors>Darren Ferguson</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <description>SpeedWagon.Web</description>
+     <dependencies>
+        <group targetFramework="net5.0">
+            <dependency id="Flurl" version="3.0.2"/>
+            <dependency id="SpeedWagon.Runtime" version="0.0.1"/>
+        </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\net5.0\*.dll" target="lib\net5.0" />
+    <file src="wwwroot\**\*" target="contentFiles" />
+  </files>
+</package>

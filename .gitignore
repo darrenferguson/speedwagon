@@ -53,3 +53,5 @@ SpeedWagon.Web.UI/wwwroot/webfonts/
 SpeedWagon.Web.UI/wwwroot/speedwagon/webfonts/
 SpeedWagon.Web.UI/AppData/speedwagon/fields.config
 SpeedWagon.Web.UI/Properties/PublishProfiles/
+*.nupkg
+SpeedWagon.Web/wwwroot/

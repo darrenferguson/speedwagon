@@ -87,4 +87,23 @@ gulp.task('file-upload', function () {
         .pipe(gulp.dest('./wwwroot/speedwagon/lib/blueimp-file-upload'));
 });
 
-gulp.task('build', gulp.series('css', 'js', 'themeCss', 'themeJs', 'img', 'font', 'themeFont', 'tiny', 'file-upload'));
+gulp.task('copy-dist', function () {
+
+    return gulp.src(['./wwwroot/speedwagon/dist/**/*']).pipe(gulp.dest('../SpeedWagon.Web/wwwroot/speedwagon/dist'));
+
+
+});
+
+gulp.task('build',
+    gulp.series('css',
+        'js',
+        'themeCss',
+        'themeJs',
+        'img',
+        'font',
+        'themeFont',
+        'tiny',
+        'file-upload',
+        'copy-dist'
+    )
+);
