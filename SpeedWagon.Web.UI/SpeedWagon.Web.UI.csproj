@@ -27,6 +27,33 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="AppData\speedwagon\content-urls.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\home\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\imagefolder\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\image\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\postfolder\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\post\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\rssfeed\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\textpage\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\content\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\content\localhost\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\content\localhost\posts\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\content\localhost\posts\hello-world\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\checkbox\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\datepicker\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\grid\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\picker\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\richtext\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\textarea\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\textbox\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\upload\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\users\content.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\users\tesuser\content.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
   </ItemGroup>
 
@@ -46,6 +73,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="AppData\speedwagon\reo.speedwagon.me\users\testuser\" />
     <Folder Include="wwwroot\theme\" />
   </ItemGroup>
 
