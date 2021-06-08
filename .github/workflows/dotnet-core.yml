@@ -44,15 +44,13 @@ jobs:
     - name: Gulp
       run: gulp build
       working-directory: SpeedWagon.Web.UI
-
+      
     - name: Replace Tokens
-      uses: franzbischoff/replace_envs@v1
+      uses: cschleiden/replace-tokens@v1
+      with:
+        files: '["**/*.nuspec"]'
       env:
         GITVERSION_FULLSEMVER: ${{ env.GITVERSION_FULLSEMVER }}
-      with:
-        from_file: 'SpeedWagon.Web\SpeedWagon.Web.nuspec'
-        to_file: 'SpeedWagon.Web\SpeedWagon.Web.nuspec'
-        commit: 'false'
 
     - name: Build
       run: dotnet build --configuration Release --no-restore /p:Version="${{ env.GITVERSION_FULLSEMVER }}"

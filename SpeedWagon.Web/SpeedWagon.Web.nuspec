@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>SpeedWagon.Web</id>
-    <version>${GITVERSION_FULLSEMVER}</version>
+    <version>#{GITVERSION_FULLSEMVER}#</version>
     <title>SpeedWagon.Web</title>
     <authors>Darren Ferguson</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
