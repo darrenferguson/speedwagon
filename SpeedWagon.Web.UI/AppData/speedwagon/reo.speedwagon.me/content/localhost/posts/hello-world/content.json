@@ -1,0 +1,21 @@
+{
+  "Name": "Hello-World",
+  "Type": "Post",
+  "CreateDate": "2021-06-08T08:43:46.6971343+01:00",
+  "UpdateDate": "2021-06-08T08:50:41.8948824+01:00",
+  "CreatorName": "testuser",
+  "WriterName": "testuser",
+  "Url": "https://reo.speedwagon.me/content/localhost/posts/hello-world",
+  "RelativeUrl": "/content/localhost/posts/hello-world",
+  "Content": {
+    "Title": "Hello World",
+    "Date": "21/01/2021",
+    "Description": null,
+    "BannerImage": null,
+    "Content": "<p>Welcome to Speedwagon.</p>"
+  },
+  "Template": "Post",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 3
+}

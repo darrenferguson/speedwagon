@@ -36,6 +36,7 @@ namespace SpeedWagon.Web.UI
             string auth = Configuration["SpeedWagon:Login"];
             this._logger.LogInformation("Got config " + auth);
 
+            // Simple Authentication = No Authentication.
             if (auth == "Simple")
             {
                 services.AddSimpleAuthentication();
@@ -106,6 +107,19 @@ namespace SpeedWagon.Web.UI
                 RequestPath = new PathString("/speedwagon/dist"),
                 FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "speedwagon", "dist"))
             });
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                RequestPath = new PathString("/speedwagon/editor"),
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "speedwagon", "editor"))
+            });
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                RequestPath = new PathString("/speedwagon/lib"),
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "speedwagon", "lib"))
+            });
+
             app.UseStaticFiles(new StaticFileOptions
             {
                 RequestPath = new PathString("/theme"),

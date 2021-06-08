@@ -48,7 +48,7 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore /p:Version="${{ env.GITVERSION_FULLSEMVER }}"
 
-    - name: Build
+    - name: Pack
       run: dotnet pack --configuration Release --no-restore /p:Version="${{ env.GITVERSION_FULLSEMVER }}"
         
     - name: Test

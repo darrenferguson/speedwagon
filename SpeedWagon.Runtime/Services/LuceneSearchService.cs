@@ -70,13 +70,16 @@ namespace SpeedWagon.Runtime.Services
                 if (content != null)
                     Index(content);
 
-                foreach (var property in content.Content)
+                if (content.Content != null)
                 {
-
-                    string key = property.Key.Replace(" ", "");
-                    if(!fields.Contains(key))
+                    foreach (var property in content.Content)
                     {
-                        fields.Add(key);
+
+                        string key = property.Key.Replace(" ", "");
+                        if (!fields.Contains(key))
+                        {
+                            fields.Add(key);
+                        }
                     }
                 }
             }
