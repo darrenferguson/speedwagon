@@ -5,45 +5,24 @@
     <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="AppData\speedwagon\search\**" />
+    <Content Remove="AppData\speedwagon\search\**" />
+    <EmbeddedResource Remove="AppData\speedwagon\search\**" />
+    <None Remove="AppData\speedwagon\search\**" />
+    <Content Include="AppData\speedwagon\content-urls.json" />
+    <Content Include="AppData\speedwagon\reo.speedwagon.me\**\*" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Remove="package-lock.json" />
     <Content Remove="package.json" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="AppData\speedwagon\content-urls.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\home\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\imagefolder\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\image\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\postfolder\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\post\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\rssfeed\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\content-types\textpage\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\content\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\content\localhost\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\content\localhost\posts\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\content\localhost\posts\hello-world\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\checkbox\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\datepicker\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\grid\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\picker\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\richtext\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\textarea\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\textbox\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\editors\upload\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\users\content.json" />
-    <Content Include="AppData\speedwagon\reo.speedwagon.me\users\tesuser\content.json" />
-  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="package-lock.json" />
-    <None Include="package.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SpeedWagon.Runtime\SpeedWagon.Runtime.csproj" />
