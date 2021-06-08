@@ -26,6 +26,9 @@ jobs:
       with:
         dotnet-version: 5.x
 
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v1
+
     - name: Install GitVersion
       uses: gittools/actions/gitversion/setup@v0.9.7
       with:
@@ -55,10 +58,10 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore /p:Version="${{ env.GITVERSION_FULLSEMVER }}"
 
-    - name: Pack
+    - name: Pack Web.UI
       run: dotnet pack --configuration Release --no-restore /p:Version="${{ env.GITVERSION_FULLSEMVER }}"
         
-    - name: Pack
+    - name: Pack Web
       run: dotnet pack -p:NuspecFile=SpeedWagon.Web.nuspec -p:Configuration=Release -o .\
       working-directory: SpeedWagon.Web
       
@@ -75,3 +78,9 @@ jobs:
         app-name: speedwagon-demo-site # Replace with your app name
         publish-profile: ${{ secrets.azureWebAppPublishProfile }}
         package: './speedwagonapp'
+
+    - name: Publish Nuget Package
+      env:
+        NUGET_APIKEY: ${{ secrets.NUGET_APIKEY }}
+      run: nuget push *.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey "${{ env.NUGET_APIKEY }}"
+      working-directory: SpeedWagon.Web    
