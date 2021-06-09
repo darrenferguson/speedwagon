@@ -93,4 +93,4 @@ jobs:
       env:
         NUGET_APIKEY: ${{ secrets.NUGET_APIKEY }}
       run: nuget push *.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey "${{ env.NUGET_APIKEY }}"
-      working-directory: SpeedWagon.Runtime  
+      working-directory: SpeedWagon.Runtime
