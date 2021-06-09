@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
-  <metadata>
-    <id>SpeedWagon.Web</id>
-    <version>#{GITVERSION_FULLSEMVER}#</version>
-    <title>SpeedWagon.Web</title>
-    <authors>Darren Ferguson</authors>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <license type="expression">MIT</license>
-    <projectUrl>https://github.com/darrenferguson/speedwagon</projectUrl>
-    <description>SpeedWagon.Web</description>
-     <dependencies>
-        <group targetFramework="net5.0">
-            <dependency id="Flurl" version="3.0.2"/>
-            <dependency id="SpeedWagon.Runtime" version="#{GITVERSION_FULLSEMVER}#"/>
-        </group>
-    </dependencies>
-  </metadata>
-  <files>
-    <file src="bin\Release\net5.0\*.dll" target="lib\net5.0" />
-    <file src="wwwroot\**\*" target="contentFiles" />
-  </files>
+    <metadata>
+        <id>SpeedWagon.Web</id>
+        <version>#{GITVERSION_FULLSEMVER}#</version>
+        <title>SpeedWagon.Web</title>
+        <authors>Darren Ferguson</authors>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <license type="expression">MIT</license>
+        <projectUrl>https://github.com/darrenferguson/speedwagon</projectUrl>
+        <description>SpeedWagon.Web</description>
+        <dependencies>
+            <group targetFramework="net5.0">
+                <dependency id="Flurl" version="3.0.2"/>
+                <dependency id="SpeedWagon.Runtime" version="#{GITVERSION_FULLSEMVER}#"/>
+                <dependency id="Microsoft.AspNetCore.Authentication" version="2.0.0"/>
+                <dependency id="Microsoft.AspNetCore.Authentication.Cookies" version="2.0.0"/>
+                <dependency id=".AspNetCore.Authentication.OpenIdConnect" version="2.0.0"/>
+                <dependency id="Microsoft.AspNetCore.Http" version="2.2.2"/>
+                <dependency id="Microsoft.AspNetCore.Mvc" version="2.2.0"/>
+                <dependency id="Newtonsoft.Json" version="13.0.1"/>
+                <dependency id="WindowsAzure.Storage" version="9.3.3"/>
+            </group>
+        </dependencies>
+        <contentFiles>
+            <files include="any/any/wwwroot/**/*.css" buildAction="Content" copyToOutput="false" flatten="false" />
+            <files include="any/any/wwwroot/**/*.js" buildAction="Content" copyToOutput="false" flatten="false" />
+        </contentFiles>
+    </metadata>
+    <files>
+        <file src="wwwroot\**\*" target="contentFiles/any/any/wwwroot"/>
+    </files>
 </package>
