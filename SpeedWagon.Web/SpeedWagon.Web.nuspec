@@ -7,11 +7,12 @@
     <authors>Darren Ferguson</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
+    <projectUrl>https://github.com/darrenferguson/speedwagon</projectUrl>
     <description>SpeedWagon.Web</description>
      <dependencies>
         <group targetFramework="net5.0">
             <dependency id="Flurl" version="3.0.2"/>
-            <dependency id="SpeedWagon.Runtime" version="0.0.1"/>
+            <dependency id="SpeedWagon.Runtime" version="#{GITVERSION_FULLSEMVER}#"/>
         </group>
     </dependencies>
   </metadata>

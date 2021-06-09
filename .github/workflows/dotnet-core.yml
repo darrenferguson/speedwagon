@@ -64,6 +64,10 @@ jobs:
     - name: Pack Web
       run: dotnet pack -p:NuspecFile=SpeedWagon.Web.nuspec -p:Configuration=Release -o .\
       working-directory: SpeedWagon.Web
+
+    - name: Pack Runtime
+      run: dotnet pack -p:NuspecFile=SpeedWagon.Runtime.nuspec -p:Configuration=Release -o .\
+      working-directory: SpeedWagon.Runtime
       
     - name: Test
       run: dotnet test --no-restore --verbosity normal
@@ -79,8 +83,14 @@ jobs:
         publish-profile: ${{ secrets.azureWebAppPublishProfile }}
         package: './speedwagonapp'
 
-    - name: Publish Nuget Package
+    - name: Publish Web Nuget Package
       env:
         NUGET_APIKEY: ${{ secrets.NUGET_APIKEY }}
       run: nuget push *.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey "${{ env.NUGET_APIKEY }}"
-      working-directory: SpeedWagon.Web    
+      working-directory: SpeedWagon.Web  
+
+    - name: Publish Runtime Nuget Package
+      env:
+        NUGET_APIKEY: ${{ secrets.NUGET_APIKEY }}
+      run: nuget push *.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey "${{ env.NUGET_APIKEY }}"
+      working-directory: SpeedWagon.Runtime  

@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package >
   <metadata>
-    <id>$id$</id>
-    <version>$version$</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
+    <id>SpeedWagon.Runtime</id>
+    <version>#{GITVERSION_FULLSEMVER}#</version>
+    <title>SpeedWagon.Runtime</title>
+    <authors>Darren Ferguson</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
-    <projectUrl>http://project_url_here_or_delete_this_line/</projectUrl>
-    <iconUrl>http://icon_url_here_or_delete_this_line/</iconUrl>
-    <description>$description$</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
-    <copyright>$copyright$</copyright>
-    <tags>Tag1 Tag2</tags>
+    <projectUrl>https://github.com/darrenferguson/speedwagon</projectUrl>
+    <description>SpeedWagon.Runtime</description>
+    <dependencies>
+        <group targetFramework="net5.0">         
+            <dependency id="Newtonsoft.Json" version="13.0.1"/>
+            <dependency id="Microsoft.Extensions.Logging" version="2.2.0"/>
+            <dependency id="Microsoft.Extensions.Caching.Memory" version="2.2.0"/>
+            <dependency id="Lucene.Net.QueryParser" version="4.8.0-beta00005"/>
+            <dependency id="Lucene.Net.Analysis.Common" version="4.8.0-beta00005"/>
+            <dependency id="Lucene.Net" version="4.8.0-beta00005"/>
+        </group>
+    </dependencies>
   </metadata>
 </package>
