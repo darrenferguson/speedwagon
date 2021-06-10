@@ -47,9 +47,13 @@ jobs:
       run: npm install
       working-directory: SpeedWagon.Web.UI
 
-    - name: Gulp
+    - name: Gulp UI
       run: gulp build
       working-directory: SpeedWagon.Web.UI
+
+    - name: Gulp Web
+      run: gulp build
+      working-directory: SpeedWagon.Web
       
     - name: Replace Tokens
       uses: cschleiden/replace-tokens@v1
