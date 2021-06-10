@@ -1,17 +1,6 @@
 ﻿var gulp = require('gulp'),
     concat = require('gulp-concat'),
-    uglify = require('gulp-uglify'),
-    rename = require('gulp-rename');
-
-gulp.task('css', function () {
-    return gulp.src(
-        ['./node_modules/bootstrap/dist/css/bootstrap.min.css',
-            './node_modules/@fortawesome/fontawesome-free/css/all.min.css',
-            './wwwroot/speedwagon/css/speedwagon.css']
-    ).pipe(concat('site.min.css'))
-        .pipe(rename('speedwagon.min.css'))
-        .pipe(gulp.dest('./wwwroot/speedwagon/dist'));
-});
+    uglify = require('gulp-uglify')
 
 gulp.task('themeCss', function () {
     return gulp.src(
@@ -33,17 +22,6 @@ gulp.task('themeJs', function () {
         .pipe(gulp.dest('./wwwroot/theme'));
 });
 
-gulp.task('js', function () {
-    return gulp.src([
-        './node_modules/jquery/dist/jquery.min.js',
-        './node_modules/bootstrap/dist/js/bootstrap.min.js',
-        './node_modules/feather-icons/dist/feather.min.js',
-    ])
-        .pipe(concat('speedwagon.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('./wwwroot/speedwagon/dist'));
-});
-
 gulp.task('img', function () {
     return gulp.src([
         '../theme/**/*.jpg'
@@ -58,15 +36,6 @@ gulp.task('themeFont', function () {
 
     ], { base: './node_modules/@fortawesome/fontawesome-free/webfonts' })
         .pipe(gulp.dest('./wwwroot/webfonts'));
-});
-
-
-gulp.task('font', function () {
-    return gulp.src([
-        './node_modules/@fortawesome/fontawesome-free/webfonts/**/*'
-
-    ], { base: './node_modules/@fortawesome/fontawesome-free/webfonts' })
-        .pipe(gulp.dest('./wwwroot/speedwagon/webfonts'));
 });
 
 gulp.task('tiny', function () {
@@ -87,23 +56,14 @@ gulp.task('file-upload', function () {
         .pipe(gulp.dest('./wwwroot/speedwagon/lib/blueimp-file-upload'));
 });
 
-gulp.task('copy-dist', function () {
-
-    return gulp.src(['./wwwroot/speedwagon/dist/**/*']).pipe(gulp.dest('../SpeedWagon.Web/wwwroot/speedwagon/dist'));
-
-
-});
-
 gulp.task('build',
-    gulp.series('css',
-        'js',
+    gulp.series(
         'themeCss',
         'themeJs',
         'img',
         'font',
         'themeFont',
         'tiny',
-        'file-upload',
-        'copy-dist'
+        'file-upload'
     )
 );
