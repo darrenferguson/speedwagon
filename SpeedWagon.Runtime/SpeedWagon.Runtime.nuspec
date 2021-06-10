@@ -19,14 +19,14 @@
                 <dependency id="Lucene.Net" version="4.8.0-beta00005"/>
             </group>
         </dependencies>
-        <references>
+        <!--<references>
             <group>
                 <reference file="SpeedWagon.Runtime.dll" />
             </group>
             <group targetFramework="net5.0">
                 <reference file="SpeedWagon.Runtime.dll" />
             </group>
-        </references>
+        </references>-->
     </metadata>
     <files>
         
