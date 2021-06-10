@@ -21,8 +21,11 @@
                 <dependency id="Newtonsoft.Json" version="13.0.1"/>
                 <dependency id="WindowsAzure.Storage" version="9.3.3"/>
             </group>
+            
         </dependencies>
-        
+        <references>
+            <reference file="SpeedWagon.Web.dll"/>
+        </references>
     </metadata>
     <files>
         <file src="wwwroot\**\*" target="content\wwwroot"/>
@@ -30,5 +33,6 @@
         <file src="..\SpeedWagon.Web.UI\Views\SpeedWagon\**\*" target="content\Views\SpeedWagon"/>
         <file src="SpeedWagon.Web.props" target="build"/>
         <file src="SpeedWagon.Web.targets" target="build"/>
+        
     </files>
 </package>
