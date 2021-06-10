@@ -24,5 +24,6 @@
         <file src="SpeedWagon.Runtime.props" target="build"/>
         <file src="SpeedWagon.Runtime.targets" target="build"/>
         <file src="bin\Release\net5.0\SpeedWagon.Runtime.dll" target="ref/net5.0"/>
+        <file src="bin\Release\net5.0\SpeedWagon.Runtime.dll" target="lib/net5.0"/>
     </files>
 </package>

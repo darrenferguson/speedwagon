@@ -31,5 +31,6 @@
         <file src="SpeedWagon.Web.props" target="build"/>
         <file src="SpeedWagon.Web.targets" target="build"/>
         <file src="bin\Release\net5.0\SpeedWagon.Web.dll" target="ref/net5.0"/>
+        <file src="bin\Release\net5.0\SpeedWagon.Web.dll" target="lib/net5.0"/>
     </files>
 </package>
