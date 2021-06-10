@@ -12,7 +12,7 @@
         <dependencies>
             <group targetFramework="net5.0">
                 <dependency id="SpeedWagon.Runtime" version="#{GITVERSION_FULLSEMVER}#"/>
-                <dependency id="Flurl" version="3.0.2"/>               
+                <dependency id="Flurl" version="3.0.2"/>
                 <dependency id="Microsoft.AspNetCore.Authentication" version="2.0.0"/>
                 <dependency id="Microsoft.AspNetCore.Authentication.Cookies" version="2.0.0"/>
                 <dependency id="Microsoft.AspNetCore.Authentication.OpenIdConnect" version="2.0.0"/>
@@ -21,10 +21,15 @@
                 <dependency id="Newtonsoft.Json" version="13.0.1"/>
                 <dependency id="WindowsAzure.Storage" version="9.3.3"/>
             </group>
-            
         </dependencies>
+
         <references>
-            <reference file="SpeedWagon.Web.dll"/>
+            <group>
+                <reference file="SpeedWagon.Web.dll" />
+            </group>
+            <group targetFramework="net5.0">    
+                <reference file="SpeedWagon.Web.dll" />
+            </group>
         </references>
     </metadata>
     <files>
@@ -33,6 +38,6 @@
         <file src="..\SpeedWagon.Web.UI\Views\SpeedWagon\**\*" target="content\Views\SpeedWagon"/>
         <file src="SpeedWagon.Web.props" target="build"/>
         <file src="SpeedWagon.Web.targets" target="build"/>
-        
+        <file src="bin\Release\net5.0\SpeedWagon.Web.dll" target="ref/net5.0"/>
     </files>
 </package>

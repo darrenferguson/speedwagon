@@ -20,7 +20,16 @@
             </group>
         </dependencies>
         <references>
-            <reference file="SpeedWagon.Runtime.dll"/>
+            <group>
+                <reference file="SpeedWagon.Runtime.dll" />
+            </group>
+            <group targetFramework="net5.0">
+                <reference file="SpeedWagon.Runtime.dll" />
+            </group>
         </references>
     </metadata>
+    <files>
+        
+        <file src="bin\Release\net5.0\SpeedWagon.Runtime.dll" target="ref/net5.0"/>
+    </files>
 </package>
