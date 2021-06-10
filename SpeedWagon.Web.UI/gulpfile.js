@@ -61,7 +61,6 @@ gulp.task('build',
         'themeCss',
         'themeJs',
         'img',
-        'font',
         'themeFont',
         'tiny',
         'file-upload'
