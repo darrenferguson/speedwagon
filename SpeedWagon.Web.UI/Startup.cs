@@ -9,7 +9,7 @@ using SpeedWagon.Runtime.Services.Files;
 using SpeedWagon.Web.Extension;
 using SpeedWagon.Web.Services;
 using System.IO;
-using Microsoft.Extensions.FileProviders;
+using SpeedWagon.Runtime.Interfaces;
 
 namespace SpeedWagon.Web.UI
 {
@@ -28,63 +28,45 @@ namespace SpeedWagon.Web.UI
             this._logger = logger;
         }
 
-        private const string _appDataFolder = "AppData";
-
         public void ConfigureServices(IServiceCollection services)
         {
 
-            string auth = this._configuration["SpeedWagon:Login"];
-            
-            // Simple Authentication = No Authentication.
-            if (auth == "Simple")
-            {
+            // Simple Authentication = No Authentication!!
+            //if (this._configuration["SpeedWagon:Login"] == "Simple")
+            //{
                 services.AddSimpleAuthentication();
-            }
-            else
-            {
-                services.AddAzureAdAuthentication(this._configuration);
-            }
+            //}
+            //else
+            //{
+            //    services.AddAzureAdAuthentication(this._configuration);
+            //}
 
-            this._logger.LogInformation("Initialised auth");
-
-            // Start with / for relative - or specify an absolute path
-            string path;
-            string contentPath = this._configuration["SpeedWagon:ContentPath"];
-            if (contentPath.StartsWith("/"))
-            {
-                path = Path.Combine(this._env.ContentRootPath, _appDataFolder, contentPath.Substring(1));
-            } else
-            {
-                path = contentPath;
-            }
-
-            string uploadPath = Path.Combine(this._env.ContentRootPath, "wwwroot");
-
+            string path = Path.Combine(this._env.WebRootPath, "content");
+           
             // Proivders for file storage.
-            Runtime.Interfaces.IFileProvider contentFileProvider = new FileSystemFileProvider();
-            Runtime.Interfaces.IFileProvider uploadFileProvider;
+            IFileProvider contentFileProvider = new FileSystemFileProvider();
+            IFileProvider uploadFileProvider;
 
-            string fileProvider = this._configuration["Files:Provider"];
-            if (fileProvider == "Blob")
-            {
-                // Container must exist
-                uploadFileProvider = new BlobFileProvider(this._configuration["Files:ConnectionString"], "speedwagon", uploadPath);
-            }
-            else
-            {
+            //if (this._configuration["Files:Provider"] == "Blob")
+            //{
+            //    // Container must exist
+            //    uploadFileProvider = new BlobFileProvider(this._configuration["Files:ConnectionString"], "speedwagon", this._env.WebRootPath);
+            //}
+            //else
+            //{
                 uploadFileProvider = new FileSystemFileProvider();
-            }
+            //}
             
             // Add Front end
             bool.TryParse(this._configuration["SpeedWagon:CacheRuntime"], out bool cahceRuntime);
             services.AddSpeedWagon(path, cahceRuntime, contentFileProvider);
 
             // Optionally register CMS backend
-            bool.TryParse(this._configuration["SpeedWagon:RegisterCms"], out bool registerCms);
-            if (registerCms)
-            {
-                services.AddSpeedWagonCms(path, uploadPath, contentFileProvider, uploadFileProvider);
-            }
+            //bool.TryParse(this._configuration["SpeedWagon:RegisterCms"], out bool registerCms);
+            //if (registerCms)
+            //{
+                services.AddSpeedWagonCms(path, this._env.WebRootPath, contentFileProvider, uploadFileProvider);
+            //}
 
             services.AddMvc();
         }
@@ -105,21 +87,19 @@ namespace SpeedWagon.Web.UI
             {
                 RequestPath = new PathString("/speedwagon"),
                 FileProvider =
-                    new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "speedwagon"))
+                    new Microsoft.Extensions.FileProviders.PhysicalFileProvider(Path.Combine(env.WebRootPath, "speedwagon"))
             });
-
-           
 
             app.UseStaticFiles(new StaticFileOptions
             {
                 RequestPath = new PathString("/theme"),
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "theme"))
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "theme"))
             });
 
             app.UseStaticFiles(new StaticFileOptions
             {
                 RequestPath = new PathString("/webfonts"),
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "webfonts"))
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "webfonts"))
             });
 
             app.UseRouting();

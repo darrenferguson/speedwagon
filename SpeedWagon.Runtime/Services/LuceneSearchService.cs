@@ -67,8 +67,12 @@ namespace SpeedWagon.Runtime.Services
             {
                 var content = await contentService.GetContent(url);
 
-                if (content != null)
-                    Index(content);
+                if (content == null)
+                {
+                    return;
+                }
+                
+                Index(content);
 
                 if (content.Content != null)
                 {
@@ -85,7 +89,6 @@ namespace SpeedWagon.Runtime.Services
             }
 
             File.WriteAllText(GetFieldsFilePath(), JsonConvert.SerializeObject(fields));
-
 
         }
 

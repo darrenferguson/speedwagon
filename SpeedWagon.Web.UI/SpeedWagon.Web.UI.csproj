@@ -5,10 +5,10 @@
     <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="AppData\speedwagon\search\**" />
-    <Content Remove="AppData\speedwagon\search\**" />
-    <EmbeddedResource Remove="AppData\speedwagon\search\**" />
-    <None Remove="AppData\speedwagon\search\**" />
+    <Compile Remove="wwwroot\content\reo.speedwagon.me\users\testuser\**" />
+    <Content Remove="wwwroot\content\reo.speedwagon.me\users\testuser\**" />
+    <EmbeddedResource Remove="wwwroot\content\reo.speedwagon.me\users\testuser\**" />
+    <None Remove="wwwroot\content\reo.speedwagon.me\users\testuser\**" />
     
   </ItemGroup>
   <ItemGroup>
