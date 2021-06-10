@@ -10,6 +10,7 @@ using SpeedWagon.Web.Extension;
 using SpeedWagon.Web.Services;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 
 namespace SpeedWagon.Web.UI
 {
@@ -31,6 +32,7 @@ namespace SpeedWagon.Web.UI
 
         public void ConfigureServices(IServiceCollection services)
         {
+
             this._logger.LogInformation("Speedwagon is starting");
 
             string auth = Configuration["SpeedWagon:Login"];
@@ -104,27 +106,19 @@ namespace SpeedWagon.Web.UI
 
             app.UseStaticFiles(new StaticFileOptions
             {
-                RequestPath = new PathString("/speedwagon/dist"),
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "speedwagon", "dist"))
+                RequestPath = new PathString("/speedwagon"),
+                FileProvider =
+                    new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "speedwagon"))
             });
 
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                RequestPath = new PathString("/speedwagon/editor"),
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "speedwagon", "editor"))
-            });
-
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                RequestPath = new PathString("/speedwagon/lib"),
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "speedwagon", "lib"))
-            });
+           
 
             app.UseStaticFiles(new StaticFileOptions
             {
                 RequestPath = new PathString("/theme"),
                 FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "theme"))
             });
+
             app.UseStaticFiles(new StaticFileOptions
             {
                 RequestPath = new PathString("/webfonts"),

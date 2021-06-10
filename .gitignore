@@ -55,3 +55,7 @@ SpeedWagon.Web.UI/AppData/speedwagon/fields.config
 SpeedWagon.Web.UI/Properties/PublishProfiles/
 *.nupkg
 SpeedWagon.Web/wwwroot/
+SpeedWagon.Web/node_modules/
+SpeedWagon.Web.UI/wwwroot/speedwagon/speedwagon.min.css
+SpeedWagon.Web.UI/wwwroot/speedwagon/speedwagon.min.js
+SpeedWagon.Web.UI/wwwroot/speedwagon/font/

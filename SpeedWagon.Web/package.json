@@ -1,13 +1,13 @@
 {
-  "name": "speedwagon.web.ui",
+  "name": "speedwagon.web",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.12.1",
     "blueimp-file-upload": "^10.8.0",
