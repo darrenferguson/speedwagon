@@ -43,10 +43,14 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
 
-    - name: NPM install
+    - name: NPM install UI
       run: npm install
       working-directory: SpeedWagon.Web.UI
 
+    - name: NPM install Web
+      run: npm install
+      working-directory: SpeedWagon.Web
+    
     - name: Gulp UI
       run: gulp build
       working-directory: SpeedWagon.Web.UI
