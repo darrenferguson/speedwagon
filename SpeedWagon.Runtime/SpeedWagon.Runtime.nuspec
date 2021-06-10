@@ -18,18 +18,11 @@
                 <dependency id="Lucene.Net.Analysis.Common" version="4.8.0-beta00005"/>
                 <dependency id="Lucene.Net" version="4.8.0-beta00005"/>
             </group>
-        </dependencies>
-        <!--<references>
-            <group>
-                <reference file="SpeedWagon.Runtime.dll" />
-            </group>
-            <group targetFramework="net5.0">
-                <reference file="SpeedWagon.Runtime.dll" />
-            </group>
-        </references>-->
+        </dependencies>       
     </metadata>
     <files>
-        
+        <file src="SpeedWagon.Runtime.props" target="build"/>
+        <file src="SpeedWagon.Runtime.targets" target="build"/>
         <file src="bin\Release\net5.0\SpeedWagon.Runtime.dll" target="ref/net5.0"/>
     </files>
 </package>

@@ -4,6 +4,10 @@
         <ContentFilesPath>$(MSBuildThisFileDirectory)..\content\**\*.*</ContentFilesPath>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <BinaryFilesPath>$(MSBuildThisFileDirectory)..\lib\net5.0\*.*</BinaryFilesPath>
+    </PropertyGroup>
+
     <Target Name="CopyAssets" BeforeTargets="Build">
         <ItemGroup>
 
@@ -17,6 +21,17 @@
 
     </Target>
 
-    
+    <Target Name="CopyBinaries" AfterTargets="Build">
+        <ItemGroup>
+
+            <ContentFiles Include="$(BinaryFilesPath)" />
+        </ItemGroup>
+        <Message Text="Copying binary files: $(BinaryFilesPath) - #@(ContentFiles->Count()) files"  Importance="high" />
+        <Copy
+            SourceFiles="@(BinaryFilesPath)"
+            DestinationFiles="@(ContentFiles->'$(MSBuildBinPath)\%(RecursiveDir)%(Filename)%(Extension)')"
+            SkipUnchangedFiles="true" />
+
+    </Target>
 
 </Project>

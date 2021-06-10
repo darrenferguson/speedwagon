@@ -10,7 +10,6 @@ using SpeedWagon.Web.Extension;
 using SpeedWagon.Web.Services;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 
 namespace SpeedWagon.Web.UI
 {
@@ -18,26 +17,24 @@ namespace SpeedWagon.Web.UI
     {
         private readonly IWebHostEnvironment _env;
         private readonly ILogger<Startup> _logger;
+        private IConfiguration _configuration;
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment env, ILogger<Startup> logger)
+        public Startup(IConfiguration configuration, 
+            IWebHostEnvironment env, 
+            ILogger<Startup> logger)
         {
-            Configuration = configuration;
+            this._configuration = configuration;
             this._env = env;
             this._logger = logger;
         }
-
-        public IConfiguration Configuration { get; }
 
         private const string _appDataFolder = "AppData";
 
         public void ConfigureServices(IServiceCollection services)
         {
 
-            this._logger.LogInformation("Speedwagon is starting");
-
-            string auth = Configuration["SpeedWagon:Login"];
-            this._logger.LogInformation("Got config " + auth);
-
+            string auth = this._configuration["SpeedWagon:Login"];
+            
             // Simple Authentication = No Authentication.
             if (auth == "Simple")
             {
@@ -45,14 +42,14 @@ namespace SpeedWagon.Web.UI
             }
             else
             {
-                services.AddAzureAdAuthentication(Configuration);
+                services.AddAzureAdAuthentication(this._configuration);
             }
 
             this._logger.LogInformation("Initialised auth");
 
             // Start with / for relative - or specify an absolute path
             string path;
-            string contentPath = Configuration["SpeedWagon:ContentPath"];
+            string contentPath = this._configuration["SpeedWagon:ContentPath"];
             if (contentPath.StartsWith("/"))
             {
                 path = Path.Combine(this._env.ContentRootPath, _appDataFolder, contentPath.Substring(1));
@@ -67,11 +64,11 @@ namespace SpeedWagon.Web.UI
             Runtime.Interfaces.IFileProvider contentFileProvider = new FileSystemFileProvider();
             Runtime.Interfaces.IFileProvider uploadFileProvider;
 
-            string fileProvider = Configuration["Files:Provider"];
+            string fileProvider = this._configuration["Files:Provider"];
             if (fileProvider == "Blob")
             {
                 // Container must exist
-                uploadFileProvider = new BlobFileProvider(Configuration["Files:ConnectionString"], "speedwagon", uploadPath);
+                uploadFileProvider = new BlobFileProvider(this._configuration["Files:ConnectionString"], "speedwagon", uploadPath);
             }
             else
             {
@@ -79,11 +76,11 @@ namespace SpeedWagon.Web.UI
             }
             
             // Add Front end
-            bool.TryParse(Configuration["SpeedWagon:CacheRuntime"], out bool cahceRuntime);
+            bool.TryParse(this._configuration["SpeedWagon:CacheRuntime"], out bool cahceRuntime);
             services.AddSpeedWagon(path, cahceRuntime, contentFileProvider);
 
             // Optionally register CMS backend
-            bool.TryParse(Configuration["SpeedWagon:RegisterCms"], out bool registerCms);
+            bool.TryParse(this._configuration["SpeedWagon:RegisterCms"], out bool registerCms);
             if (registerCms)
             {
                 services.AddSpeedWagonCms(path, uploadPath, contentFileProvider, uploadFileProvider);

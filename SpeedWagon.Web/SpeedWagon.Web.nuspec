@@ -23,14 +23,6 @@
             </group>
         </dependencies>
 
-        <!--<references>
-            <group>
-                <reference file="SpeedWagon.Web.dll" />
-            </group>
-            <group targetFramework="net5.0">    
-                <reference file="SpeedWagon.Web.dll" />
-            </group>
-        </references>-->
     </metadata>
     <files>
         <file src="wwwroot\**\*" target="content\wwwroot"/>
