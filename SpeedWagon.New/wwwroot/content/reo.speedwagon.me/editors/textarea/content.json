@@ -1,0 +1,15 @@
+{
+  "Name": "Textarea",
+  "Type": "editor",
+  "CreateDate": "2020-03-08T15:19:34.7720377+00:00",
+  "UpdateDate": "2020-03-08T15:19:34.7720408+00:00",
+  "CreatorName": "darren",
+  "WriterName": "darren",
+  "Url": "https://reo.speedwagon.me/editors/textarea",
+  "RelativeUrl": "/editors/textarea",
+  "Content": {},
+  "Template": "~/Views/SpeedWagon/Editors/Textarea.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}

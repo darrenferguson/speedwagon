@@ -1,0 +1,30 @@
+{
+  "Name": "Image",
+  "Type": "content-type",
+  "CreateDate": "2020-03-08T16:57:32.8489131+00:00",
+  "UpdateDate": "2020-03-08T16:57:57.8662624+00:00",
+  "CreatorName": "darren",
+  "WriterName": "darren",
+  "Url": "https://reo.speedwagon.me/content-types/image",
+  "RelativeUrl": "/content-types/image",
+  "Content": {
+    "Root": false,
+    "Children": [],
+    "Editors": [
+      {
+        "Name": "Title",
+        "Editor": "Textbox",
+        "Description": null
+      },
+      {
+        "Name": "Files",
+        "Editor": "Upload",
+        "Description": null
+      }
+    ]
+  },
+  "Template": "~/Views/SpeedWagon/ContentType/Image.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}

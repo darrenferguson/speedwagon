@@ -1,0 +1,34 @@
+﻿@model SpeedWagon.Web.Models.ContentType.EditProperty
+@{
+    Layout = "~/Views/SpeedWagon/_Layout.cshtml";
+}
+
+<h3>Edit Property '@Model.Property.Name'</h3>
+
+<form asp-controller="SpeedWagonContentType" asp-action="EditProperty" method="post">
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input readonly asp-for="Property.Name" class="form-control" />
+
+    </div>
+
+    <div class="form-group">
+
+        <label for="Description">Description</label>
+        <textarea asp-for="Property.Description" class="form-control"></textarea>
+
+    </div>
+
+    <div class="form-group">
+
+        <label for="Editor">Editor</label>
+        <select asp-for="Property.Editor" asp-items="Model.AvailableEditors" class="form-control"></select>
+    </div>
+
+    <input asp-for="ContentTypeName" />
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+    <button onclick="history.back()" class="btn btn-secondary">Cancel</button>
+</form>

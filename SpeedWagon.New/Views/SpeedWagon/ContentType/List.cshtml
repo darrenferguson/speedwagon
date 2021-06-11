@@ -1,0 +1,107 @@
+﻿@model SpeedWagon.Web.Models.View.Editor.ContentTypeViewModel
+@{
+    Layout = "~/Views/SpeedWagon/_Layout.cshtml";
+}
+
+@section Scripts {
+
+    @await Html.PartialAsync("~/Views/SpeedWagon/_EditorScripts.cshtml")
+}
+
+<h2>Content Types</h2>
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#list" data-toggle="tab"><span data-feather="list"></span> List</a>
+    </li>
+    <li>
+        <a href="#create" data-toggle="tab"><span data-feather="file-plus"></span> Create</a>
+    </li>
+   
+</ul>
+<div class="tab-content clearfix">
+    <div class="tab-pane active" id="list">
+
+        @if (!Model.ContentTypes.Any())
+        {
+            <p class="lead">No types found</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        
+                        <th>Name</th>
+                        <th>Creator</th>
+                        <th>Created</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (SpeedWagonContent contentType in Model.ContentTypes)
+                    {
+                        <tr>
+
+                            <td>@contentType.Name</td>
+                            <td>@contentType.CreatorName</td>
+                            <td>@contentType.CreateDate</td>
+                            <td>
+                                <a class="btn btn-info" asp-controller="SpeedWagonContentType" asp-action="Edit" asp-route-url="@contentType.RelativeUrl">Edit</a>
+
+                                <form asp-controller="SpeedWagonContentType" asp-action="Delete" method="post" style="display: inline;">
+                                    <input type="hidden" value="@contentType.Name" asp-for="Name" />
+                                    <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    
+        <h4>Help</h4>
+        <p>Content types are groupings of editors - that are used to create content items</p>
+        <p>You can also define a site structure by allowing content types to be created at the root of the content structure or as children of other items.</p>
+    </div>
+    <div class="tab-pane" id="create">
+
+        <h4>Create</h4>
+
+        <form asp-controller="SpeedWagonContentType" asp-action="Add" method="post">
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Name" required="required" asp-for="Name">
+
+            </div>
+
+            <div class="form-group">
+                <label for="Children">Children</label>
+
+                <select class="form-control" multiple asp-for="Children" asp-items="Model.AvailableContentTypes"></select>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label for="CopyProperties">Copy Properties From</label>
+                <select class="form-control" asp-for="CopyProperties" asp-items="Model.AvailableContentTypes"></select>
+
+            </div>
+            
+            <div class="form-check">
+
+                <input asp-for="Root" class="form-check-input" />
+                <label for="Root">Allow at Root?</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create</button>
+
+        </form>
+    </div>
+   
+</div>
+
+

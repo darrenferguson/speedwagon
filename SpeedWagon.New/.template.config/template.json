@@ -1,0 +1,20 @@
+{
+    "author": "Darren Ferguson",
+    "classifications": [ "Web" ], 
+    "name": "SpeedWagon New",
+    "identity": "SpeedWagon.New",         
+    "shortName": "speedwagon",                
+    "tags": {
+      "language": "C#"                      
+    },
+    "sourceName": "SpeedWagon.New",      
+    "preferNameDirectory":"true",
+    "symbols":{
+      
+      "title": {
+        "type": "parameter",
+        "defaultValue": "SpeedWagon New",
+        "replaces":"SpeedWagon New"
+      }
+    }
+  }

@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>SpeedWagon</title>
+
+    <link rel="stylesheet" href="/speedwagon/speedwagon.min.css" />
+
+    @Html.RenderPartialViewStyles()
+
+</head>
+<body>
+
+
+    @await Html.PartialAsync("~/Views/SpeedWagon/Partials/Navigation.cshtml")
+
+
+    <div class="container-fluid">
+        <div class="row">
+            @await Html.PartialAsync("~/Views/SpeedWagon/Partials/SideBar.cshtml")
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+                @RenderBody()
+                
+            </main>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="/speedwagon/speedwagon.min.js"></script>
+    <script>
+        feather.replace()
+    </script>
+    @RenderSection("Scripts", required: false)
+    @Html.RenderPartialViewScripts()
+
+</body>
+</html>

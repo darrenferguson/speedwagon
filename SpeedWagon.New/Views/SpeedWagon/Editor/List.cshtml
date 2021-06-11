@@ -1,0 +1,105 @@
+﻿@model SpeedWagon.Web.Models.View.Editor.EditorViewModel
+@{
+    Layout = "~/Views/SpeedWagon/_Layout.cshtml";
+}
+
+@section Scripts {
+
+    @await Html.PartialAsync("~/Views/SpeedWagon/_EditorScripts.cshtml")
+}
+
+<h2>Editors</h2>
+
+<ul class="nav nav-tabs" style="margin-bottom: 20px;">
+
+    <li>
+        <a href="#list" data-toggle="tab"><span data-feather="list"></span> List</a>
+    </li>
+
+    <li>
+        <a href="#create" data-toggle="tab"><span data-feather="file-plus"></span> Create</a>
+    </li>
+
+</ul>
+
+<div class="tab-content clearfix">
+    <div class="tab-pane active" id="list">
+        @if (!Model.Editors.Any())
+        {
+            <p class="lead">No editors found</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+
+                            <th>Name</th>
+                            <th>Creator</th>
+                            <th>Created</th>
+                            <th>View</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (SpeedWagonContent editor in Model.Editors)
+                        {
+                            <tr>
+
+                                <td>
+                                    @editor.Name
+                                </td>
+                                <td>
+                                    @editor.CreatorName
+                                </td>
+                                <td>
+                                    @editor.CreateDate
+                                </td>
+                                <td>
+                                    @(string.IsNullOrEmpty(editor.Template) ? "System" : editor.Template)
+                                </td>
+                                <td>
+                                    <form asp-controller="SpeedWagonEditor" asp-action="Delete" method="post">
+                                        <input type="hidden" value="@editor.Name" asp-for="Name" />
+                                        <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        <h4>Help</h4>
+        <p>Editors are the fields that are used to enter content, e.g a textbox, textarea, checkbox etc.</p>
+        <p>An editor needs a corresponding view in ~/Views/SpeedWagon/Editors/ - look in that folder for some samples on how to create an editor.</p>
+    </div>
+
+    <div class="tab-pane" id="create">
+
+        <h4>Create</h4>
+
+        <form asp-controller="SpeedWagonEditor" asp-action="Add" method="post">
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Name" required="required" asp-for="Name">
+
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create</button>
+
+        </form>
+
+        
+
+    </div>
+</div>
+
+
+
+
+
+

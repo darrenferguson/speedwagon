@@ -1,0 +1,50 @@
+{
+  "Name": "Textpage",
+  "Type": "content-type",
+  "CreateDate": "2020-03-08T15:21:30.4953821+00:00",
+  "UpdateDate": "2020-03-10T15:08:57.263574+00:00",
+  "CreatorName": "darren",
+  "WriterName": "darren",
+  "Url": "https://reo.speedwagon.me/content-types/textpage",
+  "RelativeUrl": "/content-types/textpage",
+  "Content": {
+    "Root": false,
+    "Children": [],
+    "Editors": [
+      {
+        "Name": "Title",
+        "Editor": "Textbox",
+        "Description": null
+      },
+      {
+        "Name": "ShowInNavigation",
+        "Editor": "Checkbox",
+        "Description": null
+      },
+      {
+        "Name": "Description",
+        "Editor": "Textarea",
+        "Description": null
+      },
+      {
+        "Name": "BannerImage",
+        "Editor": "Upload",
+        "Description": null
+      },
+      {
+        "Name": "Body",
+        "Editor": "Richtext",
+        "Description": null
+      },
+      {
+        "Name": "Grid",
+        "Editor": "Grid",
+        "Description": null
+      }
+    ]
+  },
+  "Template": "~/Views/SpeedWagon/ContentType/Textpage.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}

@@ -1,0 +1,23 @@
+﻿@model SpeedWagonPage
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    @await Html.PartialAsync("~/Views/Partials/Head.cshtml", Model)
+</head>
+
+<body>
+    
+
+    @await Html.PartialAsync("~/Views/Partials/Navigation.cshtml", Model)
+    @await Html.PartialAsync("~/Views/Partials/Header.cshtml", Model)
+
+    <div class="container">
+        @RenderBody()      
+    </div>
+
+    @await Html.PartialAsync("~/Views/Partials/Footer.cshtml", Model)
+    <script src="/theme/theme.min.js"></script>
+</body>
+
+</html>

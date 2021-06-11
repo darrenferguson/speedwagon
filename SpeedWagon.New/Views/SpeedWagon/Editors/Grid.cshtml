@@ -1,0 +1,19 @@
+﻿@model SpeedWagon.Web.Models.Content.ContentEditorModel
+
+@Html.ClientRequirement("https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css", ClientSideIncludeType.Css)
+@Html.ClientRequirement("https://code.jquery.com/ui/1.12.1/jquery-ui.js", ClientSideIncludeType.Javascript)
+@Html.ClientRequirement("/speedwagon/lib/tinymce/tinymce.min.js", ClientSideIncludeType.Javascript)
+@Html.ClientRequirement("/speedwagon/lib/tinymce/jquery.tinymce.min.js", ClientSideIncludeType.Javascript)
+
+@Html.ClientRequirement("/speedwagon/lib/jquery-grid-editor/grideditor.css", ClientSideIncludeType.Css)
+@Html.ClientRequirement("/speedwagon/lib/jquery-grid-editor/jquery.grideditor.min.js", ClientSideIncludeType.Javascript)
+
+@Html.ClientRequirement("grid.js", ClientSideIncludeType.Javascript)
+@Html.ClientRequirement("grid.css", ClientSideIncludeType.Css)
+
+
+<div class="grid">
+
+</div>
+
+<textarea style="display: none;" class="value" asp-for="Values[Model.PropertyName]">@Model.Values[Model.PropertyName]</textarea>

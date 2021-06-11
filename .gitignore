@@ -40,3 +40,4 @@ node_modules
 
 SpeedWagon.Client/dist/
 SpeedWagon.Web.UI/wwwroot/
+SpeedWagon.New/wwwroot/content/search/

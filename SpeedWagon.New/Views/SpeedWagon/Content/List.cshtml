@@ -1,0 +1,150 @@
+﻿@model SpeedWagon.Web.Models.View.Content.ContentViewModel
+@{
+    Layout = "~/Views/SpeedWagon/_Layout.cshtml";
+}
+@section Scripts {
+
+    @await Html.PartialAsync("~/Views/SpeedWagon/_EditorScripts.cshtml")
+}
+<h2>Content</h2>
+
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#list" data-toggle="tab"><span data-feather="list"></span> List</a>
+    </li>
+    <li>
+        <a href="#create" data-toggle="tab"><span data-feather="file-plus"></span> Create</a>
+    </li>
+
+</ul>
+
+<div class="tab-content clearfix">
+    <div class="tab-pane active" id="list">
+
+        @if (Model.Content.Level > 0)
+        {
+            <nav aria-label="breadcrumb" style="margin-top: 20px;">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a asp-controller="SpeedWagonContent" asp-action="List" asp-route-url="/content">Content</a>
+                    </li>
+
+                    @foreach (SpeedWagonContent crumb in await Model.ContentService.BreadCrumb(Model.Content))
+                    {
+
+                        <li class="breadcrumb-item">
+                            <a asp-controller="SpeedWagonContent" asp-action="List" asp-route-url="@crumb.RelativeUrl">@crumb.Name</a>
+                        </li>
+                    }
+
+                </ol>
+            </nav>
+        }
+
+        @if (Model.Contents == null || !Model.Contents.Any())
+        {
+            <p class="lead">No content defined</p>
+
+           
+        }
+        else
+        {<div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Type
+                            </th>
+                            <th>
+                                Creator
+                            </th>
+                            <th>
+                                Created
+                            </th>
+                            <th>
+                                Updater
+                            </th>
+                            <th>
+                                Updated
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (SpeedWagonContent content in Model.Contents)
+                        {
+                            <tr>
+
+                                <td>
+                                    <a asp-controller="SpeedWagonContent" asp-action="List" asp-route-url="@content.RelativeUrl">@content.Name</a>
+                                </td>
+                                <td>
+                                    @content.Type
+                                </td>
+                                <td>
+                                    @content.CreatorName
+                                </td>
+                                <td>
+                                    @content.CreateDate
+                                </td>
+                                <td>
+                                    @content.WriterName
+                                </td>
+                                <td>
+                                    @content.UpdateDate
+                                </td>
+
+                                <td>
+                                    <a asp-controller="SpeedWagonContent" asp-action="Edit" asp-route-url="@content.RelativeUrl" class="btn btn-info">Edit</a>
+
+                                    <form asp-controller="SpeedWagonContent" asp-action="MoveUp" method="post" style="display: inline;">
+                                        <input type="hidden" value="@content.Url" name="Url" />
+                                        <input type="submit" class="btn btn-secondary" value="Up" />
+                                    </form>
+
+                                    <form asp-controller="SpeedWagonContent" asp-action="MoveDown" method="post" style="display: inline;">
+                                        <input type="hidden" value="@content.Url" name="Url" />
+                                        <input type="submit" class="btn btn-secondary" value="Down" />
+                                    </form>
+
+                                    <form asp-controller="SpeedWagonContent" asp-action="Delete" method="post" style="display: inline;">
+                                        <input type="hidden" value="@content.Url" name="Url" />
+                                        <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure?');" />
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+
+    </div>
+    <div class="tab-pane" id="create">
+
+        <form asp-controller="SpeedWagonContent" asp-action="Add" method="post">
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter a name" asp-for="Name">
+            </div>
+
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select class="form-control" asp-items="Model.AvailableContentTypes" asp-for="Type"> </select>
+            </div>
+
+
+            <input type="hidden" asp-for="Parent" value="@Model.Content.RelativeUrl" />
+
+            <button type="submit" class="btn btn-primary">Create</button>
+
+        </form>
+    </div>
+</div>

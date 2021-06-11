@@ -1,0 +1,15 @@
+﻿@model SpeedWagonPage
+
+@if (!string.IsNullOrEmpty(Model.Content.GetValue<string>("Body")))
+{
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            @(Html.Raw(Model.Content.GetValue<string>("Body")))
+        </div>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(Model.Content.GetValue<string>("Grid")))
+{
+    @(Html.Raw(Model.Content.GetValue<string>("Grid")))
+}

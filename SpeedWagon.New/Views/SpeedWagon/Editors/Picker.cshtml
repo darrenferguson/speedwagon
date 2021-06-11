@@ -1,0 +1,27 @@
+﻿@model SpeedWagon.Web.Models.Content.ContentEditorModel
+@using SpeedWagon.Runtime.Extension
+@{
+    string modalName = Model.PropertyName.ToUrlName() + "-modal";
+}
+
+@Html.ClientRequirement("/lib/jquery-ui/jquery-ui.min.js", ClientSideIncludeType.Javascript)
+@Html.ClientRequirement("/lib/jquery-modal/jquery.modal.min.js", ClientSideIncludeType.Javascript)
+@Html.ClientRequirement("/lib/jquery-modal/jquery.modal.min.css", ClientSideIncludeType.Css)
+@Html.ClientRequirement("/lib/jquery-tree/minified/jquery.tree.min.js", ClientSideIncludeType.Javascript)
+@Html.ClientRequirement("/lib/jquery-tree/minified/jquery.tree.min.css", ClientSideIncludeType.Css)
+@Html.ClientRequirement("picker.js", ClientSideIncludeType.Javascript)
+@Html.ClientRequirement("picker.css", ClientSideIncludeType.Css)
+
+<div class="root">
+    <input type="hidden" asp-for="Values[Model.PropertyName]" class="value">
+
+    <div id="@modalName" class="modal">
+        <h2>Choose Content</h2>
+        <div class="tree">
+            
+        </div>
+    </div>
+
+    <a href="#@modalName" rel="modal:open" class="btn btn-success">Choose Content</a>
+
+</div>

@@ -1,0 +1,34 @@
+{
+  "Name": "Home",
+  "Type": "content-type",
+  "CreateDate": "2020-03-08T15:20:34.5615852+00:00",
+  "UpdateDate": "2020-03-09T09:59:04.9018954+00:00",
+  "CreatorName": "darren",
+  "WriterName": "darren",
+  "Url": "https://reo.speedwagon.me/content-types/home",
+  "RelativeUrl": "/content-types/home",
+  "Content": {
+    "Root": true,
+    "Children": [
+      "Postfolder",
+      "Rssfeed",
+      "Textpage"
+    ],
+    "Editors": [
+      {
+        "Name": "Title",
+        "Editor": "Textbox",
+        "Description": "Page Title"
+      },
+      {
+        "Name": "Description",
+        "Editor": "Textarea",
+        "Description": "Meta Description"
+      }
+    ]
+  },
+  "Template": "~/Views/SpeedWagon/ContentType/Home.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}

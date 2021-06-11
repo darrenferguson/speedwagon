@@ -1,0 +1,15 @@
+{
+  "Name": "Posts",
+  "Type": "Postfolder",
+  "CreateDate": "2021-06-08T08:43:40.0041372+01:00",
+  "UpdateDate": "2021-06-11T14:45:51.0989248+01:00",
+  "CreatorName": "testuser",
+  "WriterName": "testuser",
+  "Url": "https://reo.speedwagon.me/content/localhost/posts",
+  "RelativeUrl": "/content/localhost/posts",
+  "Content": {},
+  "Template": "Postfolder",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 2
+}

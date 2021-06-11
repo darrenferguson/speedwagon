@@ -1,0 +1,15 @@
+{
+  "Name": "Checkbox",
+  "Type": "editor",
+  "CreateDate": "2020-03-08T15:18:42.5005931+00:00",
+  "UpdateDate": "2020-03-08T15:18:42.5005966+00:00",
+  "CreatorName": "darren",
+  "WriterName": "darren",
+  "Url": "https://reo.speedwagon.me/editors/checkbox",
+  "RelativeUrl": "/editors/checkbox",
+  "Content": {},
+  "Template": "~/Views/SpeedWagon/Editors/Checkbox.cshtml",
+  "CacheTime": null,
+  "SortOrder": 0,
+  "Level": 1
+}

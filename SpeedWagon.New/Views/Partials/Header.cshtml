@@ -1,0 +1,26 @@
+﻿@model SpeedWagon.New.Models.Page.Site
+@{
+    string image = "/theme/home-bg.jpg";
+    if (!string.IsNullOrEmpty(Model.Content.GetValue<string>("BannerImage")))
+    {
+        image = "/uploads/" + Model.Content.GetValue<string>("BannerImage");
+    }
+}
+
+<header class="masthead" style="background-image: url('@image')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>@(Model.Content.GetValue<string>("Title"))</h1>
+                    @if (!string.IsNullOrEmpty(Model.Content.GetValue<string>("Description")))
+                    {
+                        <span class="subheading">@(Model.Content.GetValue<string>("Description"))</span>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

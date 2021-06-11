@@ -1,0 +1,33 @@
+﻿@model SpeedWagon.New.Models.Page.HomePage
+@using SpeedWagon.Runtime.Models
+
+<div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+
+        @foreach (SearchResult post in Model.Posts)
+        {
+            <div class="post-preview">
+                <a href="@post.Content.WebUrl()">
+                    <h2 class="post-title">
+                        @(post.Content.GetValue<string>("Title"))
+                    </h2>
+                    <h3 class="post-subtitle">
+                        @(post.Content.GetValue<string>("Description"))
+                    </h3>
+                </a>
+                <p class="post-meta">
+                    Posted by
+                    Darren
+                    on @post.Content.CreateDate.ToString("d MMMM yyyy")
+                </p>
+            </div>
+            <hr />
+        }
+
+        <!-- Pager -->
+        <div class="clearfix">
+            <a class="btn btn-primary float-right" href="http://blog.darren-ferguson.com/">Older Posts &rarr;</a>
+        </div>
+
+    </div>
+</div>
