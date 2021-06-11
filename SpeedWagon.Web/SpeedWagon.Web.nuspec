@@ -25,7 +25,7 @@
 
     </metadata>
     <files>
-        <file src="wwwroot\**\*" target="content\wwwroot"/>
+        <file src="..\SpeedWagon.Client\dist\speedwagon\**\*" target="content\wwwroot\speedwagon"/>
         <file src="README.md" target="content"/>
         <file src="..\SpeedWagon.Web.UI\Views\SpeedWagon\**\*" target="content\Views\SpeedWagon"/>
         <file src="..\SpeedWagon.Web.UI\wwwroot\content\content-urls.json" target="content\wwwroot\content"/>

@@ -27,12 +27,4 @@
     <ProjectReference Include="..\SpeedWagon.Runtime\SpeedWagon.Runtime.csproj" />
     <ProjectReference Include="..\SpeedWagon.Web\SpeedWagon.Web.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\theme\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="package.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 </Project>

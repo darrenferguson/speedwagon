@@ -42,11 +42,4 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Client\speedwagon.css">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

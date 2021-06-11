@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 using SpeedWagon.Runtime.Services.Files;
 using SpeedWagon.Web.Extension;
-using SpeedWagon.Web.Services;
 using System.IO;
 using SpeedWagon.Runtime.Interfaces;
 
@@ -93,15 +92,9 @@ namespace SpeedWagon.Web.UI
             app.UseStaticFiles(new StaticFileOptions
             {
                 RequestPath = new PathString("/theme"),
-                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "theme"))
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(Path.Combine(env.WebRootPath, "theme"))
             });
-
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                RequestPath = new PathString("/webfonts"),
-                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot", "webfonts"))
-            });
-
+            
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
