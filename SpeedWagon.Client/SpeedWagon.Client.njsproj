@@ -58,5 +58,5 @@
     <Folder Include="src\speedwagon\lib\" />
     <Folder Include="src\theme\" />
   </ItemGroup>
-  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+ 
 </Project>
