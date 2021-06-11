@@ -59,7 +59,7 @@ jobs:
         GITVERSION_FULLSEMVER: ${{ env.GITVERSION_FULLSEMVER }}
 
     - name: Remove Sln
-      run: dotnet sln remove SpeedWagon.Client\SpeedWagon.Client.njsproj
+      run: dotnet sln remove SpeedWagon.Client/SpeedWagon.Client.njsproj
         
     - name: Build
       run: dotnet build --configuration Release --no-restore /p:Version="${{ env.GITVERSION_FULLSEMVER }}"
