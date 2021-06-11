@@ -13,11 +13,8 @@
             <group targetFramework="net5.0">
                 <dependency id="SpeedWagon.Runtime" version="#{GITVERSION_FULLSEMVER}#"/>
                 <dependency id="Flurl" version="3.0.2"/>
-                <dependency id="Microsoft.AspNetCore.Authentication" version="2.0.0"/>
-                <dependency id="Microsoft.AspNetCore.Authentication.Cookies" version="2.0.0"/>
-                <dependency id="Microsoft.AspNetCore.Authentication.OpenIdConnect" version="2.0.0"/>
-                <dependency id="Microsoft.AspNetCore.Http" version="2.2.2"/>
-                <dependency id="Microsoft.AspNetCore.Mvc" version="2.2.0"/>
+                <dependency id="Microsoft.AspNetCore.Authentication.OpenIdConnect" version="5.0.7"/>
+                <dependency id="Microsoft.AspNetCore.Http" version="2.2.2"/>        
                 <dependency id="Newtonsoft.Json" version="13.0.1"/>
                 <dependency id="WindowsAzure.Storage" version="9.3.3"/>
             </group>
