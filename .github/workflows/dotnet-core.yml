@@ -58,6 +58,9 @@ jobs:
       env:
         GITVERSION_FULLSEMVER: ${{ env.GITVERSION_FULLSEMVER }}
 
+    - name: Remove Sln
+      run: dotnet sln remove SpeedWagon.Client\SpeedWagon.Client.njsproj
+        
     - name: Build
       run: dotnet build --configuration Release --no-restore /p:Version="${{ env.GITVERSION_FULLSEMVER }}"
 
@@ -72,6 +75,10 @@ jobs:
       run: dotnet pack -p:NuspecFile=SpeedWagon.Runtime.nuspec -p:Configuration=Release -o .\
       working-directory: SpeedWagon.Runtime
       
+    - name: Pack Blog Sample
+      run: dotnet pack -p:NuspecFile=SpeedWagon.Sample.Blog.nuspec -p:Configuration=Release -o .\
+      working-directory: SpeedWagon.Web.UI
+
     - name: Test
       run: dotnet test --no-restore --verbosity normal
 
@@ -97,3 +104,9 @@ jobs:
         NUGET_APIKEY: ${{ secrets.NUGET_APIKEY }}
       run: nuget push *.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey "${{ env.NUGET_APIKEY }}"
       working-directory: SpeedWagon.Runtime  
+
+    - name: Publish Blog Sample Nuget Package
+      env:
+        NUGET_APIKEY: ${{ secrets.NUGET_APIKEY }}
+      run: nuget push *.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey "${{ env.NUGET_APIKEY }}"
+      working-directory: SpeedWagon.Web.UI  

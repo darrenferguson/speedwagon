@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+    <metadata>
+        <id>SpeedWagon.Sample.Blog</id>
+        <version>#{GITVERSION_FULLSEMVER}#</version>
+        <title>SpeedWagon.Sample.Blog</title>
+        <authors>Darren Ferguson</authors>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <license type="expression">MIT</license>
+        <projectUrl>https://github.com/darrenferguson/speedwagon</projectUrl>
+        <description>SpeedWagon.Sample.Blog</description>
+        <dependencies>
+            <group targetFramework="net5.0">
+                <dependency id="SpeedWagon.Web" version="#{GITVERSION_FULLSEMVER}#"/>
+            </group>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="./Startup.cs" target="content"/>
+        <file src="./Program.cs" target="content"/>
+        <file src=".\Models\**\*" target="content\Models"/>
+        <file src=".\Controllers\**\*" target="content\Controllers"/>
+        <file src=".\Views\Shared\**\*" target="content\Views\Shared\"/>
+        <file src=".\Views\Partials\**\*" target="content\Views\Partials\"/>
+        <file src=".\wwwroot\theme\**\*" target="content\wwwroot\theme\"/>
+        <file src=".\Views\_ViewImports.cshtml" target="content\Views\"/>
+        <file src=".\Views\_ViewStart.cshtml" target="content\Views\"/>
+        <file src=".\Views\404.cshtml" target="content\Views\"/>
+        <file src=".\Views\Home.cshtml" target="content\Views\"/>
+        <file src=".\Views\Post.cshtml" target="content\Views\"/>
+        <file src=".\Views\RssFeed.cshtml" target="content\Views\"/>
+        <file src=".\Views\TextPage.cshtml" target="content\Views\"/>
+        <file src="SpeedWagon.Sample.Blog.props" target="build"/>
+        <file src="SpeedWagon.Sample.Blog.targets" target="build"/>
+    </files>
+</package>

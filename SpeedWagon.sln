@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeedWagon.Web", "SpeedWago
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeedWagon.Web.UI", "SpeedWagon.Web.UI\SpeedWagon.Web.UI.csproj", "{DB9BC912-289B-4D98-B19F-8EFB6353716A}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "SpeedWagon.Client", "SpeedWagon.Client\SpeedWagon.Client.njsproj", "{FD671C5D-E584-469F-A7DD-59FC6390FC60}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,9 +27,6 @@ Global
 		{DB9BC912-289B-4D98-B19F-8EFB6353716A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB9BC912-289B-4D98-B19F-8EFB6353716A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB9BC912-289B-4D98-B19F-8EFB6353716A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FD671C5D-E584-469F-A7DD-59FC6390FC60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD671C5D-E584-469F-A7DD-59FC6390FC60}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD671C5D-E584-469F-A7DD-59FC6390FC60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
