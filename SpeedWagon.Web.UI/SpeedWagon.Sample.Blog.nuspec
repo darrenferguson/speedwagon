@@ -22,7 +22,13 @@
         <file src=".\Controllers\**\*" target="content\Controllers"/>
         <file src=".\Views\Shared\**\*" target="content\Views\Shared\"/>
         <file src=".\Views\Partials\**\*" target="content\Views\Partials\"/>
+        
         <file src=".\wwwroot\theme\**\*" target="content\wwwroot\theme\"/>
+        
+        <file src="..\SpeedWagon.Web.UI\wwwroot\content\reo.speedwagon.me\content\**\*"
+                     target="content\wwwroot\content\reo.speedwagon.me\content"/>
+
+
         <file src=".\Views\_ViewImports.cshtml" target="content\Views\"/>
         <file src=".\Views\_ViewStart.cshtml" target="content\Views\"/>
         <file src=".\Views\404.cshtml" target="content\Views\"/>

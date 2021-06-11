@@ -1,5 +1,5 @@
 mode: Mainline
-next-version: 0.5.2
+next-version: 0.5.4
 branches: {}
 ignore:
   sha: []

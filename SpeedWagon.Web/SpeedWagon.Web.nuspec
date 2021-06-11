@@ -29,7 +29,16 @@
         <file src="README.md" target="content"/>
         <file src="..\SpeedWagon.Web.UI\Views\SpeedWagon\**\*" target="content\Views\SpeedWagon"/>
         <file src="..\SpeedWagon.Web.UI\wwwroot\content\content-urls.json" target="content\wwwroot\content"/>
-        <file src="..\SpeedWagon.Web.UI\wwwroot\content\reo.speedwagon.me\**\*" target="content\wwwroot\content\reo.speedwagon.me"/>
+        
+        <file src="..\SpeedWagon.Web.UI\wwwroot\content\reo.speedwagon.me\content-types\**\*" 
+              target="content\wwwroot\content\reo.speedwagon.me\content-types"/>
+
+        <file src="..\SpeedWagon.Web.UI\wwwroot\content\reo.speedwagon.me\editors\**\*"
+              target="content\wwwroot\content\reo.speedwagon.me\editors"/>
+        
+        <file src="..\SpeedWagon.Web.UI\wwwroot\content\reo.speedwagon.me\users\**\*"
+                     target="content\wwwroot\content\reo.speedwagon.me\users"/>
+
         <file src="SpeedWagon.Web.props" target="build"/>
         <file src="SpeedWagon.Web.targets" target="build"/>
         <file src="bin\Release\net5.0\SpeedWagon.Web.dll" target="ref/net5.0"/>

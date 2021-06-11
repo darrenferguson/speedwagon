@@ -96,7 +96,8 @@ gulp.task('tiny', function () {
         './node_modules/tinymce/jquery.tinymce.min.js',
         './node_modules/tinymce/themes/silver/**/*',
         './node_modules/tinymce/plugins/**/*',
-        './node_modules/tinymce/skins/**/*'
+        './node_modules/tinymce/skins/**/*',
+        './node_modules/tinymce/icons/**/*'
     ], { base: './node_modules/tinymce/' })
         .pipe(gulp.dest('./dist/speedwagon/lib/tinymce'));
 });

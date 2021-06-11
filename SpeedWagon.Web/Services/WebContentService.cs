@@ -77,15 +77,18 @@ namespace SpeedWagon.Web.Services
         {
             IDictionary<string, object> properties = content.Content;
 
-            foreach (KeyValuePair<string, string> propertyValue in values)
+            if (values != null)
             {
-                if (properties.ContainsKey(propertyValue.Key))
+                foreach (KeyValuePair<string, string> propertyValue in values)
                 {
-                    properties[propertyValue.Key] = propertyValue.Value;
-                }
-                else
-                {
-                    properties.Add(propertyValue.Key, propertyValue.Value);
+                    if (properties.ContainsKey(propertyValue.Key))
+                    {
+                        properties[propertyValue.Key] = propertyValue.Value;
+                    }
+                    else
+                    {
+                        properties.Add(propertyValue.Key, propertyValue.Value);
+                    }
                 }
             }
             content.Content = properties;
