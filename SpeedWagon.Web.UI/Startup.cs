@@ -29,11 +29,13 @@ namespace SpeedWagon.Web.UI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRazorPages()
+                .AddRazorRuntimeCompilation();
 
             // Simple Authentication = No Authentication!!
             //if (this._configuration["SpeedWagon:Login"] == "Simple")
             //{
-                services.AddSimpleAuthentication();
+            services.AddSimpleAuthentication();
             //}
             //else
             //{
